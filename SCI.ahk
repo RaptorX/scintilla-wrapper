@@ -769,6 +769,473 @@ SCI_StyleSetHotspot(stNumber, hMode, hwnd=0){
     return SCI_sendEditor(hwnd, "SCI_STYLESETHOTSPOT", stNumber, hMode)
 }
 
+; Group: Style Definition [Get]
+
+/*
+    Function: StyleGetFont
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETFONT>
+    
+    Parameters:
+    SCI_StyleGetFont(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition.>
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+                    
+    Returns:
+    fName       -   Name of the font applied to that style number.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    hSci2:=SCI_Add(hwnd, x, 290, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h570
+
+    SCI_StyleSetFont("STYLE_DEFAULT", "Arial", hSci1)
+    SCI_StyleSetFont("STYLE_DEFAULT", "Courier New", hSci2)
+    msgbox % "Component 1: " SCI_StyleGetFont("STYLE_DEFAULT", hSci1)
+    msgbox % "Component 2: " SCI_StyleGetFont("STYLE_DEFAULT", hSci2)
+    return
+    (End)
+*/
+SCI_StyleGetFont(stNumber, hwnd=0){
+    
+    VarSetCapacity(fName,32), SCI_sendEditor(hwnd, "SCI_STYLEGETFONT", stNumber, &fName)
+    return StrGet(&fName, "cp0")
+}
+
+/*
+    Function: StyleGetSize
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETSIZE>
+    
+    Parameters:
+    SCI_StyleGetSize(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate.
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    fSize       -   Size in points of the font applied to that style number.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    hSci2:=SCI_Add(hwnd, x, 290, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h570
+
+    SCI_StyleSetSize("STYLE_DEFAULT", 10, hSci1)
+    SCI_StyleSetSize("STYLE_DEFAULT", 25, hSci2)
+    msgbox % "Component 1: " SCI_StyleGetSize("STYLE_DEFAULT", hSci1)
+    msgbox % "Component 2: " SCI_StyleGetSize("STYLE_DEFAULT", hSci2)
+    return
+    (End)
+*/
+SCI_StyleGetSize(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETSIZE", stNumber)
+}
+
+/*
+    Function: StyleGetBold
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETBOLD>
+    
+    Parameters:
+    SCI_StyleSetBold(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    bMode       -   True or False.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetBold("STYLE_DEFAULT", 1, hSci1)
+    msgbox % SCI_StyleGetBold("STYLE_DEFAULT")
+    return
+    (End)
+*/
+SCI_StyleGetBold(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETBOLD", stNumber)
+}
+
+/*
+    Function: StyleGetItalic
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETITALIC>
+    
+    Parameters:
+    SCI_StyleGetItalic(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    iMode       -   True or False.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetItalic("STYLE_DEFAULT", 1, hSci1)
+    msgbox % SCI_StyleGetItalic("STYLE_DEFAULT")
+    return
+    (End)
+*/
+SCI_StyleGetItalic(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETITALIC", stNumber)
+}
+
+/*
+    Function: StyleGetUnderline
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETUNDERLINE>
+    
+    Parameters:
+    SCI_StyleGetUnderline(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    uMode       -   True or False.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetUnderline("STYLE_DEFAULT", 1, hSci1)
+    SCI_StyleClearAll()
+    msgbox % SCI_StyleGetUnderline("STYLE_DEFAULT")
+    return
+    (End)
+*/
+SCI_StyleGetUnderline(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETUNDERLINE", stNumber)
+}
+
+/*
+    Function: StyleGetFore
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETFORE>
+    
+    Gets the RGB value stored in the specified style number. 0 if none has been set.
+    
+    Parameters:
+    SCI_StyleGetFore(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    RGB         -   RGB value in the format (red | green << 8 | blue << 16) of the queried style number.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetFore("STYLE_DEFAULT", "darkblue", hSci1)
+    SCI_StyleClearAll()
+    msgbox % SCI_StyleGetFore("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetFore(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETFORE", stNumber)
+}
+
+/*
+    Function: StyleGetBack
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETFORE>
+    
+    Gets the RGB value stored in the specified style number. 0 if none has been set.
+    
+    Parameters:
+    SCI_StyleGetBack(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    RGB         -   RGB value in the format (red | green << 8 | blue << 16) of the queried style number.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetBack("STYLE_DEFAULT", "blue", hSci1)
+    msgbox % SCI_StyleGetBack("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetBack(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETBACK", stNumber)
+}
+
+/*
+    Function: StyleGetEOLFilled
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETEOLFILLED>
+    
+    Parameters:
+    SCI_StyleGetEOLFilled(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    eolMode     -   True or False
+    
+    Examples:
+    (Start Code)
+    ; there is no notizable effect due to the default background being white.
+    ; if you try this on a style other than the default (making sure the other style has a different
+    ; background color than the default style) you should be able to see the effect. But you can
+    ; see that the option has been set correctly.
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetEOLFilled("STYLE_DEFAULT", True, hSci1)
+    msgbox % SCI_StyleGetEOLFilled("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetEOLFilled(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETEOLFILLED", stNumber)
+}
+
+/*
+    Function: StyleGetCase
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETCASE>
+    
+    Gets the case mode currently set to the queried style number.
+    
+    Parameters:
+    SCI_StyleGetCase(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.    
+    Returns:
+    cMode       -   Current case mode of the selected style. The modes can be:
+                    - *SC_CASE_MIXED* (0) Display normal case.
+                    - *SC_CASE_UPPER* (1) Display text in upper case.
+                    - *SC_CASE_LOWER* (2) Display text in lower case.
+
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetCase("STYLE_DEFAULT", "SC_CASE_UPPER", hSci1)
+    SCI_StyleClearAll()
+    msgbox % SCI_StyleGetCase("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetCase(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETCASE", stNumber)
+}
+
+/*
+    Function: StyleGetVisible
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETVISIBLE>
+    
+    Gets the visibility mode curently assigned to the queried style number.
+    
+    Parameters:
+    SCI_StyleGetVisible(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+    Returns:
+    vMode       -   True or False.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetVisible("STYLE_DEFAULT", False, hSci1)
+    SCI_StyleClearAll()
+    msgbox % SCI_StyleGetVisible("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetVisible(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETVISIBLE", stNumber)
+}
+
+/*
+    Function: StyleGetChangeable
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETCHANGEABLE>
+    
+    Gets the status of the queried style number. Returns false if is read only else it returns true.
+    
+    Parameters:
+    SCI_StyleGetChangeable(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    cMode       -   True or False.
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetChangeable("STYLE_DEFAULT", False, hSci1)
+    SCI_StyleClearAll()
+    msgbox % SCI_StyleGetChangeable("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetChangeable(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETCHANGEABLE", stNumber)
+}
+
+/*
+    Function: StyleGetHotspot
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETHOTSPOT>
+    
+    Gets the status of the queried style number and returns true if the style has the HOTSPOT style set to it
+    and false if not.
+    
+    Parameters:
+    SCI_StyleGetHotspot(stNumber[, hwnd])
+    
+    stNumber    -   Style Number on which to operate. 
+                    There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
+                    See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    hMode       -   True or False.    
+    
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_StyleSetHotspot("STYLE_DEFAULT", True, hSci1)
+    SCI_StyleClearAll()
+    msgbox % SCI_StyleGetHotspot("STYLE_DEFAULT", hSci1)
+    return
+    (End)
+*/
+SCI_StyleGetHotspot(stNumber, hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_STYLEGETHOTSPOT", stNumber)
+}
+
                                ; ---- [ INTERNAL FUNCTIONS ] ----- ;
 
 SCI(var, val=""){
