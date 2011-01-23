@@ -6,7 +6,7 @@
     Function: Add
     Creates a Scintilla component and adds it to the Parent GUI.
 
-    This function initializes the Scintilla Component. 
+    This function initializes the Scintilla Component.
     See <http://www.scintilla.org/Steps.html> for more information on how to add the component to a GUI/Control.
 
     Parameters:
@@ -104,7 +104,7 @@ SCI_Add(hParent, x=5, y=15, w=390, h=270, Styles="", MsgHandler="", DllPath=""){
                  ,UInt ,GuiID               ; (HMENU)GuiID
                  ,UInt ,NULL                ; hInstance
                  ,UInt ,NULL, "UInt")       ; lpParam
-                 
+
                  ,SCI(hSci, True)           ; used to check if that handle exist.
                  ,IsFunc(MsgHandler) ? SCI(hSci "MsgHandler", MsgHandler)
                 ;,SCI_sendEditor(0,0,0,hSci) ; initialize SCI_sendEditor function
@@ -153,7 +153,7 @@ SCI_StyleResetDefault(hwnd=0){
 
     Parameters:
     SCI_StyleClearAll([hwnd])
-    
+
     hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
                 Scintilla components in the same script. The wrapper will remember the last used hwnd,
                 so you can specify it once and only specify it again when you want to operate on a different
@@ -172,20 +172,20 @@ SCI_StyleClearAll(hwnd=0){
 
 ; Group: Style Definition [Set]
 
-/*        
+/*
     Function: StyleSetFont
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETFONT>
-    
-    These functions (plus SCI_StyleSetCharacterset) set the font attributes that are used to match 
-    the fonts you request to those available. The fName parameter is a zero terminated string holding 
-    the name of a font. Under Windows, only the first 32 characters of the name are used and 
-    the name is not case sensitive. For internal caching, Scintilla tracks fonts by name 
+
+    These functions (plus SCI_StyleSetCharacterset) set the font attributes that are used to match
+    the fonts you request to those available. The fName parameter is a zero terminated string holding
+    the name of a font. Under Windows, only the first 32 characters of the name are used and
+    the name is not case sensitive. For internal caching, Scintilla tracks fonts by name
     and does care about the casing of font names, so please be consistent.
-    
+
     Parameters:
     SCI_StyleSetFont(stNumber, fName[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     fName       -   Name of the font to apply.
@@ -193,10 +193,10 @@ SCI_StyleClearAll(hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
@@ -215,17 +215,17 @@ SCI_StyleClearAll(hwnd=0){
 */
 SCI_StyleSetFont(stNumber, fName, hwnd=0){
 
-    A_isUnicode ? (VarSetCapacity(fNameA, StrPut(fName, "CP0")), StrPut(fName, &fNameA, "CP0"))
+    a_isunicode ? (VarSetCapacity(fNameA, StrPut(fName, "CP0")), StrPut(fName, &fNameA, "CP0"))
     return SCI_sendEditor(hwnd, "SCI_STYLESETFONT", stNumber, a_isunicode ?  &fNameA : &fName)
 }
 
 /*
     Function: StyleSetSize
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETSIZE>
-    
+
     Parameters:
     SCI_StyleSetSize(stNumber, fSize[, hwnd])
-    
+
     stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
@@ -234,14 +234,14 @@ SCI_StyleSetFont(stNumber, fName, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -262,11 +262,11 @@ SCI_StyleSetSize(stNumber, fSize, hwnd=0){
 /*
     Function: StyleSetBold
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETBOLD>
-    
+
     Parameters:
     SCI_StyleSetBold(stNumber, bMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     bMode       -   True (1) or False (0).
@@ -274,14 +274,14 @@ SCI_StyleSetSize(stNumber, fSize, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -302,11 +302,11 @@ SCI_StyleSetBold(stNumber, bMode, hwnd=0){
 /*
     Function: StyleSetItalic
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETITALIC>
-    
+
     Parameters:
     SCI_StyleSetItalic(stNumber, iMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     iMode       -   True (1) or False (0).
@@ -314,14 +314,14 @@ SCI_StyleSetBold(stNumber, bMode, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -342,11 +342,11 @@ SCI_StyleSetItalic(stNumber, iMode, hwnd=0){
 /*
     Function: StyleSetUnderline
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETUNDERLINE>
-    
+
     Parameters:
     SCI_StyleSetUnderline(stNumber, uMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     uMode       -   True (1) or False (0).
@@ -357,15 +357,15 @@ SCI_StyleSetItalic(stNumber, iMode, hwnd=0){
 
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Note:
-    - If you set the underline option for the *STYLE_DEFAULT* style 
-    you *have* to call <StyleClearAll()> for the changes to take effect. 
-    
+    - If you set the underline option for the *STYLE_DEFAULT* style
+    you *have* to call <StyleClearAll()> for the changes to take effect.
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -388,60 +388,60 @@ SCI_StyleSetUnderline(stNumber, uMode, hwnd=0){
 /*
     Function: StyleSetFore
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETFORE>
-    
+
     Sets the foreground color of the specified style number.
-    
+
     Parameters:
     SCI_StyleSetFore(stNumber, r, [g, b, hwnd])
 
-    stNumber    -   Style Number on which to operate. 
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
-    r,g,b       -   Colors are set using the RGB format (Red, Green, Blue). The intensity of each color 
+    r,g,b       -   Colors are set using the RGB format (Red, Green, Blue). The intensity of each color
                     is set in the range 0 to 255.
-                    
-                -   *Note 1:* If you set all intensities to 255, the color is white. 
-                    If you set all intensities to 0, the color is black. 
-                    When you set a color, you are making a request. 
+
+                -   *Note 1:* If you set all intensities to 255, the color is white.
+                    If you set all intensities to 0, the color is black.
+                    When you set a color, you are making a request.
                     What you will get depends on the capabilities of the system and the current screen mode.
-                    
-                -   *Note 2:* If you omit *g* and *b* you can specify the hex value of the color as 
-                    well as one of the many predefined names available. 
-                    You can take a look at the available color names with their hex values here: 
+
+                -   *Note 2:* If you omit *g* and *b* you can specify the hex value of the color as
+                    well as one of the many predefined names available.
+                    You can take a look at the available color names with their hex values here:
                     <http://www.w3schools.com/html/html_colornames.asp>.
-                
+
                 -   *Note 3:* the parameter *g* can be used to specify the hwnd of the component you want
-                    to control, only if you are using *r* to specify a hex value or a color name. 
+                    to control, only if you are using *r* to specify a hex value or a color name.
                     See the examples below for more information.
-                    
+
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Note:
-    - If you change the color of the *STYLE_DEFAULT* style 
-    you *have* to call <StyleClearAll()> for the changes to take effect. 
+    - If you change the color of the *STYLE_DEFAULT* style
+    you *have* to call <StyleClearAll()> for the changes to take effect.
     This is not true for setting the background color though.
-    
-    
+
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     ; This all mean the same
     SCI_StyleSetFore("STYLE_DEFAULT", 0xFF0000, hSci) ; using the parameter g to specify the hwnd.
     SCI_StyleSetFore("STYLE_DEFAULT", "red", hSci)
     SCI_StyleSetFore("STYLE_DEFAULT", 255,0,0, hSci) ; using the last parameter to specify the hwnd.
-    
+
     ; Remember to always call SCI_StyleClearAll()
     ; if you are setting the foreground color of the STYLE_DEFAULT style
     SCI_StyleClearAll()
-    
+
     ;---------------------
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -456,7 +456,7 @@ SCI_StyleSetUnderline(stNumber, uMode, hwnd=0){
     (End)
 */
 SCI_StyleSetFore(stNumber, r, g=0, b=0, hwnd=0){
-    
+
     SCI(g) ? (hwnd:=g, g:=0) ; check if g contains a valid component handle
     r && !g && !b ? (r:=SCI_getHex(r)
                     ,g:="0x" SubStr(r,5,2)
@@ -469,50 +469,50 @@ SCI_StyleSetFore(stNumber, r, g=0, b=0, hwnd=0){
 /*
     Function: StyleSetBack
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETBACK>
-    
+
     Sets the Background color of the specified style number.
-    
+
     Parameters:
     SCI_StyleSetBack(stNumber, r, [g, b, hwnd])
 
-    stNumber    -   Style Number on which to operate. 
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
-    r,g,b       -   Colors are set using the RGB format (Red, Green, Blue). The intensity of each color 
+    r,g,b       -   Colors are set using the RGB format (Red, Green, Blue). The intensity of each color
                     is set in the range 0 to 255.
-                    
-                -   *Note 1:* If you set all intensities to 255, the color is white. 
-                    If you set all intensities to 0, the color is black. 
-                    When you set a color, you are making a request. 
+
+                -   *Note 1:* If you set all intensities to 255, the color is white.
+                    If you set all intensities to 0, the color is black.
+                    When you set a color, you are making a request.
                     What you will get depends on the capabilities of the system and the current screen mode.
-                    
-                -   *Note 2:* If you omit *g* and *b* you can specify the hex value of the color as 
-                    well as one of the many predefined names available. 
-                    You can take a look at the available color names with their hex values here: 
+
+                -   *Note 2:* If you omit *g* and *b* you can specify the hex value of the color as
+                    well as one of the many predefined names available.
+                    You can take a look at the available color names with their hex values here:
                     <http://www.w3schools.com/html/html_colornames.asp>.
-                
+
                 -   *Note 3:* the parameter *g* can be used to specify the hwnd of the component you want
-                    to control, only if you are using *r* to specify a hex value or a color name. 
+                    to control, only if you are using *r* to specify a hex value or a color name.
                     See the examples below for more information.
-                    
+
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-                    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     ; This all mean the same
     SCI_StyleSetBack("STYLE_DEFAULT", 0xFF0000, hSci) ; using the parameter g to specify the hwnd.
     SCI_StyleSetBack("STYLE_DEFAULT", "red", hSci)
     SCI_StyleSetBack("STYLE_DEFAULT", 255,0,0, hSci) ; using the last parameter to specify the hwnd.
-    
+
     ;---------------------
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -538,14 +538,14 @@ SCI_StyleSetBack(stNumber, r, g=0, b=0, hwnd=0){
 /*
     Function: StyleSetEOLFilled
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETEOLFILLED>
-    
-    If the last character in the line has a style with this attribute set, the remainder of the line 
+
+    If the last character in the line has a style with this attribute set, the remainder of the line
     up to the right edge of the window is filled with the background color set for the last character.
-    
+
     Parameters:
     SCI_StyleSetEOLFilled(stNumber, eolMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     eolMode     -   True or False.
@@ -553,10 +553,10 @@ SCI_StyleSetBack(stNumber, r, g=0, b=0, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     >SCI_StyleSetEOLFilled(STYLE_DEFAULT, 1)
     >SCI_StyleSetEOLFilled(0, false)
@@ -569,14 +569,14 @@ SCI_StyleSetEOLFilled(stNumber, eolMode, hwnd=0){
 /*
     Function: StyleSetCase
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETCASE>
-    
-    The value of cMode determines how text is displayed. 
+
+    The value of cMode determines how text is displayed.
     This does not change the stored text, only how it is displayed.
-    
+
     Parameters:
     SCI_StyleSetCase(stNumber, cMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     cMode       -   We have three case modes available:
@@ -587,18 +587,18 @@ SCI_StyleSetEOLFilled(stNumber, eolMode, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Note:
-    - If you set this option for the *STYLE_DEFAULT* style 
+    - If you set this option for the *STYLE_DEFAULT* style
     you *have* to call <StyleClearAll()> for the changes to take effect.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -620,14 +620,14 @@ SCI_StyleSetCase(stNumber, cMode, hwnd=0){
 /*
     Function: StyleSetVisible
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETVISIBLE>
-    
+
     Text is normally visible. However, you can completely hide it by giving it a style with the visible set to 0.
     This could be used to hide embedded formatting instructions or hypertext keywords in HTML or XML.
-    
+
     Parameters:
     SCI_StyleSetVisible(stNumber, vMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     vMode       -   True (1) or False (0).
@@ -635,18 +635,18 @@ SCI_StyleSetCase(stNumber, cMode, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Note:
-    - If you set this option for the *STYLE_DEFAULT* style 
+    - If you set this option for the *STYLE_DEFAULT* style
     you *have* to call <StyleClearAll()> for the changes to take effect.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -668,21 +668,21 @@ SCI_StyleSetVisible(stNumber, vMode, hwnd=0){
 /*
     Function: StyleSetChangeable
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETCHANGEABLE>
-    
-    This is an experimental and incompletely implemented style attribute. 
-    The default setting is changeable set true but when set false it makes text read-only. 
-    
+
+    This is an experimental and incompletely implemented style attribute.
+    The default setting is changeable set true but when set false it makes text read-only.
+
     You can type text on a control that has this mode set to false but after the text is written
     it cannot be modified.
-    
+
     This option also stops the caret from being within not-changeable text but does not prevent
     you from selecting non-changeable text by double clicking it or dragging the mouse.
-    
-    
+
+
     Parameters:
     SCI_StyleSetChangeable(stNumber, cMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     cMode       -   True (1) or False (0).
@@ -690,18 +690,18 @@ SCI_StyleSetVisible(stNumber, vMode, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Note:
-    - If you set this option for the *STYLE_DEFAULT* style 
+    - If you set this option for the *STYLE_DEFAULT* style
     you *have* to call <StyleClearAll()> for the changes to take effect.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -723,22 +723,22 @@ SCI_StyleSetChangeable(stNumber, cMode, hwnd=0){
 /*
     Function: StyleSetHotspot
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLESETHOTSPOT>
-    
+
     Marks ranges of text that can detect mouse clicks.
     The default values are that the cursor changes to a hand over hotspots
     and an underline appear to indicate that the text is sensitive to clicking.
     This may be used to allow hyperlinks to other documents.
-    
+
     Other options may be changed with the following functions:
     - <SetHotSpotActiveFore()>
     - <SetHotSpotActiveBack()>
     - <SetHotSpotActiveUnderline()>
     - <SetHotSpotSingleLine()>
-    
+
     Parameters:
     SCI_StyleSetHotspot(stNumber, hMode[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to *STYLE_MAX* (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hMode       -   True (1) or False (0).
@@ -746,14 +746,14 @@ SCI_StyleSetChangeable(stNumber, cMode, hwnd=0){
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-    
+
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -774,25 +774,25 @@ SCI_StyleSetHotspot(stNumber, hMode, hwnd=0){
 /*
     Function: StyleGetFont
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETFONT>
-    
+
     Parameters:
     SCI_StyleGetFont(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition.>
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
                     component.
-                    
+
     Returns:
     fName       -   Name of the font applied to that style number.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -807,7 +807,7 @@ SCI_StyleSetHotspot(stNumber, hMode, hwnd=0){
     (End)
 */
 SCI_StyleGetFont(stNumber, hwnd=0){
-    
+
     VarSetCapacity(fName,32), SCI_sendEditor(hwnd, "SCI_STYLEGETFONT", stNumber, &fName)
     return StrGet(&fName, "cp0")
 }
@@ -815,10 +815,10 @@ SCI_StyleGetFont(stNumber, hwnd=0){
 /*
     Function: StyleGetSize
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETSIZE>
-    
+
     Parameters:
     SCI_StyleGetSize(stNumber[, hwnd])
-    
+
     stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
@@ -829,11 +829,11 @@ SCI_StyleGetFont(stNumber, hwnd=0){
 
     Returns:
     fSize       -   Size in points of the font applied to that style number.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -855,11 +855,11 @@ SCI_StyleGetSize(stNumber, hwnd=0){
 /*
     Function: StyleGetBold
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETBOLD>
-    
+
     Parameters:
     SCI_StyleSetBold(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -869,11 +869,11 @@ SCI_StyleGetSize(stNumber, hwnd=0){
 
     Returns:
     bMode       -   True or False.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -891,11 +891,11 @@ SCI_StyleGetBold(stNumber, hwnd=0){
 /*
     Function: StyleGetItalic
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETITALIC>
-    
+
     Parameters:
     SCI_StyleGetItalic(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -905,11 +905,11 @@ SCI_StyleGetBold(stNumber, hwnd=0){
 
     Returns:
     iMode       -   True or False.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -927,11 +927,11 @@ SCI_StyleGetItalic(stNumber, hwnd=0){
 /*
     Function: StyleGetUnderline
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETUNDERLINE>
-    
+
     Parameters:
     SCI_StyleGetUnderline(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -941,11 +941,11 @@ SCI_StyleGetItalic(stNumber, hwnd=0){
 
     Returns:
     uMode       -   True or False.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -964,13 +964,13 @@ SCI_StyleGetUnderline(stNumber, hwnd=0){
 /*
     Function: StyleGetFore
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETFORE>
-    
+
     Gets the RGB value stored in the specified style number. 0 if none has been set.
-    
+
     Parameters:
     SCI_StyleGetFore(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -980,11 +980,11 @@ SCI_StyleGetUnderline(stNumber, hwnd=0){
 
     Returns:
     RGB         -   RGB value in the format (red | green << 8 | blue << 16) of the queried style number.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1003,13 +1003,13 @@ SCI_StyleGetFore(stNumber, hwnd=0){
 /*
     Function: StyleGetBack
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETFORE>
-    
+
     Gets the RGB value stored in the specified style number. 0 if none has been set.
-    
+
     Parameters:
     SCI_StyleGetBack(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -1019,11 +1019,11 @@ SCI_StyleGetFore(stNumber, hwnd=0){
 
     Returns:
     RGB         -   RGB value in the format (red | green << 8 | blue << 16) of the queried style number.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1041,11 +1041,11 @@ SCI_StyleGetBack(stNumber, hwnd=0){
 /*
     Function: StyleGetEOLFilled
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETEOLFILLED>
-    
+
     Parameters:
     SCI_StyleGetEOLFilled(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -1055,7 +1055,7 @@ SCI_StyleGetBack(stNumber, hwnd=0){
 
     Returns:
     eolMode     -   True or False
-    
+
     Examples:
     (Start Code)
     ; there is no notizable effect due to the default background being white.
@@ -1063,7 +1063,7 @@ SCI_StyleGetBack(stNumber, hwnd=0){
     ; background color than the default style) you should be able to see the effect. But you can
     ; see that the option has been set correctly.
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1081,19 +1081,19 @@ SCI_StyleGetEOLFilled(stNumber, hwnd=0){
 /*
     Function: StyleGetCase
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETCASE>
-    
+
     Gets the case mode currently set to the queried style number.
-    
+
     Parameters:
     SCI_StyleGetCase(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
                     Scintilla components in the same script. The wrapper will remember the last used hwnd,
                     so you can specify it once and only specify it again when you want to operate on a different
-                    component.    
+                    component.
     Returns:
     cMode       -   Current case mode of the selected style. The modes can be:
                     - *SC_CASE_MIXED* (0) Display normal case.
@@ -1103,7 +1103,7 @@ SCI_StyleGetEOLFilled(stNumber, hwnd=0){
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1122,13 +1122,13 @@ SCI_StyleGetCase(stNumber, hwnd=0){
 /*
     Function: StyleGetVisible
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETVISIBLE>
-    
+
     Gets the visibility mode curently assigned to the queried style number.
-    
+
     Parameters:
     SCI_StyleGetVisible(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -1137,11 +1137,11 @@ SCI_StyleGetCase(stNumber, hwnd=0){
                     component.
     Returns:
     vMode       -   True or False.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1160,13 +1160,13 @@ SCI_StyleGetVisible(stNumber, hwnd=0){
 /*
     Function: StyleGetChangeable
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETCHANGEABLE>
-    
+
     Gets the status of the queried style number. Returns false if is read only else it returns true.
-    
+
     Parameters:
     SCI_StyleGetChangeable(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -1176,11 +1176,11 @@ SCI_StyleGetVisible(stNumber, hwnd=0){
 
     Returns:
     cMode       -   True or False.
-    
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1199,14 +1199,14 @@ SCI_StyleGetChangeable(stNumber, hwnd=0){
 /*
     Function: StyleGetHotspot
     <http://www.scintilla.org/ScintillaDoc.html#SCI_STYLEGETHOTSPOT>
-    
+
     Gets the status of the queried style number and returns true if the style has the HOTSPOT style set to it
     and false if not.
-    
+
     Parameters:
     SCI_StyleGetHotspot(stNumber[, hwnd])
-    
-    stNumber    -   Style Number on which to operate. 
+
+    stNumber    -   Style Number on which to operate.
                     There are 256 lexer styles that can be set, numbered 0 to STYLE_MAX (255)
                     See: <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>.
     hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
@@ -1215,12 +1215,12 @@ SCI_StyleGetChangeable(stNumber, hwnd=0){
                     component.
 
     Returns:
-    hMode       -   True or False.    
-    
+    hMode       -   True or False.
+
     Examples:
     (Start Code)
     #include ../SCI.ahk
-    
+
     Gui +LastFound
     hwnd:=WinExist()
     hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
@@ -1235,6 +1235,406 @@ SCI_StyleGetHotspot(stNumber, hwnd=0){
 
     return SCI_sendEditor(hwnd, "SCI_STYLEGETHOTSPOT", stNumber)
 }
+
+; Group: Margins [Set]
+
+/*
+    Function: SetMarginWidthN
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_SETMARGINWIDTHN>
+
+    These routines set and get the width of a margin in pixels. A margin with zero width is invisible.
+    By default, Scintilla sets margin 1 for symbols with a width of 16 pixels,
+    so this is a reasonable guess if you are not sure what would be appropriate.
+    Line number margins widths should take into account the number of lines in the document and
+    the line number style. You could use something like SCI_TextWidth("STYLE_LINENUMBER", "_99999")
+    to get a suitable width.
+
+    Parameters:
+    SCI_SetMarginWidthN(mar, px[, hwnd])
+
+    mar     -   Numeric value for the margin you wish to modify (0-4).
+    px      -   Size of the margin in pixels.
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    Zero - Nothing is returned by this function.
+
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    hSci2:=SCI_Add(hwnd, x, 290, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h570
+    SCI_SetMarginWidthN(0, 40, hSci1)
+    SCI_SetMarginWidthN(1, 10)
+    SCI_SetMarginWidthN(1, 5, hSci2)
+    return
+    (End)
+*/
+SCI_SetMarginWidthN(mar, px, hwnd=0){
+
+    return SCI_SendEditor(hwnd, "SCI_SETMARGINWIDTHN", mar, px)
+}
+
+; Group: Margins [Get]
+
+/*
+    Function: GetMarginWidthN
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_GETMARGINWIDTHN>
+
+    This is the routine that retrieves the width in pixels of the margin queried.
+
+    Parameters:
+    SCI_GetMarginWidthN(mar[, hwnd])
+
+    mar     -   Numeric value for the margin you wish to query (0-4).
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    wMargin - Width in pixles of the selected margin.
+
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_SetMarginWidthN(0, 25, hSci1)
+    msgbox % SCI_GetMarginWidthN(0)
+    return
+    (End)
+*/
+SCI_GetMarginWidthN(mar, hwnd=0){
+
+    return SCI_SendEditor(hwnd, "SCI_GETMARGINWIDTHN", mar)
+}
+
+; Group: Line wrapping [Set]
+
+/*
+    Function: SetWrapMode
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_SETWRAPMODE>
+
+    Enables, disables or changes the wrap mode for the Scintilla component.
+
+    Parameters:
+    SCI_SetWrapMode([wMode, hwnd])
+
+    wMode   -   Numeric value for the mode (Default 1). The Available modes are:
+                - *SC_WRAP_NONE* (0) to disable wrapping
+                - *SC_WRAP_WORD* (1) to enable wrapping on word boundaries.
+                - *SC_WRAP_CHAR* (2) to enable wrapping between any characters.
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    Zero - Nothing is returned by this function.
+
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    hSci2:=SCI_Add(hwnd, x, 290, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h570
+    SCI_SetWrapMode(True, hSci1)
+    SCI_SetWrapMode("SC_WRAP_CHAR", hSci2)
+    return
+    (End)
+*/
+SCI_SetWrapMode(wMode=1, hwnd=0){
+
+    return SCI_SendEditor(hwnd, "SCI_SETWRAPMODE", wMode)
+}
+
+; Group: Line wrapping [Get]
+
+/*
+    Function: GetWrapMode
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_GETWRAPMODE>
+
+    Get the current state of the wrap mode for the Scintilla component.
+
+    Parameters:
+    SCI_SetWrapMode([hwnd])
+
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    wMode   -   Numeric value of the current mode. The Available modes are:
+                - *SC_WRAP_NONE* (0) wrapping disabled.
+                - *SC_WRAP_WORD* (1) wrapping on word boundaries enabled.
+                - *SC_WRAP_CHAR* (2) wrapping between any characters enabled.
+
+    Examples:
+    (Start Code)
+    #include ../SCI.ahk
+
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    hSci2:=SCI_Add(hwnd, x, 290, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h570
+    SCI_SetWrapMode(True, hSci1)
+    SCI_SetWrapMode("SC_WRAP_CHAR", hSci2)
+    msgbox % SCI_GetWrapMode(hSci1)
+    msgbox % SCI_GetWrapMode(hSci2)
+    return
+    (End)
+*/
+SCI_GetWrapMode(hwnd=0){
+
+    return SCI_sendEditor(hwnd, "SCI_GETWRAPMODE")
+}
+
+; Group: Lexer [General]
+
+; /*
+    ; Function: LoadLexerLibrary
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_LOADLEXERLIBRARY>
+
+    ; Load a lexer implemented in a shared library. This is a .so file on GTK+/Linux or a .DLL file on Windows.
+
+    ; Parameters:
+    ; SCI_LoadLexerLibrary(lPath[, hwnd])
+
+    ; lPath   -   Path to the dll lexer to be loaded.
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+
+    ; Examples:
+    ; >SCI_LoadLexerLibrary("c:\program files\dll\mylexer.dll")
+    ; >SCI_LoadLexerLibrary(a_desktop "\mylexer.dll")
+
+; */
+; SCI_LoadLexerLibrary(lPath, hwnd=0){
+
+    ; a_isunicode ? (VarSetCapacity(lPathA, StrPut(lPath, "CP0")), StrPut(lPath, &lPathA, "CP0"))
+    ; return SCI_SendEditor(hwnd, "SCI_LOADLEXERLIBRARY", 0, a_isunicode ? &lPathA : &lPath)
+; }
+
+; /*
+    ; Function: _Colorise
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_COLOURISE>
+
+    ; This requests the current lexer or the container (if the lexer is set to SCLEX_CONTAINER)
+    ; to style the document between stPos and endPos. If endPos is -1, the document is styled from
+    ; stPos to the end.
+
+    ; Parameters:
+    ; >SCI_Colorise(stPos, endPos)
+
+    ; stPos   -   Starting position where to begin colorizing.
+    ; endPos  -   End position.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+
+    ; Examples:
+    ; >SCI_Colorise(0,-1)
+; */
+; SCI_Colorise(stPos, endPos){
+    ; global
+    ; return SCI_SendEditor(SCI_COLORISE, stPos, endPos)
+; }
+
+; /*
+    ; Function: _ChangeLexerState
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_CHANGELEXERSTATE>
+
+    ; Indicate that the internal state of a lexer has changed over a range and therefore there may be
+    ; a need to redraw.
+
+    ; Parameters:
+    ; >SCI_ChangeLexerState(stPos, endPos)
+
+    ; stPos   -   Starting position where to begin colorizing.
+    ; endPos  -   End position.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+
+    ; Examples:
+    ; >SCI_ChangeLexerState(5,10)
+; */
+; SCI_ChangeLexerState(stPos, endPos){
+    ; global
+    ; return SCI_SendEditor(SCI_CHANGELEXERSTATE, stPos, endPos)
+; }
+
+; Group: Lexer [Set]
+
+/*
+    Function: SetLexer
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_SETLEXER>
+    
+    You can select the lexer to use with an integer code from the SCLEX_* enumeration in Scintilla.h. 
+    There are two codes in this sequence that do not use lexers: *SCLEX_NULL* to select no lexing action and 
+    *SCLEX_CONTAINER* which sends the *SCN_STYLENEEDED* notification to the container whenever a range of text 
+    needs to be styled. 
+    You cannot use the *SCLEX_AUTOMATIC* value; this identifies additional external lexers that Scintilla assigns 
+    unused lexer numbers to.
+    
+    Parameters:
+    SCI_SetLexer(lNumber[, hwnd])
+    
+    lNumber     -   The number of the lexer that you want to use (if you are loading SciLexer.dll) which can be 
+                    a number between *SCLEX_CONTAINER* (0) and SCLEX_BLITZMAX (78) the available lexers are:
+                    - SCLEX_CONTAINER (0)
+                    - SCLEX_NULL (1)
+                    - SCLEX_PYTHON (2)
+                    - SCLEX_CPP (3)
+                    - SCLEX_HTML (4)
+                    - SCLEX_XML (5)
+                    - SCLEX_PERL (6)
+                    - SCLEX_SQL (7)
+                    - SCLEX_VB (8)
+                    - SCLEX_PROPERTIES (9)
+                    - SCLEX_ERRORLIST (10)
+                    - SCLEX_MAKEFILE (11)
+                    - SCLEX_BATCH (12)
+                    - SCLEX_XCODE (13)
+                    - SCLEX_LATEX (14)
+                    - SCLEX_LUA (15)
+                    - SCLEX_DIFF (16)
+                    - SCLEX_CONF (17)
+                    - SCLEX_PASCAL (18)
+                    - SCLEX_AVE (19)
+                    - SCLEX_ADA (20)
+                    - SCLEX_LISP (21)
+                    - SCLEX_RUBY (22)
+                    - SCLEX_EIFFEL (23)
+                    - SCLEX_EIFFELKW (24)
+                    - SCLEX_TCL (25)
+                    - SCLEX_NNCRONTAB (26)
+                    - SCLEX_BULLANT (27)
+                    - SCLEX_VBSCRIPT (28)
+                    - SCLEX_BAAN (31)
+                    - SCLEX_MATLAB (32)
+                    - SCLEX_SCRIPTOL (33)
+                    - SCLEX_ASM (34)
+                    - SCLEX_CPPNOCASE (35)
+                    - SCLEX_FORTRAN (36)
+                    - SCLEX_F77 (37)
+                    - SCLEX_CSS (38)
+                    - SCLEX_POV (39)
+                    - SCLEX_LOUT (40)
+                    - SCLEX_ESCRIPT (41)
+                    - SCLEX_PS (42)
+                    - SCLEX_NSIS (43)
+                    - SCLEX_MMIXAL (44)
+                    - SCLEX_CLW (45)
+                    - SCLEX_CLWNOCASE (46)
+                    - SCLEX_LOT (47)
+                    - SCLEX_YAML (48)
+                    - SCLEX_TEX (49)
+                    - SCLEX_METAPOST (50)
+                    - SCLEX_POWERBASIC (51)
+                    - SCLEX_FORTH (52)
+                    - SCLEX_ERLANG (53)
+                    - SCLEX_OCTAVE (54)
+                    - SCLEX_MSSQL (55)
+                    - SCLEX_VERILOG (56)
+                    - SCLEX_KIX (57)
+                    - SCLEX_GUI4CLI (58)
+                    - SCLEX_SPECMAN (59)
+                    - SCLEX_AU3 (60)
+                    - SCLEX_APDL (61)
+                    - SCLEX_BASH (62)
+                    - SCLEX_ASN1 (63)
+                    - SCLEX_VHDL (64)
+                    - SCLEX_CAML (65)
+                    - SCLEX_BLITZBASIC (66)
+                    - SCLEX_PUREBASIC (67)
+                    - SCLEX_HASKELL (68)
+                    - SCLEX_PHPSCRIPT (69)
+                    - SCLEX_TADS3 (70)
+                    - SCLEX_REBOL (71)
+                    - SCLEX_SMALLTALK (72)
+                    - SCLEX_FLAGSHIP (73)
+                    - SCLEX_CSOUND (74)
+                    - SCLEX_FREEBASIC (75)
+                    - SCLEX_INNOSETUP (76)
+                    - SCLEX_OPAL (77)
+                    - SCLEX_BLITZMAX (78)
+    hwnd        -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                    Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                    so you can specify it once and only specify it again when you want to operate on a different
+                    component.
+
+    Returns:
+    Zero - Nothing is returned by this function.
+    
+    Examples:
+    
+*/
+SCI_SetLexer(lNumber, hwnd=0){
+    
+    return SCI_sendEditor(hwnd, "SCI_SETLEXER", lNumber)
+}
+
+/*
+    Function: SetKeywords
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_SETKEYWORDS>
+
+    Parameters:
+    SCI_SetKeywords(kSet, kList[, hwnd])
+
+    kSet    -   kSet can be 0 to 8 (actually 0 to KEYWORDSET_MAX) and selects which keyword list to replace.
+    kList   -   is a list of keywords separated by spaces, tabs, "\n" or "\r" or any combination of these.
+                It is expected that the keywords will be composed of standard ASCII printing characters,
+                but there is nothing to stop you using any non-separator character codes from 1 to 255
+                (except common sense).
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    Zero - Nothing is returned by this function.
+
+    Examples:
+    (Start Code)
+    kList =
+    (LTrim
+        word
+        word2
+        anotherword
+    )
+    SCI_SetKeywords(0, kList)
+    SCI_SetKeywords(KEYWORDSET_MAX, kList:="word`nword2`nanotherword")
+    (End)
+*/
+SCI_SetKeywords(kSet, kList, hwnd=0){
+
+    a_isunicode ? (VarSetCapacity(kListA, StrPut(lPath, "CP0")), StrPut(lPath, &kListA, "CP0"))
+    return SCI_SendEditor(hwnd, "SCI_SETKEYWORDS", kSet, a_isunicode ? &kListA : &kList)
+}
+
+; Group: Lexer [Get]
 
                                ; ---- [ INTERNAL FUNCTIONS ] ----- ;
 
@@ -1299,650 +1699,183 @@ SCI_sendEditor(hwnd, msg, wParam=0, lParam=0){
     hwnd := !hwnd ? oldhwnd : hwnd, oldhwnd := hwnd
     if !init
     {
-        INVALID_POSITION                  := -1
-        SCI_START                         := 2000
-        SCI_OPTIONAL_START                := 3000
-        SCI_LEXER_START                   := 4000
-        SCI_ADDTEXT                       := 2001
-        SCI_ADDSTYLEDTEXT                 := 2002
-        SCI_INSERTTEXT                    := 2003
-        SCI_CLEARALL                      := 2004
-        SCI_CLEARDOCUMENTSTYLE            := 2005
-        SCI_GETLENGTH                     := 2006
-        SCI_GETCHARAT                     := 2007
-        SCI_GETCURRENTPOS                 := 2008
-        SCI_GETANCHOR                     := 2009
-        SCI_GETSTYLEAT                    := 2010
-        SCI_REDO                          := 2011
-        SCI_SETUNDOCOLLECTION             := 2012
-        SCI_SELECTALL                     := 2013
-        SCI_SETSAVEPOINT                  := 2014
-        SCI_GETSTYLEDTEXT                 := 2015
-        SCI_CANREDO                       := 2016
-        SCI_MARKERLINEFROMHANDLE          := 2017
-        SCI_MARKERDELETEHANDLE            := 2018
-        SCI_GETUNDOCOLLECTION             := 2019
-        SCWS_INVISIBLE                    := 0
-        SCWS_VISIBLEALWAYS                := 1
-        SCWS_VISIBLEAFTERINDENT           := 2
-        SCI_GETVIEWWS                     := 2020
-        SCI_SETVIEWWS                     := 2021
-        SCI_POSITIONFROMPOINT             := 2022
-        SCI_POSITIONFROMPOINTCLOSE        := 2023
-        SCI_GOTOLINE                      := 2024
-        SCI_GOTOPOS                       := 2025
-        SCI_SETANCHOR                     := 2026
-        SCI_GETCURLINE                    := 2027
-        SCI_GETENDSTYLED                  := 2028
-        SC_EOL_CRLF                       := 0
-        SC_EOL_CR                         := 1
-        SC_EOL_LF                         := 2
-        SCI_CONVERTEOLS                   := 2029
-        SCI_GETEOLMODE                    := 2030
-        SCI_SETEOLMODE                    := 2031
-        SCI_STARTSTYLING                  := 2032
-        SCI_SETSTYLING                    := 2033
-        SCI_GETBUFFEREDDRAW               := 2034
-        SCI_SETBUFFEREDDRAW               := 2035
-        SCI_SETTABWIDTH                   := 2036
-        SCI_GETTABWIDTH                   := 2121
-        SC_CP_UTF8                        := 65001
-        SC_CP_DBCS                        := 1
-        SCI_SETCODEPAGE                   := 2037
-        SCI_SETUSEPALETTE                 := 2039
-        MARKER_MAX                        := 31
-        SC_MARK_CIRCLE                    := 0
-        SC_MARK_ROUNDRECT                 := 1
-        SC_MARK_ARROW                     := 2
-        SC_MARK_SMALLRECT                 := 3
-        SC_MARK_SHORTARROW                := 4
-        SC_MARK_EMPTY                     := 5
-        SC_MARK_ARROWDOWN                 := 6
-        SC_MARK_MINUS                     := 7
-        SC_MARK_PLUS                      := 8
-        SC_MARK_VLINE                     := 9
-        SC_MARK_LCORNER                   := 10
-        SC_MARK_TCORNER                   := 11
-        SC_MARK_BOXPLUS                   := 12
-        SC_MARK_BOXPLUSCONNECTED          := 13
-        SC_MARK_BOXMINUS                  := 14
-        SC_MARK_BOXMINUSCONNECTED         := 15
-        SC_MARK_LCORNERCURVE              := 16
-        SC_MARK_TCORNERCURVE              := 17
-        SC_MARK_CIRCLEPLUS                := 18
-        SC_MARK_CIRCLEPLUSCONNECTED       := 19
-        SC_MARK_CIRCLEMINUS               := 20
-        SC_MARK_CIRCLEMINUSCONNECTED      := 21
-        SC_MARK_BACKGROUND                := 22
-        SC_MARK_DOTDOTDOT                 := 23
-        SC_MARK_ARROWS                    := 24
-        SC_MARK_PIXMAP                    := 25
-        SC_MARK_FULLRECT                  := 26
-        SC_MARK_CHARACTER                 := 10000
-        SC_MARKNUM_FOLDEREND              := 25
-        SC_MARKNUM_FOLDEROPENMID          := 26
-        SC_MARKNUM_FOLDERMIDTAIL          := 27
-        SC_MARKNUM_FOLDERTAIL             := 28
-        SC_MARKNUM_FOLDERSUB              := 29
-        SC_MARKNUM_FOLDER                 := 30
-        SC_MARKNUM_FOLDEROPEN             := 31
-        SC_MASK_FOLDERS                   := 0xFE000000
-        SCI_MARKERDEFINE                  := 2040
-        SCI_MARKERSETFORE                 := 2041
-        SCI_MARKERSETBACK                 := 2042
-        SCI_MARKERADD                     := 2043
-        SCI_MARKERDELETE                  := 2044
-        SCI_MARKERDELETEALL               := 2045
-        SCI_MARKERGET                     := 2046
-        SCI_MARKERNEXT                    := 2047
-        SCI_MARKERPREVIOUS                := 2048
-        SCI_MARKERDEFINEPIXMAP            := 2049
-        SCI_MARKERADDSET                  := 2466
-        SCI_MARKERSETALPHA                := 2476
-        SC_MARGIN_SYMBOL                  := 0
-        SC_MARGIN_NUMBER                  := 1
-        SCI_SETMARGINTYPEN                := 2240
-        SCI_GETMARGINTYPEN                := 2241
-        SCI_SETMARGINWIDTHN               := 2242
-        SCI_GETMARGINWIDTHN               := 2243
-        SCI_SETMARGINMASKN                := 2244
-        SCI_GETMARGINMASKN                := 2245
-        SCI_SETMARGINSENSITIVEN           := 2246
-        SCI_GETMARGINSENSITIVEN           := 2247
-        STYLE_DEFAULT                     := 32
-        STYLE_LINENUMBER                  := 33
-        STYLE_BRACELIGHT                  := 34
-        STYLE_BRACEBAD                    := 35
-        STYLE_CONTROLCHAR                 := 36
-        STYLE_INDENTGUIDE                 := 37
-        STYLE_CALLTIP                     := 38
-        STYLE_LASTPREDEFINED              := 39
-        STYLE_MAX                         := 127
-        SC_CHARSET_ANSI                   := 0
-        SC_CHARSET_DEFAULT                := 1
-        SC_CHARSET_BALTIC                 := 186
-        SC_CHARSET_CHINESEBIG5            := 136
-        SC_CHARSET_EASTEUROPE             := 238
-        SC_CHARSET_GB2312                 := 134
-        SC_CHARSET_GREEK                  := 161
-        SC_CHARSET_HANGUL                 := 129
-        SC_CHARSET_MAC                    := 77
-        SC_CHARSET_OEM                    := 255
-        SC_CHARSET_RUSSIAN                := 204
-        SC_CHARSET_CYRILLIC               := 1251
-        SC_CHARSET_SHIFTJIS               := 128
-        SC_CHARSET_SYMBOL                 := 2
-        SC_CHARSET_TURKISH                := 162
-        SC_CHARSET_JOHAB                  := 130
-        SC_CHARSET_HEBREW                 := 177
-        SC_CHARSET_ARABIC                 := 178
-        SC_CHARSET_VIETNAMESE             := 163
-        SC_CHARSET_THAI                   := 222
-        SC_CHARSET_8859_15                := 1000
-        SCI_STYLECLEARALL                 := 2050
-        SCI_STYLESETFORE                  := 2051
-        SCI_STYLESETBACK                  := 2052
-        SCI_STYLESETBOLD                  := 2053
-        SCI_STYLESETITALIC                := 2054
-        SCI_STYLESETSIZE                  := 2055
-        SCI_STYLESETFONT                  := 2056
-        SCI_STYLESETEOLFILLED             := 2057
-        SCI_STYLEGETFORE                  := 2481
-        SCI_STYLEGETBACK                  := 2482
-        SCI_STYLEGETBOLD                  := 2483
-        SCI_STYLEGETITALIC                := 2484
-        SCI_STYLEGETSIZE                  := 2485
-        SCI_STYLEGETFONT                  := 2486
-        SCI_STYLEGETEOLFILLED             := 2487
-        SCI_STYLEGETUNDERLINE             := 2488
-        SCI_STYLEGETCASE                  := 2489
-        SCI_STYLEGETCHARACTERSET          := 2490
-        SCI_STYLEGETVISIBLE               := 2491
-        SCI_STYLEGETCHANGEABLE            := 2492
-        SCI_STYLEGETHOTSPOT               := 2493
-        SCI_STYLERESETDEFAULT             := 2058
-        SCI_STYLESETUNDERLINE             := 2059
-        SC_CASE_MIXED                     := 0
-        SC_CASE_UPPER                     := 1
-        SC_CASE_LOWER                     := 2
-        SCI_STYLESETCASE                  := 2060
-        SCI_STYLESETCHARACTERSET          := 2066
-        SCI_STYLESETHOTSPOT               := 2409
-        SCI_SETSELFORE                    := 2067
-        SCI_SETSELBACK                    := 2068
-        SCI_GETSELALPHA                   := 2477
-        SCI_SETSELALPHA                   := 2478
-        SCI_SETCARETFORE                  := 2069
-        SCI_ASSIGNCMDKEY                  := 2070
-        SCI_CLEARCMDKEY                   := 2071
-        SCI_CLEARALLCMDKEYS               := 2072
-        SCI_SETSTYLINGEX                  := 2073
-        SCI_STYLESETVISIBLE               := 2074
-        SCI_GETCARETPERIOD                := 2075
-        SCI_SETCARETPERIOD                := 2076
-        SCI_SETWORDCHARS                  := 2077
-        SCI_BEGINUNDOACTION               := 2078
-        SCI_ENDUNDOACTION                 := 2079
-        INDIC_MAX                         := 7
-        INDIC_PLAIN                       := 0
-        INDIC_SQUIGGLE                    := 1
-        INDIC_TT                          := 2
-        INDIC_DIAGONAL                    := 3
-        INDIC_STRIKE                      := 4
-        INDIC_HIDDEN                      := 5
-        INDIC_BOX                         := 6
-        INDIC_ROUNDBOX                    := 7
-        INDIC0_MASK                       := 0x20
-        INDIC1_MASK                       := 0x40
-        INDIC2_MASK                       := 0x80
-        INDICS_MASK                       := 0xE0
-        SCI_INDICSETSTYLE                 := 2080
-        SCI_INDICGETSTYLE                 := 2081
-        SCI_INDICSETFORE                  := 2082
-        SCI_INDICGETFORE                  := 2083
-        SCI_SETWHITESPACEFORE             := 2084
-        SCI_SETWHITESPACEBACK             := 2085
-        SCI_SETSTYLEBITS                  := 2090
-        SCI_GETSTYLEBITS                  := 2091
-        SCI_SETLINESTATE                  := 2092
-        SCI_GETLINESTATE                  := 2093
-        SCI_GETMAXLINESTATE               := 2094
-        SCI_GETCARETLINEVISIBLE           := 2095
-        SCI_SETCARETLINEVISIBLE           := 2096
-        SCI_GETCARETLINEBACK              := 2097
-        SCI_SETCARETLINEBACK              := 2098
-        SCI_STYLESETCHANGEABLE            := 2099
-        SCI_AUTOCSHOW                     := 2100
-        SCI_AUTOCCANCEL                   := 2101
-        SCI_AUTOCACTIVE                   := 2102
-        SCI_AUTOCPOSSTART                 := 2103
-        SCI_AUTOCCOMPLETE                 := 2104
-        SCI_AUTOCSTOPS                    := 2105
-        SCI_AUTOCSETSEPARATOR             := 2106
-        SCI_AUTOCGETSEPARATOR             := 2107
-        SCI_AUTOCSELECT                   := 2108
-        SCI_AUTOCSETCANCELATSTART         := 2110
-        SCI_AUTOCGETCANCELATSTART         := 2111
-        SCI_AUTOCSETFILLUPS               := 2112
-        SCI_AUTOCSETCHOOSESINGLE          := 2113
-        SCI_AUTOCGETCHOOSESINGLE          := 2114
-        SCI_AUTOCSETIGNORECASE            := 2115
-        SCI_AUTOCGETIGNORECASE            := 2116
-        SCI_USERLISTSHOW                  := 2117
-        SCI_AUTOCSETAUTOHIDE              := 2118
-        SCI_AUTOCGETAUTOHIDE              := 2119
-        SCI_AUTOCSETDROPRESTOFWORD        := 2270
-        SCI_AUTOCGETDROPRESTOFWORD        := 2271
-        SCI_REGISTERIMAGE                 := 2405
-        SCI_CLEARREGISTEREDIMAGES         := 2408
-        SCI_AUTOCGETTYPESEPARATOR         := 2285
-        SCI_AUTOCSETTYPESEPARATOR         := 2286
-        SCI_AUTOCSETMAXWIDTH              := 2208
-        SCI_AUTOCGETMAXWIDTH              := 2209
-        SCI_AUTOCSETMAXHEIGHT             := 2210
-        SCI_AUTOCGETMAXHEIGHT             := 2211
-        SCI_SETINDENT                     := 2122
-        SCI_GETINDENT                     := 2123
-        SCI_SETUSETABS                    := 2124
-        SCI_GETUSETABS                    := 2125
-        SCI_SETLINEINDENTATION            := 2126
-        SCI_GETLINEINDENTATION            := 2127
-        SCI_GETLINEINDENTPOSITION         := 2128
-        SCI_GETCOLUMN                     := 2129
-        SCI_SETHSCROLLBAR                 := 2130
-        SCI_GETHSCROLLBAR                 := 2131
-        SCI_SETINDENTATIONGUIDES          := 2132
-        SCI_GETINDENTATIONGUIDES          := 2133
-        SCI_SETHIGHLIGHTGUIDE             := 2134
-        SCI_GETHIGHLIGHTGUIDE             := 2135
-        SCI_GETLINEENDPOSITION            := 2136
-        SCI_GETCODEPAGE                   := 2137
-        SCI_GETCARETFORE                  := 2138
-        SCI_GETUSEPALETTE                 := 2139
-        SCI_GETREADONLY                   := 2140
-        SCI_SETCURRENTPOS                 := 2141
-        SCI_SETSELECTIONSTART             := 2142
-        SCI_GETSELECTIONSTART             := 2143
-        SCI_SETSELECTIONEND               := 2144
-        SCI_GETSELECTIONEND               := 2145
-        SCI_SETPRINTMAGNIFICATION         := 2146
-        SCI_GETPRINTMAGNIFICATION         := 2147
-        SC_PRINT_NORMAL                   := 0
-        SC_PRINT_INVERTLIGHT              := 1
-        SC_PRINT_BLACKONWHITE             := 2
-        SC_PRINT_COLORONWHITE             := 3
-        SC_PRINT_COLORONWHITEDEFAULTBG    := 4
-        SCI_SETPRINTCOLORMODE             := 2148
-        SCI_GETPRINTCOLORMODE             := 2149
-        SCFIND_WHOLEWORD                  := 2
-        SCFIND_MATCHCASE                  := 4
-        SCFIND_WORDSTART                  := 0x00100000
-        SCFIND_REGEXP                     := 0x00200000
-        SCFIND_POSIX                      := 0x00400000
-        SCI_FINDTEXT                      := 2150
-        SCI_FORMATRANGE                   := 2151
-        SCI_GETFIRSTVISIBLELINE           := 2152
-        SCI_GETLINE                       := 2153
-        SCI_GETLINECOUNT                  := 2154
-        SCI_SETMARGINLEFT                 := 2155
-        SCI_GETMARGINLEFT                 := 2156
-        SCI_SETMARGINRIGHT                := 2157
-        SCI_GETMARGINRIGHT                := 2158
-        SCI_GETMODIFY                     := 2159
-        SCI_SETSEL                        := 2160
-        SCI_GETSELTEXT                    := 2161
-        SCI_GETTEXTRANGE                  := 2162
-        SCI_HIDESELECTION                 := 2163
-        SCI_POINTXFROMPOSITION            := 2164
-        SCI_POINTYFROMPOSITION            := 2165
-        SCI_LINEFROMPOSITION              := 2166
-        SCI_POSITIONFROMLINE              := 2167
-        SCI_LINESCROLL                    := 2168
-        SCI_SCROLLCARET                   := 2169
-        SCI_REPLACESEL                    := 2170
-        SCI_SETREADONLY                   := 2171
-        SCI_NULL                          := 2172
-        SCI_CANPASTE                      := 2173
-        SCI_CANUNDO                       := 2174
-        SCI_EMPTYUNDOBUFFER               := 2175
-        SCI_UNDO                          := 2176
-        SCI_CUT                           := 2177
-        SCI_COPY                          := 2178
-        SCI_PASTE                         := 2179
-        SCI_CLEAR                         := 2180
-        SCI_SETTEXT                       := 2181
-        SCI_GETTEXT                       := 2182
-        SCI_GETTEXTLENGTH                 := 2183
-        SCI_GETDIRECTFUNCTION             := 2184
-        SCI_GETDIRECTPOINTER              := 2185
-        SCI_SETOVERTYPE                   := 2186
-        SCI_GETOVERTYPE                   := 2187
-        SCI_SETCARETWIDTH                 := 2188
-        SCI_GETCARETWIDTH                 := 2189
-        SCI_SETTARGETSTART                := 2190
-        SCI_GETTARGETSTART                := 2191
-        SCI_SETTARGETEND                  := 2192
-        SCI_GETTARGETEND                  := 2193
-        SCI_REPLACETARGET                 := 2194
-        SCI_REPLACETARGETRE               := 2195
-        SCI_SEARCHINTARGET                := 2197
-        SCI_SETSEARCHFLAGS                := 2198
-        SCI_GETSEARCHFLAGS                := 2199
-        SCI_CALLTIPSHOW                   := 2200
-        SCI_CALLTIPCANCEL                 := 2201
-        SCI_CALLTIPACTIVE                 := 2202
-        SCI_CALLTIPPOSSTART               := 2203
-        SCI_CALLTIPSETHLT                 := 2204
-        SCI_CALLTIPSETBACK                := 2205
-        SCI_CALLTIPSETFORE                := 2206
-        SCI_CALLTIPSETFOREHLT             := 2207
-        SCI_CALLTIPUSESTYLE               := 2212
-        SCI_VISIBLEFROMDOCLINE            := 2220
-        SCI_DOCLINEFROMVISIBLE            := 2221
-        SCI_WRAPCOUNT                     := 2235
-        SC_FOLDLEVELBASE                  := 0x400
-        SC_FOLDLEVELWHITEFLAG             := 0x1000
-        SC_FOLDLEVELHEADERFLAG            := 0x2000
-        SC_FOLDLEVELBOXHEADERFLAG         := 0x4000
-        SC_FOLDLEVELBOXFOOTERFLAG         := 0x8000
-        SC_FOLDLEVELCONTRACTED            := 0x10000
-        SC_FOLDLEVELUNINDENT              := 0x20000
-        SC_FOLDLEVELNUMBERMASK            := 0x0FFF
-        SCI_SETFOLDLEVEL                  := 2222
-        SCI_GETFOLDLEVEL                  := 2223
-        SCI_GETLASTCHILD                  := 2224
-        SCI_GETFOLDPARENT                 := 2225
-        SCI_SHOWLINES                     := 2226
-        SCI_HIDELINES                     := 2227
-        SCI_GETLINEVISIBLE                := 2228
-        SCI_SETFOLDEXPANDED               := 2229
-        SCI_GETFOLDEXPANDED               := 2230
-        SCI_TOGGLEFOLD                    := 2231
-        SCI_ENSUREVISIBLE                 := 2232
-        SC_FOLDFLAG_LINEBEFORE_EXPANDED   := 0x0002
-        SC_FOLDFLAG_LINEBEFORE_CONTRACTED := 0x0004
-        SC_FOLDFLAG_LINEAFTER_EXPANDED    := 0x0008
-        SC_FOLDFLAG_LINEAFTER_CONTRACTED  := 0x0010
-        SC_FOLDFLAG_LEVELNUMBERS          := 0x0040
-        SC_FOLDFLAG_BOX                   := 0x0001
-        SCI_SETFOLDFLAGS                  := 2233
-        SCI_ENSUREVISIBLEENFORCEPOLICY    := 2234
-        SCI_SETTABINDENTS                 := 2260
-        SCI_GETTABINDENTS                 := 2261
-        SCI_SETBACKSPACEUNINDENTS         := 2262
-        SCI_GETBACKSPACEUNINDENTS         := 2263
-        SC_TIME_FOREVER                   := 10000000
-        SCI_SETMOUSEDWELLTIME             := 2264
-        SCI_GETMOUSEDWELLTIME             := 2265
-        SCI_WORDSTARTPOSITION             := 2266
-        SCI_WORDENDPOSITION               := 2267
-        SC_WRAP_NONE                      := 0
-        SC_WRAP_WORD                      := 1
-        SC_WRAP_CHAR                      := 2
-        SCI_SETWRAPMODE                   := 2268
-        SCI_GETWRAPMODE                   := 2269
-        SC_WRAPVISUALFLAG_NONE            := 0x0000
-        SC_WRAPVISUALFLAG_END             := 0x0001
-        SC_WRAPVISUALFLAG_START           := 0x0002
-        SCI_SETWRAPVISUALFLAGS            := 2460
-        SCI_GETWRAPVISUALFLAGS            := 2461
-        SC_WRAPVISUALFLAGLOC_DEFAULT      := 0x0000
-        SC_WRAPVISUALFLAGLOC_END_BY_TEXT  := 0x0001
-        SC_WRAPVISUALFLAGLOC_START_BY_TEXT:= 0x0002
-        SCI_SETWRAPVISUALFLAGSLOCATION    := 2462
-        SCI_GETWRAPVISUALFLAGSLOCATION    := 2463
-        SCI_SETWRAPSTARTINDENT            := 2464
-        SCI_GETWRAPSTARTINDENT            := 2465
-        SC_CACHE_NONE                     := 0
-        SC_CACHE_CARET                    := 1
-        SC_CACHE_PAGE                     := 2
-        SC_CACHE_DOCUMENT                 := 3
-        SCI_SETLAYOUTCACHE                := 2272
-        SCI_GETLAYOUTCACHE                := 2273
-        SCI_SETSCROLLWIDTH                := 2274
-        SCI_GETSCROLLWIDTH                := 2275
-        SCI_TEXTWIDTH                     := 2276
-        SCI_SETENDATLASTLINE              := 2277
-        SCI_GETENDATLASTLINE              := 2278
-        SCI_TEXTHEIGHT                    := 2279
-        SCI_SETVSCROLLBAR                 := 2280
-        SCI_GETVSCROLLBAR                 := 2281
-        SCI_APPENDTEXT                    := 2282
-        SCI_GETTWOPHASEDRAW               := 2283
-        SCI_SETTWOPHASEDRAW               := 2284
-        SCI_TARGETFROMSELECTION           := 2287
-        SCI_LINESJOIN                     := 2288
-        SCI_LINESSPLIT                    := 2289
-        SCI_SETFOLDMARGINCOLOR            := 2290
-        SCI_SETFOLDMARGINHICOLOR          := 2291
-        SCI_LINEDOWN                      := 2300
-        SCI_LINEDOWNEXTEND                := 2301
-        SCI_LINEUP                        := 2302
-        SCI_LINEUPEXTEND                  := 2303
-        SCI_CHARLEFT                      := 2304
-        SCI_CHARLEFTEXTEND                := 2305
-        SCI_CHARRIGHT                     := 2306
-        SCI_CHARRIGHTEXTEND               := 2307
-        SCI_WORDLEFT                      := 2308
-        SCI_WORDLEFTEXTEND                := 2309
-        SCI_WORDRIGHT                     := 2310
-        SCI_WORDRIGHTEXTEND               := 2311
-        SCI_HOME                          := 2312
-        SCI_HOMEEXTEND                    := 2313
-        SCI_LINEEND                       := 2314
-        SCI_LINEENDEXTEND                 := 2315
-        SCI_DOCUMENTSTART                 := 2316
-        SCI_DOCUMENTSTARTEXTEND           := 2317
-        SCI_DOCUMENTEND                   := 2318
-        SCI_DOCUMENTENDEXTEND             := 2319
-        SCI_PAGEUP                        := 2320
-        SCI_PAGEUPEXTEND                  := 2321
-        SCI_PAGEDOWN                      := 2322
-        SCI_PAGEDOWNEXTEND                := 2323
-        SCI_EDITTOGGLEOVERTYPE            := 2324
-        SCI_CANCEL                        := 2325
-        SCI_DELETEBACK                    := 2326
-        SCI_TAB                           := 2327
-        SCI_BACKTAB                       := 2328
-        SCI_NEWLINE                       := 2329
-        SCI_FORMFEED                      := 2330
-        SCI_VCHOME                        := 2331
-        SCI_VCHOMEEXTEND                  := 2332
-        SCI_ZOOMIN                        := 2333
-        SCI_ZOOMOUT                       := 2334
-        SCI_DELWORDLEFT                   := 2335
-        SCI_DELWORDRIGHT                  := 2336
-        SCI_LINECUT                       := 2337
-        SCI_LINEDELETE                    := 2338
-        SCI_LINETRANSPOSE                 := 2339
-        SCI_LINEDUPLICATE                 := 2404
-        SCI_LOWERCASE                     := 2340
-        SCI_UPPERCASE                     := 2341
-        SCI_LINESCROLLDOWN                := 2342
-        SCI_LINESCROLLUP                  := 2343
-        SCI_DELETEBACKNOTLINE             := 2344
-        SCI_HOMEDISPLAY                   := 2345
-        SCI_HOMEDISPLAYEXTEND             := 2346
-        SCI_LINEENDDISPLAY                := 2347
-        SCI_LINEENDDISPLAYEXTEND          := 2348
-        SCI_HOMEWRAP                      := 2349
-        SCI_HOMEWRAPEXTEND                := 2450
-        SCI_LINEENDWRAP                   := 2451
-        SCI_LINEENDWRAPEXTEND             := 2452
-        SCI_VCHOMEWRAP                    := 2453
-        SCI_VCHOMEWRAPEXTEND              := 2454
-        SCI_LINECOPY                      := 2455
-        SCI_MOVECARETINSIDEVIEW           := 2401
-        SCI_LINELENGTH                    := 2350
-        SCI_BRACEHIGHLIGHT                := 2351
-        SCI_BRACEBADLIGHT                 := 2352
-        SCI_BRACEMATCH                    := 2353
-        SCI_GETVIEWEOL                    := 2355
-        SCI_SETVIEWEOL                    := 2356
-        SCI_GETDOCPOINTER                 := 2357
-        SCI_SETDOCPOINTER                 := 2358
-        SCI_SETMODEVENTMASK               := 2359
-        EDGE_NONE                         := 0
-        EDGE_LINE                         := 1
-        EDGE_BACKGROUND                   := 2
-        SCI_GETEDGECOLUMN                 := 2360
-        SCI_SETEDGECOLUMN                 := 2361
-        SCI_GETEDGEMODE                   := 2362
-        SCI_SETEDGEMODE                   := 2363
-        SCI_GETEDGECOLOR                  := 2364
-        SCI_SETEDGECOLOR                  := 2365
-        SCI_SEARCHANCHOR                  := 2366
-        SCI_SEARCHNEXT                    := 2367
-        SCI_SEARCHPREV                    := 2368
-        SCI_LINESONSCREEN                 := 2370
-        SCI_USEPOPUP                      := 2371
-        SCI_SELECTIONISRECTANGLE          := 2372
-        SCI_SETZOOM                       := 2373
-        SCI_GETZOOM                       := 2374
-        SCI_CREATEDOCUMENT                := 2375
-        SCI_ADDREFDOCUMENT                := 2376
-        SCI_RELEASEDOCUMENT               := 2377
-        SCI_GETMODEVENTMASK               := 2378
-        SCI_SETFOCUS                      := 2380
-        SCI_GETFOCUS                      := 2381
-        SCI_SETSTATUS                     := 2382
-        SCI_GETSTATUS                     := 2383
-        SCI_SETMOUSEDOWNCAPTURES          := 2384
-        SCI_GETMOUSEDOWNCAPTURES          := 2385
-        SC_CURSORNORMAL                   := -1
-        SC_CURSORWAIT                     := 4
-        SCI_SETCURSOR                     := 2386
-        SCI_GETCURSOR                     := 2387
-        SCI_SETCONTROLCHARSYMBOL          := 2388
-        SCI_GETCONTROLCHARSYMBOL          := 2389
-        SCI_WORDPARTLEFT                  := 2390
-        SCI_WORDPARTLEFTEXTEND            := 2391
-        SCI_WORDPARTRIGHT                 := 2392
-        SCI_WORDPARTRIGHTEXTEND           := 2393
-        VISIBLE_SLOP                      := 0x01
-        VISIBLE_STRICT                    := 0x04
-        SCI_SETVISIBLEPOLICY              := 2394
-        SCI_DELLINELEFT                   := 2395
-        SCI_DELLINERIGHT                  := 2396
-        SCI_SETXOFFSET                    := 2397
-        SCI_GETXOFFSET                    := 2398
-        SCI_CHOOSECARETX                  := 2399
-        SCI_GRABFOCUS                     := 2400
-        CARET_SLOP                        := 0x01
-        CARET_STRICT                      := 0x04
-        CARET_JUMPS                       := 0x10
-        CARET_EVEN                        := 0x08
-        SCI_SETXCARETPOLICY               := 2402
-        SCI_SETYCARETPOLICY               := 2403
-        SCI_SETPRINTWRAPMODE              := 2406
-        SCI_GETPRINTWRAPMODE              := 2407
-        SCI_SETHOTSPOTACTIVEFORE          := 2410
-        SCI_SETHOTSPOTACTIVEBACK          := 2411
-        SCI_SETHOTSPOTACTIVEUNDERLINE     := 2412
-        SCI_SETHOTSPOTSINGLELINE          := 2421
-        SCI_PARADOWN                      := 2413
-        SCI_PARADOWNEXTEND                := 2414
-        SCI_PARAUP                        := 2415
-        SCI_PARAUPEXTEND                  := 2416
-        SCI_POSITIONBEFORE                := 2417
-        SCI_POSITIONAFTER                 := 2418
-        SCI_COPYRANGE                     := 2419
-        SCI_COPYTEXT                      := 2420
-        SC_SEL_STREAM                     := 0
-        SC_SEL_RECTANGLE                  := 1
-        SC_SEL_LINES                      := 2
-        SCI_SETSELECTIONMODE              := 2422
-        SCI_GETSELECTIONMODE              := 2423
-        SCI_GETLINESELSTARTPOSITION       := 2424
-        SCI_GETLINESELENDPOSITION         := 2425
-        SCI_LINEDOWNRECTEXTEND            := 2426
-        SCI_LINEUPRECTEXTEND              := 2427
-        SCI_CHARLEFTRECTEXTEND            := 2428
-        SCI_CHARRIGHTRECTEXTEND           := 2429
-        SCI_HOMERECTEXTEND                := 2430
-        SCI_VCHOMERECTEXTEND              := 2431
-        SCI_LINEENDRECTEXTEND             := 2432
-        SCI_PAGEUPRECTEXTEND              := 2433
-        SCI_PAGEDOWNRECTEXTEND            := 2434
-        SCI_STUTTEREDPAGEUP               := 2435
-        SCI_STUTTEREDPAGEUPEXTEND         := 2436
-        SCI_STUTTEREDPAGEDOWN             := 2437
-        SCI_STUTTEREDPAGEDOWNEXTEND       := 2438
-        SCI_WORDLEFTEND                   := 2439
-        SCI_WORDLEFTENDEXTEND             := 2440
-        SCI_WORDRIGHTEND                  := 2441
-        SCI_WORDRIGHTENDEXTEND            := 2442
-        SCI_SETWHITESPACECHARS            := 2443
-        SCI_SETCHARSDEFAULT               := 2444
-        SCI_AUTOCGETCURRENT               := 2445
-        SCI_ALLOCATE                      := 2446
-        SCI_TARGETASUTF8                  := 2447
-        SCI_SETLENGTHFORENCODE            := 2448
-        SCI_ENCODEDFROMUTF8               := 2449
-        SCI_FINDCOLUMN                    := 2456
-        SCI_GETCARETSTICKY                := 2457
-        SCI_SETCARETSTICKY                := 2458
-        SCI_TOGGLECARETSTICKY             := 2459
-        SCI_SETPASTECONVERTENDINGS        := 2467
-        SCI_GETPASTECONVERTENDINGS        := 2468
-        SCI_SELECTIONDUPLICATE            := 2469
-        SC_ALPHA_TRANSPARENT              := 0
-        SC_ALPHA_OPAQUE                   := 255
-        SC_ALPHA_NOALPHA                  := 256
-        SCI_SETCARETLINEBACKALPHA         := 2470
-        SCI_GETCARETLINEBACKALPHA         := 2471
-        SCI_STARTRECORD                   := 3001
-        SCI_STOPRECORD                    := 3002
-        SCI_SETLEXER                      := 4001
-        SCI_GETLEXER                      := 4002
-        SCI_COLORISE                      := 4003
-        SCI_SETPROPERTY                   := 4004
-        KEYWORDSET_MAX                    := 8
-        SCI_SETKEYWORDS                   := 4005
-        SCI_SETLEXERLANGUAGE              := 4006
-        SCI_LOADLEXERLIBRARY              := 4007
-        SCI_GETPROPERTY                   := 4008
-        SCI_GETPROPERTYEXPANDED           := 4009
-        SCI_GETPROPERTYINT                := 4010
-        SCI_GETSTYLEBITSNEEDED            := 4011
-        SC_MOD_INSERTTEXT                 := 0x1
-        SC_MOD_DELETETEXT                 := 0x2
-        SC_MOD_CHANGESTYLE                := 0x4
-        SC_MOD_CHANGEFOLD                 := 0x8
-        SC_PERFORMED_USER                 := 0x10
-        SC_PERFORMED_UNDO                 := 0x20
-        SC_PERFORMED_REDO                 := 0x40
-        SC_MULTISTEPUNDOREDO              := 0x80
-        SC_LASTSTEPINUNDOREDO             := 0x100
-        SC_MOD_CHANGEMARKER               := 0x200
-        SC_MOD_BEFOREINSERT               := 0x400
-        SC_MOD_BEFOREDELETE               := 0x800
-        SC_MULTILINEUNDOREDO              := 0x1000
-        SC_MODEVENTMASKALL                := 0x1FFF
-        SCEN_CHANGE                       := 768
-        SCEN_SETFOCUS                     := 512
-        SCEN_KILLFOCUS                    := 256
-        SCK_DOWN                          := 300
-        SCK_UP                            := 301
-        SCK_LEFT                          := 302
-        SCK_RIGHT                         := 303
-        SCK_HOME                          := 304
-        SCK_END                           := 305
-        SCK_PRIOR                         := 306
-        SCK_NEXT                          := 307
-        SCK_DELETE                        := 308
-        SCK_INSERT                        := 309
-        SCK_ESCAPE                        := 7
-        SCK_BACK                          := 8
-        SCK_TAB                           := 9
-        SCK_RETURN                        := 13
-        SCK_ADD                           := 310
-        SCK_SUBTRACT                      := 311
-        SCK_DIVIDE                        := 312
-        SCMOD_NORM                        := 0
-        SCMOD_SHIFT                       := 1
-        SCMOD_CTRL                        := 2
-        SCMOD_ALT                         := 4
+        INVALID_POSITION:=-1,SCI_START:=2000,SCI_OPTIONAL_START:=3000,SCI_LEXER_START:=4000,SCI_ADDTEXT:=2001
+        SCI_ADDSTYLEDTEXT:=2002,SCI_INSERTTEXT:=2003,SCI_CLEARALL:=2004,SCI_CLEARDOCUMENTSTYLE:=2005
+        SCI_GETLENGTH:=2006,SCI_GETCHARAT:=2007,SCI_GETCURRENTPOS:=2008,SCI_GETANCHOR:=2009,SCI_GETSTYLEAT:=2010
+        SCI_REDO:=2011,SCI_SETUNDOCOLLECTION:=2012,SCI_SELECTALL:=2013,SCI_SETSAVEPOINT:=2014
+        SCI_GETSTYLEDTEXT:=2015,SCI_CANREDO:=2016,SCI_MARKERLINEFROMHANDLE:=2017,SCI_MARKERDELETEHANDLE:=2018
+        SCI_GETUNDOCOLLECTION:=2019,SCWS_INVISIBLE:=0,SCWS_VISIBLEALWAYS:=1,SCWS_VISIBLEAFTERINDENT:=2
+        SCI_GETVIEWWS:=2020,SCI_SETVIEWWS:=2021,SCI_POSITIONFROMPOINT:=2022,SCI_POSITIONFROMPOINTCLOSE:=2023
+        SCI_GOTOLINE:=2024,SCI_GOTOPOS:=2025,SCI_SETANCHOR:=2026,SCI_GETCURLINE:=2027,SCI_GETENDSTYLED:=2028
+        SC_EOL_CRLF:=0,SC_EOL_CR:=1,SC_EOL_LF:=2,SCI_CONVERTEOLS:=2029,SCI_GETEOLMODE:=2030,SCI_SETEOLMODE:=2031
+        SCI_STARTSTYLING:=2032,SCI_SETSTYLING:=2033,SCI_GETBUFFEREDDRAW:=2034,SCI_SETBUFFEREDDRAW:=2035
+        SCI_SETTABWIDTH:=2036,SCI_GETTABWIDTH:=2121,SC_CP_UTF8:=65001,SC_CP_DBCS:=1,SCI_SETCODEPAGE:=2037
+        SCI_SETUSEPALETTE:=2039,MARKER_MAX:=31,SC_MARK_CIRCLE:=0,SC_MARK_ROUNDRECT:=1,SC_MARK_ARROW:=2
+        SC_MARK_SMALLRECT:=3,SC_MARK_SHORTARROW:=4,SC_MARK_EMPTY:=5,SC_MARK_ARROWDOWN:=6,SC_MARK_MINUS:=7
+        SC_MARK_PLUS:=8,SC_MARK_VLINE:=9,SC_MARK_LCORNER:=10,SC_MARK_TCORNER:=11,SC_MARK_BOXPLUS:=12
+        SC_MARK_BOXPLUSCONNECTED:=13,SC_MARK_BOXMINUS:=14,SC_MARK_BOXMINUSCONNECTED:=15,SC_MARK_LCORNERCURVE:=16
+        SC_MARK_TCORNERCURVE:=17,SC_MARK_CIRCLEPLUS:=18,SC_MARK_CIRCLEPLUSCONNECTED:=19,SC_MARK_CIRCLEMINUS:=20
+        SC_MARK_CIRCLEMINUSCONNECTED:=21,SC_MARK_BACKGROUND:=22,SC_MARK_DOTDOTDOT:=23,SC_MARK_ARROWS:=24
+        SC_MARK_PIXMAP:=25,SC_MARK_FULLRECT:=26,SC_MARK_CHARACTER:=10000,SC_MARKNUM_FOLDEREND:=25
+        SC_MARKNUM_FOLDEROPENMID:=26,SC_MARKNUM_FOLDERMIDTAIL:=27,SC_MARKNUM_FOLDERTAIL:=28
+        SC_MARKNUM_FOLDERSUB:=29,SC_MARKNUM_FOLDER:=30,SC_MARKNUM_FOLDEROPEN:=31,SC_MASK_FOLDERS:=0xFE000000
+        SCI_MARKERDEFINE:=2040,SCI_MARKERSETFORE:=2041,SCI_MARKERSETBACK:=2042,SCI_MARKERADD:=2043
+        SCI_MARKERDELETE:=2044,SCI_MARKERDELETEALL:=2045,SCI_MARKERGET:=2046,SCI_MARKERNEXT:=2047
+        SCI_MARKERPREVIOUS:=2048,SCI_MARKERDEFINEPIXMAP:=2049,SCI_MARKERADDSET:=2466,SCI_MARKERSETALPHA:=2476
+        SC_MARGIN_SYMBOL:=0,SC_MARGIN_NUMBER:=1,SCI_SETMARGINTYPEN:=2240,SCI_GETMARGINTYPEN:=2241
+        SCI_SETMARGINWIDTHN:=2242,SCI_GETMARGINWIDTHN:=2243,SCI_SETMARGINMASKN:=2244,SCI_GETMARGINMASKN:=2245
+        SCI_SETMARGINSENSITIVEN:=2246,SCI_GETMARGINSENSITIVEN:=2247,STYLE_DEFAULT:=32,STYLE_LINENUMBER:=33
+        STYLE_BRACELIGHT:=34,STYLE_BRACEBAD:=35,STYLE_CONTROLCHAR:=36,STYLE_INDENTGUIDE:=37,STYLE_CALLTIP:=38
+        STYLE_LASTPREDEFINED:=39,STYLE_MAX:=127,SC_CHARSET_ANSI:=0,SC_CHARSET_DEFAULT:=1,SC_CHARSET_BALTIC:=186
+        SC_CHARSET_CHINESEBIG5:=136,SC_CHARSET_EASTEUROPE:=238,SC_CHARSET_GB2312:=134,SC_CHARSET_GREEK:=161
+        SC_CHARSET_HANGUL:=129,SC_CHARSET_MAC:=77,SC_CHARSET_OEM:=255,SC_CHARSET_RUSSIAN:=204
+        SC_CHARSET_CYRILLIC:=1251,SC_CHARSET_SHIFTJIS:=128,SC_CHARSET_SYMBOL:=2,SC_CHARSET_TURKISH:=162
+        SC_CHARSET_JOHAB:=130,SC_CHARSET_HEBREW:=177,SC_CHARSET_ARABIC:=178,SC_CHARSET_VIETNAMESE:=163
+        SC_CHARSET_THAI:=222,SC_CHARSET_8859_15:=1000,SCI_STYLECLEARALL:=2050,SCI_STYLESETFORE:=2051
+        SCI_STYLESETBACK:=2052,SCI_STYLESETBOLD:=2053,SCI_STYLESETITALIC:=2054,SCI_STYLESETSIZE:=2055
+        SCI_STYLESETFONT:=2056,SCI_STYLESETEOLFILLED:=2057,SCI_STYLEGETFORE:=2481,SCI_STYLEGETBACK:=2482
+        SCI_STYLEGETBOLD:=2483,SCI_STYLEGETITALIC:=2484,SCI_STYLEGETSIZE:=2485,SCI_STYLEGETFONT:=2486
+        SCI_STYLEGETEOLFILLED:=2487,SCI_STYLEGETUNDERLINE:=2488,SCI_STYLEGETCASE:=2489
+        SCI_STYLEGETCHARACTERSET:=2490,SCI_STYLEGETVISIBLE:=2491,SCI_STYLEGETCHANGEABLE:=2492
+        SCI_STYLEGETHOTSPOT:=2493,SCI_STYLERESETDEFAULT:=2058,SCI_STYLESETUNDERLINE:=2059,SC_CASE_MIXED:=0
+        SC_CASE_UPPER:=1,SC_CASE_LOWER:=2,SCI_STYLESETCASE:=2060,SCI_STYLESETCHARACTERSET:=2066
+        SCI_STYLESETHOTSPOT:=2409,SCI_SETSELFORE:=2067,SCI_SETSELBACK:=2068,SCI_GETSELALPHA:=2477
+        SCI_SETSELALPHA:=2478,SCI_SETCARETFORE:=2069,SCI_ASSIGNCMDKEY:=2070,SCI_CLEARCMDKEY:=2071
+        SCI_CLEARALLCMDKEYS:=2072,SCI_SETSTYLINGEX:=2073,SCI_STYLESETVISIBLE:=2074,SCI_GETCARETPERIOD:=2075
+        SCI_SETCARETPERIOD:=2076,SCI_SETWORDCHARS:=2077,SCI_BEGINUNDOACTION:=2078,SCI_ENDUNDOACTION:=2079
+        INDIC_MAX:=7,INDIC_PLAIN:=0,INDIC_SQUIGGLE:=1,INDIC_TT:=2,INDIC_DIAGONAL:=3,INDIC_STRIKE:=4
+        INDIC_HIDDEN:=5,INDIC_BOX:=6,INDIC_ROUNDBOX:=7,INDIC0_MASK:=0x20,INDIC1_MASK:=0x40,INDIC2_MASK:=0x80
+        INDICS_MASK:=0xE0,SCI_INDICSETSTYLE:=2080,SCI_INDICGETSTYLE:=2081,SCI_INDICSETFORE:=2082
+        SCI_INDICGETFORE:=2083,SCI_SETWHITESPACEFORE:=2084,SCI_SETWHITESPACEBACK:=2085,SCI_SETSTYLEBITS:=2090
+        SCI_GETSTYLEBITS:=2091,SCI_SETLINESTATE:=2092,SCI_GETLINESTATE:=2093,SCI_GETMAXLINESTATE:=2094
+        SCI_GETCARETLINEVISIBLE:=2095,SCI_SETCARETLINEVISIBLE:=2096,SCI_GETCARETLINEBACK:=2097
+        SCI_SETCARETLINEBACK:=2098,SCI_STYLESETCHANGEABLE:=2099,SCI_AUTOCSHOW:=2100,SCI_AUTOCCANCEL:=2101
+        SCI_AUTOCACTIVE:=2102,SCI_AUTOCPOSSTART:=2103,SCI_AUTOCCOMPLETE:=2104,SCI_AUTOCSTOPS:=2105
+        SCI_AUTOCSETSEPARATOR:=2106,SCI_AUTOCGETSEPARATOR:=2107,SCI_AUTOCSELECT:=2108
+        SCI_AUTOCSETCANCELATSTART:=2110,SCI_AUTOCGETCANCELATSTART:=2111,SCI_AUTOCSETFILLUPS:=2112
+        SCI_AUTOCSETCHOOSESINGLE:=2113,SCI_AUTOCGETCHOOSESINGLE:=2114,SCI_AUTOCSETIGNORECASE:=2115
+        SCI_AUTOCGETIGNORECASE:=2116,SCI_USERLISTSHOW:=2117,SCI_AUTOCSETAUTOHIDE:=2118,SCI_AUTOCGETAUTOHIDE:=2119
+        SCI_AUTOCSETDROPRESTOFWORD:=2270,SCI_AUTOCGETDROPRESTOFWORD:=2271,SCI_REGISTERIMAGE:=2405
+        SCI_CLEARREGISTEREDIMAGES:=2408,SCI_AUTOCGETTYPESEPARATOR:=2285,SCI_AUTOCSETTYPESEPARATOR:=2286
+        SCI_AUTOCSETMAXWIDTH:=2208,SCI_AUTOCGETMAXWIDTH:=2209,SCI_AUTOCSETMAXHEIGHT:=2210
+        SCI_AUTOCGETMAXHEIGHT:=2211,SCI_SETINDENT:=2122,SCI_GETINDENT:=2123,SCI_SETUSETABS:=2124
+        SCI_GETUSETABS:=2125,SCI_SETLINEINDENTATION:=2126,SCI_GETLINEINDENTATION:=2127
+        SCI_GETLINEINDENTPOSITION:=2128,SCI_GETCOLUMN:=2129,SCI_SETHSCROLLBAR:=2130,SCI_GETHSCROLLBAR:=2131
+        SCI_SETINDENTATIONGUIDES:=2132,SCI_GETINDENTATIONGUIDES:=2133,SCI_SETHIGHLIGHTGUIDE:=2134
+        SCI_GETHIGHLIGHTGUIDE:=2135,SCI_GETLINEENDPOSITION:=2136,SCI_GETCODEPAGE:=2137,SCI_GETCARETFORE:=2138
+        SCI_GETUSEPALETTE:=2139,SCI_GETREADONLY:=2140,SCI_SETCURRENTPOS:=2141,SCI_SETSELECTIONSTART:=2142
+        SCI_GETSELECTIONSTART:=2143,SCI_SETSELECTIONEND:=2144,SCI_GETSELECTIONEND:=2145
+        SCI_SETPRINTMAGNIFICATION:=2146,SCI_GETPRINTMAGNIFICATION:=2147,SC_PRINT_NORMAL:=0
+        SC_PRINT_INVERTLIGHT:=1,SC_PRINT_BLACKONWHITE:=2,SC_PRINT_COLORONWHITE:=3
+        SC_PRINT_COLORONWHITEDEFAULTBG:=4,SCI_SETPRINTCOLORMODE:=2148,SCI_GETPRINTCOLORMODE:=2149
+        SCFIND_WHOLEWORD:=2,SCFIND_MATCHCASE:=4,SCFIND_WORDSTART:=0x00100000,SCFIND_REGEXP:=0x00200000
+        SCFIND_POSIX:=0x00400000,SCI_FINDTEXT:=2150,SCI_FORMATRANGE:=2151,SCI_GETFIRSTVISIBLELINE:=2152
+        SCI_GETLINE:=2153,SCI_GETLINECOUNT:=2154,SCI_SETMARGINLEFT:=2155,SCI_GETMARGINLEFT:=2156
+        SCI_SETMARGINRIGHT:=2157,SCI_GETMARGINRIGHT:=2158,SCI_GETMODIFY:=2159,SCI_SETSEL:=2160
+        SCI_GETSELTEXT:=2161,SCI_GETTEXTRANGE:=2162,SCI_HIDESELECTION:=2163,SCI_POINTXFROMPOSITION:=2164
+        SCI_POINTYFROMPOSITION:=2165,SCI_LINEFROMPOSITION:=2166,SCI_POSITIONFROMLINE:=2167,SCI_LINESCROLL:=2168
+        SCI_SCROLLCARET:=2169,SCI_REPLACESEL:=2170,SCI_SETREADONLY:=2171,SCI_NULL:=2172,SCI_CANPASTE:=2173
+        SCI_CANUNDO:=2174,SCI_EMPTYUNDOBUFFER:=2175,SCI_UNDO:=2176,SCI_CUT:=2177,SCI_COPY:=2178,SCI_PASTE:=2179
+        SCI_CLEAR:=2180,SCI_SETTEXT:=2181,SCI_GETTEXT:=2182,SCI_GETTEXTLENGTH:=2183,SCI_GETDIRECTFUNCTION:=2184
+        SCI_GETDIRECTPOINTER:=2185,SCI_SETOVERTYPE:=2186,SCI_GETOVERTYPE:=2187,SCI_SETCARETWIDTH:=2188
+        SCI_GETCARETWIDTH:=2189,SCI_SETTARGETSTART:=2190,SCI_GETTARGETSTART:=2191,SCI_SETTARGETEND:=2192
+        SCI_GETTARGETEND:=2193,SCI_REPLACETARGET:=2194,SCI_REPLACETARGETRE:=2195,SCI_SEARCHINTARGET:=2197
+        SCI_SETSEARCHFLAGS:=2198,SCI_GETSEARCHFLAGS:=2199,SCI_CALLTIPSHOW:=2200,SCI_CALLTIPCANCEL:=2201
+        SCI_CALLTIPACTIVE:=2202,SCI_CALLTIPPOSSTART:=2203,SCI_CALLTIPSETHLT:=2204,SCI_CALLTIPSETBACK:=2205
+        SCI_CALLTIPSETFORE:=2206,SCI_CALLTIPSETFOREHLT:=2207,SCI_CALLTIPUSESTYLE:=2212
+        SCI_VISIBLEFROMDOCLINE:=2220,SCI_DOCLINEFROMVISIBLE:=2221,SCI_WRAPCOUNT:=2235,SC_FOLDLEVELBASE:=0x400
+        SC_FOLDLEVELWHITEFLAG:=0x1000,SC_FOLDLEVELHEADERFLAG:=0x2000,SC_FOLDLEVELBOXHEADERFLAG:=0x4000
+        SC_FOLDLEVELBOXFOOTERFLAG:=0x8000,SC_FOLDLEVELCONTRACTED:=0x10000,SC_FOLDLEVELUNINDENT:=0x20000
+        SC_FOLDLEVELNUMBERMASK:=0x0FFF,SCI_SETFOLDLEVEL:=2222,SCI_GETFOLDLEVEL:=2223,SCI_GETLASTCHILD:=2224
+        SCI_GETFOLDPARENT:=2225,SCI_SHOWLINES:=2226,SCI_HIDELINES:=2227,SCI_GETLINEVISIBLE:=2228
+        SCI_SETFOLDEXPANDED:=2229,SCI_GETFOLDEXPANDED:=2230,SCI_TOGGLEFOLD:=2231,SCI_ENSUREVISIBLE:=2232
+        SC_FOLDFLAG_LINEBEFORE_EXPANDED:=0x0002,SC_FOLDFLAG_LINEBEFORE_CONTRACTED:=0x0004
+        SC_FOLDFLAG_LINEAFTER_EXPANDED:=0x0008,SC_FOLDFLAG_LINEAFTER_CONTRACTED:=0x0010
+        SC_FOLDFLAG_LEVELNUMBERS:=0x0040,SC_FOLDFLAG_BOX:=0x0001,SCI_SETFOLDFLAGS:=2233
+        SCI_ENSUREVISIBLEENFORCEPOLICY:=2234,SCI_SETTABINDENTS:=2260,SCI_GETTABINDENTS:=2261
+        SCI_SETBACKSPACEUNINDENTS:=2262,SCI_GETBACKSPACEUNINDENTS:=2263,SC_TIME_FOREVER:=10000000
+        SCI_SETMOUSEDWELLTIME:=2264,SCI_GETMOUSEDWELLTIME:=2265,SCI_WORDSTARTPOSITION:=2266
+        SCI_WORDENDPOSITION:=2267,SC_WRAP_NONE:=0,SC_WRAP_WORD:=1,SC_WRAP_CHAR:=2,SCI_SETWRAPMODE:=2268
+        SCI_GETWRAPMODE:=2269,SC_WRAPVISUALFLAG_NONE:=0x0000,SC_WRAPVISUALFLAG_END:=0x0001
+        SC_WRAPVISUALFLAG_START:=0x0002,SCI_SETWRAPVISUALFLAGS:=2460,SCI_GETWRAPVISUALFLAGS:=2461
+        SC_WRAPVISUALFLAGLOC_DEFAULT:=0x0000,SC_WRAPVISUALFLAGLOC_END_BY_TEXT:=0x0001
+        SC_WRAPVISUALFLAGLOC_START_BY_TEXT:=0x0002,SCI_SETWRAPVISUALFLAGSLOCATION:=2462
+        SCI_GETWRAPVISUALFLAGSLOCATION:=2463,SCI_SETWRAPSTARTINDENT:=2464,SCI_GETWRAPSTARTINDENT:=2465
+        SC_CACHE_NONE:=0,SC_CACHE_CARET:=1,SC_CACHE_PAGE:=2,SC_CACHE_DOCUMENT:=3,SCI_SETLAYOUTCACHE:=2272
+        SCI_GETLAYOUTCACHE:=2273,SCI_SETSCROLLWIDTH:=2274,SCI_GETSCROLLWIDTH:=2275,SCI_TEXTWIDTH:=2276
+        SCI_SETENDATLASTLINE:=2277,SCI_GETENDATLASTLINE:=2278,SCI_TEXTHEIGHT:=2279,SCI_SETVSCROLLBAR:=2280
+        SCI_GETVSCROLLBAR:=2281,SCI_APPENDTEXT:=2282,SCI_GETTWOPHASEDRAW:=2283,SCI_SETTWOPHASEDRAW:=2284
+        SCI_TARGETFROMSELECTION:=2287,SCI_LINESJOIN:=2288,SCI_LINESSPLIT:=2289,SCI_SETFOLDMARGINCOLOR:=2290
+        SCI_SETFOLDMARGINHICOLOR:=2291,SCI_LINEDOWN:=2300,SCI_LINEDOWNEXTEND:=2301,SCI_LINEUP:=2302
+        SCI_LINEUPEXTEND:=2303,SCI_CHARLEFT:=2304,SCI_CHARLEFTEXTEND:=2305,SCI_CHARRIGHT:=2306
+        SCI_CHARRIGHTEXTEND:=2307,SCI_WORDLEFT:=2308,SCI_WORDLEFTEXTEND:=2309,SCI_WORDRIGHT:=2310
+        SCI_WORDRIGHTEXTEND:=2311,SCI_HOME:=2312,SCI_HOMEEXTEND:=2313,SCI_LINEEND:=2314,SCI_LINEENDEXTEND:=2315
+        SCI_DOCUMENTSTART:=2316,SCI_DOCUMENTSTARTEXTEND:=2317,SCI_DOCUMENTEND:=2318,SCI_DOCUMENTENDEXTEND:=2319
+        SCI_PAGEUP:=2320,SCI_PAGEUPEXTEND:=2321,SCI_PAGEDOWN:=2322,SCI_PAGEDOWNEXTEND:=2323
+        SCI_EDITTOGGLEOVERTYPE:=2324,SCI_CANCEL:=2325,SCI_DELETEBACK:=2326,SCI_TAB:=2327,SCI_BACKTAB:=2328
+        SCI_NEWLINE:=2329,SCI_FORMFEED:=2330,SCI_VCHOME:=2331,SCI_VCHOMEEXTEND:=2332,SCI_ZOOMIN:=2333
+        SCI_ZOOMOUT:=2334,SCI_DELWORDLEFT:=2335,SCI_DELWORDRIGHT:=2336,SCI_LINECUT:=2337,SCI_LINEDELETE:=2338
+        SCI_LINETRANSPOSE:=2339,SCI_LINEDUPLICATE:=2404,SCI_LOWERCASE:=2340,SCI_UPPERCASE:=2341
+        SCI_LINESCROLLDOWN:=2342,SCI_LINESCROLLUP:=2343,SCI_DELETEBACKNOTLINE:=2344,SCI_HOMEDISPLAY:=2345
+        SCI_HOMEDISPLAYEXTEND:=2346,SCI_LINEENDDISPLAY:=2347,SCI_LINEENDDISPLAYEXTEND:=2348,SCI_HOMEWRAP:=2349
+        SCI_HOMEWRAPEXTEND:=2450,SCI_LINEENDWRAP:=2451,SCI_LINEENDWRAPEXTEND:=2452,SCI_VCHOMEWRAP:=2453
+        SCI_VCHOMEWRAPEXTEND:=2454,SCI_LINECOPY:=2455,SCI_MOVECARETINSIDEVIEW:=2401,SCI_LINELENGTH:=2350
+        SCI_BRACEHIGHLIGHT:=2351,SCI_BRACEBADLIGHT:=2352,SCI_BRACEMATCH:=2353,SCI_GETVIEWEOL:=2355
+        SCI_SETVIEWEOL:=2356,SCI_GETDOCPOINTER:=2357,SCI_SETDOCPOINTER:=2358,SCI_SETMODEVENTMASK:=2359
+        EDGE_NONE:=0,EDGE_LINE:=1,EDGE_BACKGROUND:=2,SCI_GETEDGECOLUMN:=2360,SCI_SETEDGECOLUMN:=2361
+        SCI_GETEDGEMODE:=2362,SCI_SETEDGEMODE:=2363,SCI_GETEDGECOLOR:=2364,SCI_SETEDGECOLOR:=2365
+        SCI_SEARCHANCHOR:=2366,SCI_SEARCHNEXT:=2367,SCI_SEARCHPREV:=2368,SCI_LINESONSCREEN:=2370
+        SCI_USEPOPUP:=2371,SCI_SELECTIONISRECTANGLE:=2372,SCI_SETZOOM:=2373,SCI_GETZOOM:=2374
+        SCI_CREATEDOCUMENT:=2375,SCI_ADDREFDOCUMENT:=2376,SCI_RELEASEDOCUMENT:=2377,SCI_GETMODEVENTMASK:=2378
+        SCI_SETFOCUS:=2380,SCI_GETFOCUS:=2381,SCI_SETSTATUS:=2382,SCI_GETSTATUS:=2383
+        SCI_SETMOUSEDOWNCAPTURES:=2384,SCI_GETMOUSEDOWNCAPTURES:=2385,SC_CURSORNORMAL:=-1,SC_CURSORWAIT:=4
+        SCI_SETCURSOR:=2386,SCI_GETCURSOR:=2387,SCI_SETCONTROLCHARSYMBOL:=2388,SCI_GETCONTROLCHARSYMBOL:=2389
+        SCI_WORDPARTLEFT:=2390,SCI_WORDPARTLEFTEXTEND:=2391,SCI_WORDPARTRIGHT:=2392,SCI_WORDPARTRIGHTEXTEND:=2393
+        VISIBLE_SLOP:=0x01,VISIBLE_STRICT:=0x04,SCI_SETVISIBLEPOLICY:=2394,SCI_DELLINELEFT:=2395
+        SCI_DELLINERIGHT:=2396,SCI_SETXOFFSET:=2397,SCI_GETXOFFSET:=2398,SCI_CHOOSECARETX:=2399
+        SCI_GRABFOCUS:=2400,CARET_SLOP:=0x01,CARET_STRICT:=0x04,CARET_JUMPS:=0x10,CARET_EVEN:=0x08
+        SCI_SETXCARETPOLICY:=2402,SCI_SETYCARETPOLICY:=2403,SCI_SETPRINTWRAPMODE:=2406,SCI_GETPRINTWRAPMODE:=2407
+        SCI_SETHOTSPOTACTIVEFORE:=2410,SCI_SETHOTSPOTACTIVEBACK:=2411,SCI_SETHOTSPOTACTIVEUNDERLINE:=2412
+        SCI_SETHOTSPOTSINGLELINE:=2421,SCI_PARADOWN:=2413,SCI_PARADOWNEXTEND:=2414,SCI_PARAUP:=2415
+        SCI_PARAUPEXTEND:=2416,SCI_POSITIONBEFORE:=2417,SCI_POSITIONAFTER:=2418,SCI_COPYRANGE:=2419
+        SCI_COPYTEXT:=2420,SC_SEL_STREAM:=0,SC_SEL_RECTANGLE:=1,SC_SEL_LINES:=2,SCI_SETSELECTIONMODE:=2422
+        SCI_GETSELECTIONMODE:=2423,SCI_GETLINESELSTARTPOSITION:=2424,SCI_GETLINESELENDPOSITION:=2425
+        SCI_LINEDOWNRECTEXTEND:=2426,SCI_LINEUPRECTEXTEND:=2427,SCI_CHARLEFTRECTEXTEND:=2428
+        SCI_CHARRIGHTRECTEXTEND:=2429,SCI_HOMERECTEXTEND:=2430,SCI_VCHOMERECTEXTEND:=2431
+        SCI_LINEENDRECTEXTEND:=2432,SCI_PAGEUPRECTEXTEND:=2433,SCI_PAGEDOWNRECTEXTEND:=2434
+        SCI_STUTTEREDPAGEUP:=2435,SCI_STUTTEREDPAGEUPEXTEND:=2436,SCI_STUTTEREDPAGEDOWN:=2437
+        SCI_STUTTEREDPAGEDOWNEXTEND:=2438,SCI_WORDLEFTEND:=2439,SCI_WORDLEFTENDEXTEND:=2440
+        SCI_WORDRIGHTEND:=2441,SCI_WORDRIGHTENDEXTEND:=2442,SCI_SETWHITESPACECHARS:=2443
+        SCI_SETCHARSDEFAULT:=2444,SCI_AUTOCGETCURRENT:=2445,SCI_ALLOCATE:=2446,SCI_TARGETASUTF8:=2447
+        SCI_SETLENGTHFORENCODE:=2448,SCI_ENCODEDFROMUTF8:=2449,SCI_FINDCOLUMN:=2456,SCI_GETCARETSTICKY:=2457
+        SCI_SETCARETSTICKY:=2458,SCI_TOGGLECARETSTICKY:=2459,SCI_SETPASTECONVERTENDINGS:=2467
+        SCI_GETPASTECONVERTENDINGS:=2468,SCI_SELECTIONDUPLICATE:=2469,SC_ALPHA_TRANSPARENT:=0
+        SC_ALPHA_OPAQUE:=255,SC_ALPHA_NOALPHA:=256,SCI_SETCARETLINEBACKALPHA:=2470
+        SCI_GETCARETLINEBACKALPHA:=2471,SCI_STARTRECORD:=3001,SCI_STOPRECORD:=3002,SCI_SETLEXER:=4001
+        SCI_GETLEXER:=4002,SCI_COLORISE:=4003,SCI_SETPROPERTY:=4004,KEYWORDSET_MAX:=8,SCI_SETKEYWORDS:=4005
+        SCI_SETLEXERLANGUAGE:=4006,SCI_LOADLEXERLIBRARY:=4007,SCI_GETPROPERTY:=4008,SCI_GETPROPERTYEXPANDED:=4009
+        SCI_GETPROPERTYINT:=4010,SCI_GETSTYLEBITSNEEDED:=4011,SC_MOD_INSERTTEXT:=0x1,SC_MOD_DELETETEXT:=0x2
+        SC_MOD_CHANGESTYLE:=0x4,SC_MOD_CHANGEFOLD:=0x8,SC_PERFORMED_USER:=0x10,SC_PERFORMED_UNDO:=0x20
+        SC_PERFORMED_REDO:=0x40,SC_MULTISTEPUNDOREDO:=0x80,SC_LASTSTEPINUNDOREDO:=0x100
+        SC_MOD_CHANGEMARKER:=0x200,SC_MOD_BEFOREINSERT:=0x400,SC_MOD_BEFOREDELETE:=0x800
+        SC_MULTILINEUNDOREDO:=0x1000,SC_MODEVENTMASKALL:=0x1FFF,SCEN_CHANGE:=768,SCEN_SETFOCUS:=512
+        SCEN_KILLFOCUS:=256,SCK_DOWN:=300,SCK_UP:=301,SCK_LEFT:=302,SCK_RIGHT:=303,SCK_HOME:=304,SCK_END:=305
+        SCK_PRIOR:=306,SCK_NEXT:=307,SCK_DELETE:=308,SCK_INSERT:=309,SCK_ESCAPE:=7,SCK_BACK:=8,SCK_TAB:=9
+        SCK_RETURN:=13,SCK_ADD:=310,SCK_SUBTRACT:=311,SCK_DIVIDE:=312,SCMOD_NORM:=0,SCMOD_SHIFT:=1,SCMOD_CTRL:=2
+        SCMOD_ALT:=4,SCLEX_CONTAINER:=0,SCLEX_NULL:=1,SCLEX_PYTHON:=2,SCLEX_CPP:=3,SCLEX_HTML:=4,SCLEX_XML:=5
+        SCLEX_PERL:=6,SCLEX_SQL:=7,SCLEX_VB:=8,SCLEX_PROPERTIES:=9,SCLEX_ERRORLIST:=10,SCLEX_MAKEFILE:=11
+        SCLEX_BATCH:=12,SCLEX_XCODE:=13,SCLEX_LATEX:=14,SCLEX_LUA:=15,SCLEX_DIFF:=16,SCLEX_CONF:=17
+        SCLEX_PASCAL:=18,SCLEX_AVE:=19,SCLEX_ADA:=20,SCLEX_LISP:=21,SCLEX_RUBY:=22,SCLEX_EIFFEL:=23
+        SCLEX_EIFFELKW:=24,SCLEX_TCL:=25,SCLEX_NNCRONTAB:=26,SCLEX_BULLANT:=27,SCLEX_VBSCRIPT:=28
+        SCLEX_BAAN:=31,SCLEX_MATLAB:=32,SCLEX_SCRIPTOL:=33,SCLEX_ASM:=34,SCLEX_CPPNOCASE:=35
+        SCLEX_FORTRAN:=36,SCLEX_F77:=37,SCLEX_CSS:=38,SCLEX_POV:=39,SCLEX_LOUT:=40,SCLEX_ESCRIPT:=41
+        SCLEX_PS:=42,SCLEX_NSIS:=43,SCLEX_MMIXAL:=44,SCLEX_CLW:=45,SCLEX_CLWNOCASE:=46,SCLEX_LOT:=47
+        SCLEX_YAML:=48,SCLEX_TEX:=49,SCLEX_METAPOST:=50,SCLEX_POWERBASIC:=51,SCLEX_FORTH:=52
+        SCLEX_ERLANG:=53,SCLEX_OCTAVE:=54,SCLEX_MSSQL:=55,SCLEX_VERILOG:=56,SCLEX_KIX:=57,SCLEX_GUI4CLI:=58
+        SCLEX_SPECMAN:=59,SCLEX_AU3:=60,SCLEX_APDL:=61,SCLEX_BASH:=62,SCLEX_ASN1:=63,SCLEX_VHDL:=64
+        SCLEX_CAML:=65,SCLEX_BLITZBASIC:=66,SCLEX_PUREBASIC:=67,SCLEX_HASKELL:=68,SCLEX_PHPSCRIPT:=69
+        SCLEX_TADS3:=70,SCLEX_REBOL:=71,SCLEX_SMALLTALK:=72,SCLEX_FLAGSHIP:=73,SCLEX_CSOUND:=74
+        SCLEX_FREEBASIC:=75,SCLEX_INNOSETUP:=76,SCLEX_OPAL:=77,SCLEX_BLITZMAX:=78,SCLEX_AUTOMATIC:=1000
     }
 
     if !%hwnd%_df
@@ -1964,24 +1897,24 @@ SCI_sendEditor(hwnd, msg, wParam=0, lParam=0){
 /*
     Function : getHex
     This function converts a color name to its hex value.
-    
-    The full list of color names supported by this function can be found 
+
+    The full list of color names supported by this function can be found
     here: <http://www.w3schools.com/html/html_colornames.asp>
-    
+
     Parameters:
     cName       -   Real name of the color that you want to convert.
 
     Returns:
     hexColor    -   Hexadecimal representation of the color name provided.
-    
+
     Examples:
     >hColor:=SCI_getHex("Black")
     >hColor:=SCI_getHex("MediumSpringGreen")
     >hColor:=SCI_getHex("DarkBlue")
 */
 SCI_getHex(cName){
-    static 
-    
+    static
+
     AliceBlue:=0xF0F8FF,AntiqueWhite:=0xFAEBD7,Aqua:=0x00FFFF,Aquamarine:=0x7FFFD4,Azure:=0xF0FFFF,Beige:=0xF5F5DC
     Bisque:=0xFFE4C4,Black:=0x000000,BlanchedAlmond:=0xFFEBCD,Blue:=0x0000FF,BlueViolet:=0x8A2BE2,Brown:=0xA52A2A
     BurlyWood:=0xDEB887,CadetBlue:=0x5F9EA0,Chartreuse:=0x7FFF00,Chocolate:=0xD2691E,Coral:=0xFF7F50
@@ -2011,7 +1944,7 @@ SCI_getHex(cName){
     SlateGrey:=0x708090,Snow:=0xFFFAFA,SpringGreen:=0x00FF7F,SteelBlue:=0x4682B4,Tan:=0xD2B48C
     Teal:=0x008080,Thistle:=0xD8BFD8,Tomato:=0xFF6347,Turquoise:=0x40E0D0,Violet:=0xEE82EE,Wheat:=0xF5DEB3
     White:=0xFFFFFF,WhiteSmoke:=0xF5F5F5,Yellow:=0xFFFF00,YellowGreen:=0x9ACD32
-    
+
     StringReplace, cName, cName, %a_space%,,All
     if cName is not alpha
     {
