@@ -85,34 +85,461 @@ SCI_Add(hParent, x=5, y=15, w=390, h=270, Styles="", MsgHandler="", DllPath=""){
     if !SCIModule:=DllCall("LoadLibrary", "Str", DllPath ? DllPath : "SciLexer.dll")
         return debug ? A_ThisFunc "> Could not load library: " DllPath : -1
 
-    hStyle := WS_CHILD | (InStr(Style, "Hidden") ? 0 : WS_VISIBLE) | WS_TABSTOP
+    hStyle := WS_CHILD | (VISIBILITY := InStr(Styles, "Hidden") ? 0 : WS_VISIBLE) | WS_TABSTOP
 
     if Styles
         Loop, Parse, Styles, %a_tab%%a_space%, %a_tab%%a_space%
-            hStyle |= %a_loopfield%+0 ? %a_loopfield% : WS_%a_loopfield%
+            hStyle |= %a_loopfield%+0 ? %a_loopfield% : WS_%a_loopfield% ? WS_%a_loopfield% : 0
 
     hSci:=DllCall("CreateWindowEx"
-                 ,Uint ,WS_EX_CLIENTEDGE    ; Ex Style
-                 ,Str  ,"Scintilla"         ; Class Name
-                 ,Str  ,""                  ; Window Name
-                 ,UInt ,hStyle              ; Window Styles
-                 ,Int  ,x ? x : 5           ; x
-                 ,Int  ,y ? y : 15          ; y
-                 ,Int  ,w ? w : 390         ; Width
-                 ,Int  ,h ? h : 270         ; Height
-                 ,UInt ,hParent             ; Parent HWND
-                 ,UInt ,GuiID               ; (HMENU)GuiID
-                 ,UInt ,NULL                ; hInstance
-                 ,UInt ,NULL, "UInt")       ; lpParam
+                 ,Uint ,WS_EX_CLIENTEDGE        ; Ex Style
+                 ,Str  ,"Scintilla"             ; Class Name
+                 ,Str  ,""                      ; Window Name
+                 ,UInt ,hStyle                  ; Window Styles
+                 ,Int  ,x ? x : 5               ; x
+                 ,Int  ,y ? y : 15              ; y
+                 ,Int  ,w ? w : 390             ; Width
+                 ,Int  ,h ? h : 270             ; Height
+                 ,UInt ,hParent                 ; Parent HWND
+                 ,UInt ,GuiID                   ; (HMENU)GuiID
+                 ,UInt ,NULL                    ; hInstance
+                 ,UInt ,NULL, "UInt")           ; lpParam
 
-                 ,SCI(hSci, True)           ; used to check if that handle exist.
+                 ,SCI(hSci, True)               ; used to check if that handle exist.
+                 ,SCI_sendEditor(hSci)          ; initialize SCI_sendEditor function
                  ,IsFunc(MsgHandler) ? SCI(hSci "MsgHandler", MsgHandler)
-                ;,SCI_sendEditor(0,0,0,hSci) ; initialize SCI_sendEditor function
 
     return hSci
 }
 
-; Group: Style Definition [General]
+/*  Group: Text Manipulation
+    Group of funtions that handle the text in the scintilla component.
+
+    <http://www.scintilla.org/ScintillaDoc.html#TextRetrievalAndModification>
+
+    Each byte in a Scintilla document is followed by an associated byte of styling information. The combination of
+    a character byte and a style byte is called a cell. Style bytes are interpreted an index into an array of
+    styles.
+
+    Style bytes may be split into an index and a set of indicator bits but this use is discouraged and indicators
+    should now use *SCI_INDICATORFILLRANGE* and related calls. The default split is with the index in the low 5
+    bits and 3 high bits as indicators. This allows 32 fundamental styles, which is enough for most languages, and
+    three independent indicators so that, for example, syntax errors, deprecated names and bad indentation could
+    all be displayed at once. The number of bits used for styles can be altered with *SCI_SETSTYLEBITS* up to a
+    maximum of 8 bits. The remaining bits can be used for indicators.
+
+    In this document, 'character' normally refers to a byte even when multi-byte characters are used. Lengths
+    measure the numbers of bytes, not the amount of characters in those bytes.
+
+    Positions within the Scintilla document refer to a character or the gap before that character. The first
+    character in a document is 0, the second 1 and so on. If a document contains nLen characters, the last
+    character is numbered nLen-1. The caret exists between character positions and can be located from before the
+    first character (0) to after the last character (nLen).
+
+    There are places where the caret can not go where two character bytes make up one character. This occurs when a
+    DBCS character from a language like Japanese is included in the document or when line ends are marked with the
+    CP/M standard of a carriage return followed by a line feed. The *INVALID_POSITION* constant (-1) represents an
+    invalid position within the document.
+
+    All lines of text in Scintilla are the same height, and this height is calculated from the largest font in any
+    current style. This restriction is for performance; if lines differed in height then calculations involving
+    positioning of text would require the text to be styled first.
+*/
+
+; Group: General Text Functions
+
+; /* need work
+    ; Function: ReplaceSel
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_REPLACESEL>
+
+    ; The currently selected text between the anchor and the current position is replaced by the 0 terminated text
+    ; string. If the anchor and current position are the same, the text is inserted at the caret position. The caret
+    ; is positioned after the inserted text and the caret is scrolled into view.
+
+    ; Parameters:
+    ; SCI_ReplaceSel(str[, hwnd])
+
+    ; str     -   String of text to use for replacing the current selection.
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+
+    ; Examples:
+    ; >SCI_ReplaceSel("replace current text with this", hSci)
+; */
+; SCI_ReplaceSel(str, hwnd=0){
+    ; return
+; }
+
+; /* need work
+    ; Function: Allocate
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_ALLOCATE>
+
+    ; Allocate a document buffer large enough to store a given number of bytes. The document will not be made
+    ; smaller than its current contents.
+
+    ; Parameters:
+    ; SCI_Allocate(nBytes[, hwnd])
+
+    ; nBytes  -   Number of bytes to allocate for the document buffer.
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+
+    ; Examples:
+    ; >SCI_Allocate(1024, hSci)
+; */
+; SCI_Allocate(nBytes, hwnd=0){
+    ; return
+; }
+
+/*
+    Function: AddText
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_ADDTEXT>
+
+    This inserts the first *len* characters from the string *aStr* at the current position.
+    The current position is set at the end of the inserted text, but it is *not* scrolled into view.
+
+    Parameters:
+    SCI_AddText(aStr[, len, hwnd])
+
+    aStr    -   The string to be added to the component at current caret position.
+    len     -   Lenght of the string that will be added to the component. If 0 or blank it will be calculated
+                automatically using StrLen()
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    Zero - Nothing is returned by this function.
+
+    Examples:
+    (start code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h)
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    SCI_AddText(x:="my text",StrLen(x), hSci)
+    return
+    ;---------------------
+
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h)
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    
+    ; stores "This is my truncated text".
+    SCI_AddText("This is my truncated text, this is not added!",25)
+    return
+    ;---------------------
+
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h)
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    
+    ; In this example the whole text is stored because the length is calculated internally.
+    SCI_AddText("This is my truncated text, this is added!")
+    return
+    (end)
+*/
+SCI_AddText(aStr, len=0, hwnd=0){
+
+    a_isunicode ? (VarSetCapacity(aStrA, StrPut(aStr, "CP0")), StrPut(aStr, &aStrA, "CP0"))
+    return SCI_sendEditor(hwnd, "SCI_ADDTEXT", len ? len : strLen(aStr), a_isunicode ?  &aStrA : &aStr)
+}
+
+; /* need work
+    ; Function: AddStyledText
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_ADDSTYLEDTEXT>
+
+    ; This behaves just like <AddText()>, but inserts styled text.
+
+    ; Parameters:
+    ; SCI_AddText(cell[, len, hwnd])
+
+    ; cell    -   The styled string cell to be added to the component at current caret position.
+    ; len     -   lenght of the string that will be added to the component. If 0 or blank it will be calculated
+                ; automatically using StrLen()
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+
+    ; Examples:
+; */
+; SCI_AddStyledText(cell, len=0, hwnd=0){
+
+    ; a_isunicode ? (VarSetCapacity(cellA, StrPut(cell, "CP0")), StrPut(cell, &cellA, "CP0"))
+    ; return SCI_sendEditor(hwnd, "SCI_ADDSTYLEDTEXT", len ? len : strLen(cell), a_isunicode ?  &cellA : &cell)
+; }
+
+/*
+    Function: AppendText
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_APPENDTEXT>
+    
+    This adds the first *len* characters from the string *aStr* to the end of the document. 
+    The current selection is not changed and the new text is *not* scrolled into view.
+    
+    Parameters:
+    SCI_AddText(aStr[, len, hwnd])
+
+    aStr    -   The string to be appended to the end  of the current document on the selected component.
+    len     -   Lenght of the string that will be added to the component. If 0 or blank it will be calculated
+                automatically using StrLen()
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+
+    Returns:
+    Zero - Nothing is returned by this function.
+
+    Examples:
+    (start code)
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h)
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    SCI_AppendText(x:="my text",StrLen(x), hSci)
+    return
+    ;---------------------
+
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h)
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    
+    ; stores "This is my truncated text".
+    SCI_AppendText("This is my truncated text, this is not added!",25)
+    return
+    ;---------------------
+
+    #include ../SCI.ahk
+    
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h)
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    
+    ; In this example the whole text is stored because the length is calculated internally.
+    SCI_AppendText("This is my truncated text, this is added!")
+    return
+    (end)
+*/
+SCI_AppendText(aStr, len=0, hwnd=0){
+    
+    a_isunicode ? (VarSetCapacity(aStrA, StrPut(aStr, "CP0")), StrPut(aStr, &aStrA, "CP0"))
+    return SCI_sendEditor(hwnd, "SCI_APPENDTEXT", len ? len : strLen(aStr), a_isunicode ?  &aStrA : &aStr)
+}
+
+; /* need work
+    ; Function: InsertText
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_INSERTTEXT>
+    
+    ; This inserts the text string at position *pos* or at the current position  if pos is not specified. 
+    ; If the current position is after the insertion point then it is moved along  with its surrounding text 
+    ; but no scrolling is performed.
+    
+    ; Parameters:
+    ; SCI_InsertText(iStr[, pos,hwnd])
+    
+    ; iStr    -   String of text to be inserted.
+    ; pos     -   Position where the text is to be inserted. If not specified it defaults to current caret position.
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+
+    ; Returns:
+    ; Zero - Nothing is returned by this function.
+    
+    ; Examples:
+; */
+; SCI_InsertText(iStr, pos=-1,hwnd=0){
+    ; return
+; }
+
+/*
+    Function: ClearAll
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_CLEARALL>
+    
+    Unless the document is read-only, this deletes all the text.
+    
+    Parameters:
+    SCI_ClearAll([hwnd])
+    
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+    
+    Returns:
+    Zero - Nothing is returned by this function.
+    
+    Examples:
+    >SCI_ClearAll(hSci)
+*/
+SCI_ClearAll(hwnd=0){
+    
+    return SCI_sendEditor(hwnd, "SCI_CLEARALL")
+}
+
+/*
+    Function: ClearDocumentStyle
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_CLEARDOCUMENTSTYLE>
+    
+    When wanting to completely restyle the document, for example after choosing a lexer, the 
+    *ClearDocumentStyle()* can be used to clear all styling information and reset the folding state.
+    
+    Parameters:
+    SCI_ClearDocumentStyle([hwnd])
+    
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
+                
+    Returns:
+    Zero - Nothing is returned by this function.
+    
+    Examples:
+    >SCI_ClearDocumentStyle(hSci)
+*/
+SCI_ClearDocumentStyle(hwnd=0){
+    
+    return SCI_sendEditor(hwnd, "SCI_CLEARDOCUMENTSTYLE")
+}
+
+; /* need work
+    ; Function: TargetAsUTF8
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_TARGETASUTF8>
+    
+    ; This function retrieves the value of the target encoded as UTF-8, so is useful for retrieving text for use in 
+    ; other parts of the user interface, such as find and replace dialogs. The length of the encoded text in bytes 
+    ; is returned. 
+    
+    ; Parameters:
+    ; SCI_TargetAsUTF8(tStr[, hwnd])
+    
+    ; tStr    -   Target string that will be converted to UTF-8 encoding.
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+                
+    ; Returns:
+    ; utfLen  -   Length of the encoded text in bytes. 
+    
+    ; Example:
+; */
+; SCI_TargetAsUTF8(tStr, hwnd=0){
+    
+    ; return
+; }
+
+; /* need work
+    ; Function: EncodedFromUTF8
+    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_ENCODEDFROMUTF8>
+    
+    ; *EncodedFromUTF8()* converts a UTF-8 string into the document's encoding which is useful for taking the 
+    ; results of a find dialog, for example, and receiving a string of bytes that can be searched for in the 
+    ; document. Since the text can contain nul bytes, the <SetLengthForEncode()> function can be used to set the 
+    ; length that will be converted. If set to -1, the length is determined by finding a nul byte. The length of the 
+    ; converted string is returned.
+    
+    ; Parameters:
+    ; SCI_EncodedFromUTF8(utf8Str, encStr[, hwnd])
+    
+    ; utf8Str -
+    ; encStr  -
+    ; hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                ; Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                ; so you can specify it once and only specify it again when you want to operate on a different
+                ; component.
+    
+    ; Examples:
+; */
+; SCI_EncodedFromUTF8(utf8Str, encStr, hwnd=0){
+    ; return
+; }
+
+/* Group: Style Definition
+    <http://www.scintilla.org/ScintillaDoc.html#StyleDefinition>
+
+    While the style setting messages mentioned above change the style numbers associated with text, these messages
+    define how those style numbers are interpreted visually. There are 256 lexer styles that can be set, numbered 0
+    to *STYLE_MAX* (255). Unless you use *SCI_SETSTYLEBITS* to change the number of style bits,
+    styles 0 to 31 are used to set the text attributes. There are also some predefined numbered styles starting at
+    32, The following *STYLE_** constants are defined:
+
+    - *STYLE_DEFAULT*       (32) This style defines the attributes that all styles receive when the
+    *SCI_STYLECLEARALL* message is used.
+
+    - *STYLE_LINENUMBER*    (33) This style sets the attributes of the text used to display line numbers in a line
+    number margin. The background colour set for this style also sets the background colour for all margins that do
+    not have any folding mask bits set. That is, any margin for which mask & *SC_MASK_FOLDERS* is 0. See
+    *SCI_SETMARGINMASKN* for more about masks.
+
+    - *STYLE_BRACELIGHT*    (34) This style sets the attributes used when highlighting braces with the
+    *SCI_BRACEHIGHLIGHT* message and when highlighting the corresponding indentation with *SCI_SETHIGHLIGHTGUIDE*.
+
+    - *STYLE_BRACEBAD*      (35) This style sets the display attributes used when marking an unmatched brace with the
+    *SCI_BRACEBADLIGHT* message.
+
+    - *STYLE_CONTROLCHAR*   (36) This style sets the font used when drawing control characters. Only the font, size,
+    bold, italics, and character set attributes are used and not the colour attributes. See also:
+    *SCI_SETCONTROLCHARSYMBOL*.
+
+    - *STYLE_INDENTGUIDE*   (37) This style sets the foreground and background colours used when drawing the
+    indentation guides.
+
+    - *STYLE_CALLTIP*       (38) Call tips normally use the font attributes defined by *STYLE_DEFAULT*. Use of
+    *SCI_CALLTIPUSESTYLE* causes call tips to use this style instead. Only the font face name, font size, foreground
+    and background colours and character set attributes are used.
+
+    - *STYLE_LASTPREDEFINED* (39) To make it easier for client code to discover the range of styles that are
+    predefined, this is set to the style number of the last predefined style. This is currently set to 39 and the
+    last style with an identifier is 38, which reserves space for one future predefined style.
+
+    - *STYLE_MAX*           (255) This is not a style but is the number of the maximum style that can be set. Styles
+    between *STYLE_LASTPREDEFINED* and *STYLE_MAX* would be appropriate if you used *SCI_SETSTYLEBITS* to set more
+    than 5 style bits.
+
+    For each style you can set the font name, size and use of bold, italic and underline, foreground and background colour and the character set. You can also choose to hide text with a given style, display all characters as upper or lower case and fill from the last character on a line to the end of the line (for embedded languages). There is also an experimental attribute to make text read-only.
+
+    It is entirely up to you how you use styles. If you want to use syntax colouring you might use style 0 for white space, style 1 for numbers, style 2 for keywords, style 3 for strings, style 4 for preprocessor, style 5 for operators, and so on.
+*/
+
+; Group: General Style Functions
 
 /*
     Function: StyleResetDefault
@@ -170,7 +597,7 @@ SCI_StyleClearAll(hwnd=0){
     return SCI_sendEditor(hwnd, "SCI_STYLECLEARALL")
 }
 
-; Group: Style Definition [Set]
+; Group: Set Style Functions
 
 /*
     Function: StyleSetFont
@@ -769,7 +1196,7 @@ SCI_StyleSetHotspot(stNumber, hMode, hwnd=0){
     return SCI_sendEditor(hwnd, "SCI_STYLESETHOTSPOT", stNumber, hMode)
 }
 
-; Group: Style Definition [Get]
+; Group: Get Style Functions
 
 /*
     Function: StyleGetFont
@@ -1236,6 +1663,27 @@ SCI_StyleGetHotspot(stNumber, hwnd=0){
     return SCI_sendEditor(hwnd, "SCI_STYLEGETHOTSPOT", stNumber)
 }
 
+/*
+    Group: Margins
+    <http://www.scintilla.org/ScintillaDoc.html#Margins>
+
+    There may be up to five margins to the left of the text display, plus a gap either side of the text. Each
+    margin can be set to display either symbols or line numbers with <SetMarginTypeN()>. The markers that can be
+    displayed in each margin are set with <SetMarginMaskN()>. Any markers not associated with a visible margin will
+    be displayed as changes in background colour in the text. A width in pixels can be set for each margin. Margins
+    with a zero width are ignored completely. You can choose if a mouse click in a margin sends a *SCN_MARGINCLICK*
+    notification to the container or selects a line of text.
+
+    The margins are numbered 0 to 4. Using a margin number outside the valid range has no effect. By default,
+    margin 0 is set to display line numbers, but is given a width of 0, so it is hidden. Margin 1 is set to display
+    non-folding symbols and is given a width of 16 pixels, so it is visible. Margin 2 is set to display the folding
+    symbols, but is given a width of 0, so it is hidden. Of course, you can set the margins to be whatever you wish.
+
+    Styled text margins used to show revision and blame information::
+
+    (see styledmargin.png)
+*/
+
 ; Group: Margins [Set]
 
 /*
@@ -1320,7 +1768,39 @@ SCI_GetMarginWidthN(mar, hwnd=0){
     return SCI_SendEditor(hwnd, "SCI_GETMARGINWIDTHN", mar)
 }
 
-; Group: Line wrapping [Set]
+/*
+    Group: Line Wrapping
+    <http://www.scintilla.org/ScintillaDoc.html#LineWrapping>
+
+    By default, Scintilla does not wrap lines of text. If you enable line wrapping, lines wider than the window
+    width are continued on the following lines. Lines are broken after space or tab characters or between runs of
+    different styles. If this is not possible because a word in one style is wider than the window then the break
+    occurs after the last character that completely fits on the line. The horizontal scroll bar does not appear
+    when wrap mode is on.
+
+    For wrapped lines Scintilla can draw visual flags (little arrows) at end of a a subline of a wrapped line and
+    at begin of the next subline. These can be enabled individually, but if Scintilla draws the visual flag at the
+    beginning of the next subline this subline will be indented by one char. Independent from drawing a visual flag
+    at the begin the subline can have an indention.
+
+    Much of the time used by Scintilla is spent on laying out and drawing text. The same text layout calculations
+    may be performed many times even when the data used in these calculations does not change. To avoid these
+    unnecessary calculations in some circumstances, the line layout cache can store the results of the
+    calculations. The cache is invalidated whenever the underlying data, such as the contents or styling of the
+    document changes. Caching the layout of the whole document has the most effect, making dynamic line wrap as
+    much as 20 times faster but this requires 7 times the memory required by the document contents plus around 80
+    bytes per line.
+
+    Wrapping is not performed immediately there is a change but is delayed until the display is redrawn. This delay
+    improves peformance by allowing a set of changes to be performed and then wrapped and displayed once. Because
+    of this, some operations may not occur as expected. If a file is read and the scroll position moved to a
+    particular line in the text, such as occurs when a container tries to restore a previous editing session, then
+    the scroll position will have been determined before wrapping so an unexpected range of text will be displayed.
+    To scroll to the position correctly, delay the scroll until the wrapping has been performed by waiting for an
+    initial *SCN_PAINTED* notification.
+*/
+
+; Group: Line Wrapping [Set]
 
 /*
     Function: SetWrapMode
@@ -1362,7 +1842,7 @@ SCI_SetWrapMode(wMode=1, hwnd=0){
     return SCI_SendEditor(hwnd, "SCI_SETWRAPMODE", wMode)
 }
 
-; Group: Line wrapping [Get]
+; Group: Line Wrapping [Get]
 
 /*
     Function: GetWrapMode
@@ -1405,9 +1885,22 @@ SCI_GetWrapMode(hwnd=0){
     return SCI_sendEditor(hwnd, "SCI_GETWRAPMODE")
 }
 
+/*
+    Group: Lexer
+    <http://www.scintilla.org/ScintillaDoc.html#Lexer>
+
+    If you define the symbol *SCI_LEXER* when building Scintilla, (this is sometimes called the SciLexer version of
+    Scintilla), lexing support for a wide range of programming languages is included and the messages in this
+    section are supported. If you want to set styling and fold points for an unsupported language you can either do
+    this in the container or better still, write your own lexer following the pattern of one of the existing ones.
+
+    Scintilla also supports external lexers. These are DLLs (on Windows) or .so modules (on GTK+/Linux) that export
+    three functions: GetLexerCount, GetLexerName, and GetLexerFactory. See externalLexer.cxx for more.
+*/
+
 ; Group: Lexer [General]
 
-; /*
+; /* need work
     ; Function: LoadLexerLibrary
     ; <http://www.scintilla.org/ScintillaDoc.html#SCI_LOADLEXERLIBRARY>
 
@@ -1436,72 +1929,80 @@ SCI_GetWrapMode(hwnd=0){
     ; return SCI_SendEditor(hwnd, "SCI_LOADLEXERLIBRARY", 0, a_isunicode ? &lPathA : &lPath)
 ; }
 
-; /*
-    ; Function: _Colorise
-    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_COLOURISE>
+/*
+    Function: Colorise
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_COLOURISE>
 
-    ; This requests the current lexer or the container (if the lexer is set to SCLEX_CONTAINER)
-    ; to style the document between stPos and endPos. If endPos is -1, the document is styled from
-    ; stPos to the end.
+    This requests the current lexer or the container (if the lexer is set to *SCLEX_CONTAINER*)
+    to style the document between stPos and endPos. If endPos is -1, the document is styled from
+    stPos to the end.
 
-    ; Parameters:
-    ; >SCI_Colorise(stPos, endPos)
+    Parameters:
+    SCI_Colorise(stPos, endPos[, hwnd])
 
-    ; stPos   -   Starting position where to begin colorizing.
-    ; endPos  -   End position.
+    stPos   -   Starting position where to begin colorizing.
+    endPos  -   End position.
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
 
-    ; Returns:
-    ; Zero - Nothing is returned by this function.
+    Returns:
+    Zero - Nothing is returned by this function.
 
-    ; Examples:
-    ; >SCI_Colorise(0,-1)
-; */
-; SCI_Colorise(stPos, endPos){
-    ; global
-    ; return SCI_SendEditor(SCI_COLORISE, stPos, endPos)
-; }
+    Examples:
+    >SCI_Colorise(0,-1)
+*/
+SCI_Colorise(stPos, endPos, hwnd=0){
 
-; /*
-    ; Function: _ChangeLexerState
-    ; <http://www.scintilla.org/ScintillaDoc.html#SCI_CHANGELEXERSTATE>
+    return SCI_SendEditor(hwnd, "SCI_COLORISE", stPos, endPos)
+}
 
-    ; Indicate that the internal state of a lexer has changed over a range and therefore there may be
-    ; a need to redraw.
+/*
+    Function: ChangeLexerState
+    <http://www.scintilla.org/ScintillaDoc.html#SCI_CHANGELEXERSTATE>
 
-    ; Parameters:
-    ; >SCI_ChangeLexerState(stPos, endPos)
+    Indicate that the internal state of a lexer has changed over a range and therefore there may be
+    a need to redraw.
 
-    ; stPos   -   Starting position where to begin colorizing.
-    ; endPos  -   End position.
+    Parameters:
+    SCI_ChangeLexerState(stPos, endPos[, hwnd])
 
-    ; Returns:
-    ; Zero - Nothing is returned by this function.
+    stPos   -   Starting position where to begin colorizing.
+    endPos  -   End position.
+    hwnd    -   The hwnd of the control that you want to operate on. Useful for when you have more than 1
+                Scintilla components in the same script. The wrapper will remember the last used hwnd,
+                so you can specify it once and only specify it again when you want to operate on a different
+                component.
 
-    ; Examples:
-    ; >SCI_ChangeLexerState(5,10)
-; */
-; SCI_ChangeLexerState(stPos, endPos){
-    ; global
-    ; return SCI_SendEditor(SCI_CHANGELEXERSTATE, stPos, endPos)
-; }
+    Returns:
+    Zero - Nothing is returned by this function.
+
+    Examples:
+    >SCI_ChangeLexerState(5,10)
+*/
+SCI_ChangeLexerState(stPos, endPos, hwnd=0){
+
+    return SCI_SendEditor(hwnd, "SCI_CHANGELEXERSTATE", stPos, endPos)
+}
 
 ; Group: Lexer [Set]
 
 /*
     Function: SetLexer
     <http://www.scintilla.org/ScintillaDoc.html#SCI_SETLEXER>
-    
-    You can select the lexer to use with an integer code from the SCLEX_* enumeration in Scintilla.h. 
-    There are two codes in this sequence that do not use lexers: *SCLEX_NULL* to select no lexing action and 
-    *SCLEX_CONTAINER* which sends the *SCN_STYLENEEDED* notification to the container whenever a range of text 
-    needs to be styled. 
-    You cannot use the *SCLEX_AUTOMATIC* value; this identifies additional external lexers that Scintilla assigns 
+
+    You can select the lexer to use with an integer code from the SCLEX_* enumeration in Scintilla.h.
+    There are two codes in this sequence that do not use lexers: *SCLEX_NULL* to select no lexing action and
+    *SCLEX_CONTAINER* which sends the *SCN_STYLENEEDED* notification to the container whenever a range of text
+    needs to be styled.
+    You cannot use the *SCLEX_AUTOMATIC* value; this identifies additional external lexers that Scintilla assigns
     unused lexer numbers to.
-    
+
     Parameters:
     SCI_SetLexer(lNumber[, hwnd])
-    
-    lNumber     -   The number of the lexer that you want to use (if you are loading SciLexer.dll) which can be 
+
+    lNumber     -   The number of the lexer that you want to use (if you are loading SciLexer.dll) which can be
                     a number between *SCLEX_CONTAINER* (0) and SCLEX_BLITZMAX (78) the available lexers are:
                     - SCLEX_CONTAINER (0)
                     - SCLEX_NULL (1)
@@ -1587,12 +2088,30 @@ SCI_GetWrapMode(hwnd=0){
 
     Returns:
     Zero - Nothing is returned by this function.
-    
+
     Examples:
-    
+    (Start Code)
+    ; The scintilla component will colorize any of the keywords below as blue and bold, using the
+    ; internal C++ Lexer.
+    #include ../SCI.ahk
+
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    SCI_SetLexer("SCLEX_CPP")
+    SCI_StyleClearAll()
+
+    SCI_SetKeywords(0, "if else switch case default break goto return for while do continue typedef sizeof NULL new delete throw try catch namespace operator this const_cast static_cast dynamic_cast reinterpret_cast true false using typeid and and_eq bitand bitor compl not not_eq or or_eq xor xor_eq")
+
+    SCI_StyleSetFore(5, "blue")
+    SCI_StyleSetBold(5, True)
+    return
+    (End)
 */
 SCI_SetLexer(lNumber, hwnd=0){
-    
+
     return SCI_sendEditor(hwnd, "SCI_SETLEXER", lNumber)
 }
 
@@ -1618,19 +2137,28 @@ SCI_SetLexer(lNumber, hwnd=0){
 
     Examples:
     (Start Code)
-    kList =
-    (LTrim
-        word
-        word2
-        anotherword
-    )
-    SCI_SetKeywords(0, kList)
-    SCI_SetKeywords(KEYWORDSET_MAX, kList:="word`nword2`nanotherword")
+    ; The scintilla component will colorize any of the keywords below as blue and bold, using the
+    ; internal C++ Lexer.
+    #include ../SCI.ahk
+
+    Gui +LastFound
+    hwnd:=WinExist()
+    hSci1:=SCI_Add(hwnd, x, y, w, h, "WS_CHILD WS_VISIBLE")
+    Gui, show, w400 h300
+    SCI_SetWrapMode(True, hSci1)
+    SCI_SetLexer("SCLEX_CPP")
+    SCI_StyleClearAll()
+
+    SCI_SetKeywords(0, "if else switch case default break goto return for while do continue typedef sizeof NULL new delete throw try catch namespace operator this const_cast static_cast dynamic_cast reinterpret_cast true false using typeid and and_eq bitand bitor compl not not_eq or or_eq xor xor_eq")
+
+    SCI_StyleSetFore(5, "blue")
+    SCI_StyleSetBold(5, True)
+    return
     (End)
 */
 SCI_SetKeywords(kSet, kList, hwnd=0){
 
-    a_isunicode ? (VarSetCapacity(kListA, StrPut(lPath, "CP0")), StrPut(lPath, &kListA, "CP0"))
+    a_isunicode ? (VarSetCapacity(kListA, StrPut(kList, "CP0")), StrPut(kList, &kListA, "CP0"))
     return SCI_SendEditor(hwnd, "SCI_SETKEYWORDS", kSet, a_isunicode ? &kListA : &kList)
 }
 
@@ -1693,7 +2221,7 @@ SCI(var, val=""){
     SCI_sendEditor(hSci2, "SCI_SETMARGINWIDTHN",0,50)  ; Set the margin 0 to 50px on the second component.
     (End)
 */
-SCI_sendEditor(hwnd, msg, wParam=0, lParam=0){
+SCI_sendEditor(hwnd, msg=0, wParam=0, lParam=0){
     static
 
     hwnd := !hwnd ? oldhwnd : hwnd, oldhwnd := hwnd
@@ -1875,7 +2403,7 @@ SCI_sendEditor(hwnd, msg, wParam=0, lParam=0){
         SCLEX_SPECMAN:=59,SCLEX_AU3:=60,SCLEX_APDL:=61,SCLEX_BASH:=62,SCLEX_ASN1:=63,SCLEX_VHDL:=64
         SCLEX_CAML:=65,SCLEX_BLITZBASIC:=66,SCLEX_PUREBASIC:=67,SCLEX_HASKELL:=68,SCLEX_PHPSCRIPT:=69
         SCLEX_TADS3:=70,SCLEX_REBOL:=71,SCLEX_SMALLTALK:=72,SCLEX_FLAGSHIP:=73,SCLEX_CSOUND:=74
-        SCLEX_FREEBASIC:=75,SCLEX_INNOSETUP:=76,SCLEX_OPAL:=77,SCLEX_BLITZMAX:=78,SCLEX_AUTOMATIC:=1000
+        SCLEX_FREEBASIC:=75,SCLEX_INNOSETUP:=76,SCLEX_OPAL:=77,SCLEX_BLITZMAX:=78,SCLEX_AUTOMATIC:=1000,init:=True
     }
 
     if !%hwnd%_df
@@ -1886,9 +2414,12 @@ SCI_sendEditor(hwnd, msg, wParam=0, lParam=0){
         %hwnd%_dp := ErrorLevel
 	}
 
+    if !msg && !wParam && !lParam   ; called only with the hwnd param from SCI_Add
+        return                      ; Exit because we did what we needed to do already.
+
     ; The fast way to control Scintilla
-    return DllCall(%hwnd%_df
-                  ,"UInt" ,%hwnd%_dp
+    return DllCall(%hwnd%_df            ; DIRECT FUNCTION
+                  ,"UInt" ,%hwnd%_dp    ; DIRECT POINTER
                   ,"Int"  ,%msg%
                   ,"UInt" ,%wParam% ? %wParam% : wParam
                   ,"UInt" ,%lParam% ? %lParam% : lParam)

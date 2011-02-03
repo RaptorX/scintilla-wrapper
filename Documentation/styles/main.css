@@ -55,7 +55,7 @@ img { border: 0;  }
     indented.)
 */
 p {
-    text-indent: 0ex; margin-top: 5px; }
+    margin: 0 }
 
 
 /*  Opera doesn't break with just wbr, but will if you add this.  */
