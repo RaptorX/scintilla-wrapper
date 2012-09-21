@@ -1,0 +1,35 @@
+Versioning:
+    Main.Feature.Changes.Bugs
+
+Legend:
+==================
+    + Add
+    - Remove
+    ! Fix
+    * Change
+    ^ Update
+    % Test
+    & Enable
+    $ Disable
+==================
+
+commit 594c41887fa00a015f2ff1290ccd29ac44a7f986
+Author: RaptorX <graptorx@gmail.com>
+Date:   Fri Sep 21 23:36:39 2012 +0200
+
+    Scintilla Wrapper v1.0
+    
+    Changes:
+    
+    + Basic Functionality
+    
+    Todo:
+    
+    + Add support for messages that use structures
+    + Add Documentation
+
+commit c89a08d6dc6f22e5b059279471e6d0ed2b1bc4a5
+Author: RaptorX <graptorx@gmail.com>
+Date:   Sat Jan 21 21:06:50 2012 +0100
+
+    Initial Commit
