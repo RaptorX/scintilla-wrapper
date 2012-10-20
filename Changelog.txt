@@ -1,0 +1,59 @@
+Versioning:
+    Main.Feature.Changes.Bugs
+
+Legend:
+==================
+    + Add
+    - Remove
+    ! Fix
+    * Change
+    ^ Update
+    % Test
+    & Enable
+    $ Disable
+==================
+
+commit d9a449fcc08f8e33a48b550ba6c6bd9d57365187
+Merge: a18a62e 1a868ee
+Author: RaptorX <graptorx@gmail.com>
+Date:   Sat Oct 20 07:04:49 2012 +0200
+
+    Merge branch 'rewrite'
+    
+    Conflicts:
+    	Examples/SciLexer.dll
+    	SCI.ahk
+
+commit a18a62e180aa61e3435c4f95b00ee8b8a4fd9574
+Author: RaptorX <graptorx@gmail.com>
+Date:   Sat Oct 20 06:51:34 2012 +0200
+
+    t
+
+commit c7641cbdf6b89b917ec1b826a89978ce45f6fe24
+Author: RaptorX <graptorx@gmail.com>
+Date:   Fri Sep 16 01:22:02 2011 +0200
+
+    +5 functions
+
+commit 1a868eee88ffad70716d72933eeb69e62dfffa1c
+Author: RaptorX <graptorx@gmail.com>
+Date:   Fri Sep 21 23:36:39 2012 +0200
+
+    Scintilla Wrapper v1.0
+    
+    Changes:
+    
+    + Add Basic Functionality
+    + Add Examples
+    
+    Todo:
+    
+    + Add support for messages that use structures
+    + Add Documentation
+
+commit c89a08d6dc6f22e5b059279471e6d0ed2b1bc4a5
+Author: RaptorX <graptorx@gmail.com>
+Date:   Sat Jan 21 21:06:50 2012 +0100
+
+    Initial Commit
