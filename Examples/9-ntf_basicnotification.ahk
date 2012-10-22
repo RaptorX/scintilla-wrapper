@@ -3,29 +3,28 @@
 
 /*
     ---------------------
-    This is an example of how to highlight without selecting a pre-existing lexer.
-    In this example we will manually tell scintilla which positions to color.
+    In this example we will catch the scintilla notifications.
+    For that we just have to set the variable sciObj.notify with the name of a custom function which will be called
+    whenever a scintilla message is sent.
 
-    In this case we use SCLEX_CONTAINER to tell scintilla that we will manually do the coloring.
-    I set some random text in the control, set some styles and use the Search Label together with a simple search function
-    To tell scintilla what to color.
+    There are some variables in the main object that are set by different messages. Please read the code for information on this.
 */
 
 Gui +LastFound
 sci := new scintilla(WinExist())
 
 ; Set some options
-sci.SetWrapMode(true), sci.Notify := "Notify"   ; The notify option tells the wrapper which function to call when WM_NOTIFY is sent
+sci.SetWrapMode(true), sci.Notify := "Notify" ; The notify option tells the wrapper which function to call when WM_NOTIFY is sent
 
-Gui, Show,  w600 h400
+Gui, Show, w600 h400
 return
 
 GuiClose:
-    ExitApp
-    
+ExitApp
+
 Notify(wParam, lParam, msg, hwnd, obj){
-    
-    if (obj.scnCode = SCN_CHARADDED)
-        tooltip % chr(obj.ch)
-    return
+
+if (obj.scnCode = SCN_CHARADDED)
+tooltip % chr(obj.ch) ; obj is in this case the scintilla object above. The obj.sc variable contains the latest character added to the control
+return
 }

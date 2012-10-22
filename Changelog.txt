@@ -13,75 +13,52 @@ Legend:
     $ Disable
 ==================
 
-commit abc9eeb1bf2691f8808780ceb682191236ebddb6
-Author: RaptorX <graptorx@gmail.com>
-Date:   Mon Oct 22 12:50:00 2012 +0200
+Scintilla Wrapper v1.4.2.3
+Date: Tue Oct 23 01:35:23 2012 +0200     
 
-    Scintilla Wrapper v1.4.2.2
-    
     Changes:
-    
+
+    ! Fix temporal object in __sciNotify() function to avoid conflict
+
+    Todo:
+
+    + Add support for messages that use structures
+    + Add Documentation
+
+Scintilla Wrapper v1.4.2.2
+Date: Mon Oct 22 12:50:00 2012 +0200     
+
+    Changes:
+
     + Add onMessage notify example
     + Add classes that emulate scintilla structures
     + Add notify functionality for use with OnMessage()
     + Add option to use function by id and not by name
-        e.g. sci.2268(true) or sci.SetWrapMode(true)
-        Both would do the same thing. Shorter code vs Readability, you choose.
-    
+       e.g. sci.2268(true) or sci.SetWrapMode(true)
+       Both would do the same thing. Shorter code vs Readability, you choose.
+
     - Remove scintilla variables from __SCI()
     - Remove __Add() function msgHandler parameter
-    
+
     * Change move all scintilla variables to super-global namespace
     ^ Update examples
-    
+
     ! Fix __SCI() check for valid variable name
     ! Fix sciObj.Add to store handle in __SCI() function
-    
+
     Todo:
-    
+
     + Add support for messages that use structures
     + Add Documentation
 
-commit d56c95cb6ed7415a8d9033424d3244ad4c58ddb1
-Author: RaptorX <graptorx@gmail.com>
-Date:   Sat Oct 20 08:44:45 2012 +0200
+Scintilla Wrapper v1.0.1
+Date: Sat Oct 20 08:44:45 2012 +0200     
 
-    Scintilla Wrapper v1.0.1
-    
     Changes:
-    
+
     * Change Examples to be more clear
-    
+
     Todo:
-    
+
     + Add support for messages that use structures
     + Add Documentation
-
-commit 353b4679e279591d9b9278ae4261ca412fcca2f7
-Merge: a18a62e 1a868ee
-Author: RaptorX <graptorx@gmail.com>
-Date:   Sat Oct 20 07:04:49 2012 +0200
-
-    Scintilla Wrapper v1.0
-    
-    Changes:
-    
-    + Add Basic Functionality
-    + Add Examples
-    
-    Todo:
-    
-    + Add support for messages that use structures
-    + Add Documentation
-
-commit a18a62e180aa61e3435c4f95b00ee8b8a4fd9574
-Author: RaptorX <graptorx@gmail.com>
-Date:   Sat Oct 20 06:51:34 2012 +0200
-
-    t
-
-commit c7641cbdf6b89b917ec1b826a89978ce45f6fe24
-Author: RaptorX <graptorx@gmail.com>
-Date:   Fri Sep 16 01:22:02 2011 +0200
-
-    +5 functions
