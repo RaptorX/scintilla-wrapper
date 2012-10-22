@@ -5,15 +5,44 @@ Legend:
 ==================
     + Add
     - Remove
-    ! Fix
     * Change
+    ! Fix
     ^ Update
     % Test
     & Enable
     $ Disable
 ==================
 
-commit bff583289150e94b103d199e9c8155d0cf2cc4d9
+commit abc9eeb1bf2691f8808780ceb682191236ebddb6
+Author: RaptorX <graptorx@gmail.com>
+Date:   Mon Oct 22 12:50:00 2012 +0200
+
+    Scintilla Wrapper v1.4.2.2
+    
+    Changes:
+    
+    + Add onMessage notify example
+    + Add classes that emulate scintilla structures
+    + Add notify functionality for use with OnMessage()
+    + Add option to use function by id and not by name
+        e.g. sci.2268(true) or sci.SetWrapMode(true)
+        Both would do the same thing. Shorter code vs Readability, you choose.
+    
+    - Remove scintilla variables from __SCI()
+    - Remove __Add() function msgHandler parameter
+    
+    * Change move all scintilla variables to super-global namespace
+    ^ Update examples
+    
+    ! Fix __SCI() check for valid variable name
+    ! Fix sciObj.Add to store handle in __SCI() function
+    
+    Todo:
+    
+    + Add support for messages that use structures
+    + Add Documentation
+
+commit d56c95cb6ed7415a8d9033424d3244ad4c58ddb1
 Author: RaptorX <graptorx@gmail.com>
 Date:   Sat Oct 20 08:44:45 2012 +0200
 
@@ -56,19 +85,3 @@ Author: RaptorX <graptorx@gmail.com>
 Date:   Fri Sep 16 01:22:02 2011 +0200
 
     +5 functions
-
-commit 1a868eee88ffad70716d72933eeb69e62dfffa1c
-Author: RaptorX <graptorx@gmail.com>
-Date:   Fri Sep 21 23:36:39 2012 +0200
-
-    Scintilla Wrapper v1.0
-    
-    Changes:
-    
-    + Add Basic Functionality
-    + Add Examples
-    
-    Todo:
-    
-    + Add support for messages that use structures
-    + Add Documentation

@@ -18,7 +18,7 @@ sci.SetKeywords(0, "msgbox true another testing")
 sci.StyleSetBold(11, true)
 sci.StyleSetFore(11, 0x0000FF) ; Style No. 11 Belongs to SCE_AHK_WORD_CF in this particular lexer which is linked to the Keyword list No. 0 above.
 
-sci.SetText(false, "Start Typing here and add some of the words from line 16`nFeel free to add more words to the list.")
+sci.SetText(unused, "Start Typing here and add some of the words from line 16`nFeel free to add more words to the list.")
 Gui, show, w600 h400
 return
 

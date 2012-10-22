@@ -19,8 +19,8 @@ Gui +LastFound
 sci := new scintilla(WinExist())
 
 ; Set some options
-sci.SetWrapMode(true), sci.SetLexer("SCLEX_CONTAINER"), sci.StyleClearAll()
-sci.SetText(null, text), sci.SetReadOnly(true), sci.GrabFocus()
+sci.SetWrapMode(true), sci.SetLexer(SCLEX_CONTAINER), sci.StyleClearAll()
+sci.SetText(unused, text), sci.SetReadOnly(true), sci.GrabFocus()
 
 ; Change a style
 sci.StyleSetBold(1, true)
@@ -48,7 +48,7 @@ Search:
         
     ; Clear old matches
     sci.StartStyling(0, 0x1f)
-    sci.SetStyling(sci.GetLength()+1, "STYLE_DEFAULT")
+    sci.SetStyling(sci.GetLength()+1, STYLE_DEFAULT)
     
     ; Find and style new match
     sci.StartStyling(pos:=Search(sci, newpos ? newpos : 0, sci.GetLength()+1, GuiMessage), 0x1f) ; 0x1f sets text bits styles, no indicators.
