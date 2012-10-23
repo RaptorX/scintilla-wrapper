@@ -364,33 +364,34 @@ __sendEditor(hwnd, msg=0, wParam=0, lParam=0){
 */
 __sciNotify(wParam, lParam, msg, hwnd){
     
+    ; fix int for x64 bit systems
     __sciObj                 := __SCI(NumGet(lParam + 0))               ; Returns original object
-    __sciObj.idFrom          := NumGet(lParam + 4)
-    __sciObj.scnCode         := NumGet(lParam + 8)
+    __sciObj.idFrom          := NumGet(lParam + a_Ptrsize * 1)
+    __sciObj.scnCode         := NumGet(lParam + a_Ptrsize * 2)
 
-    __sciObj.position        := NumGet(lParam + 12)
-    __sciObj.ch              := NumGet(lParam + 16)
-    __sciObj.modifiers       := NumGet(lParam + 20)
-    __sciObj.modType         := NumGet(lParam + 24)
-    __sciObj.text            := NumGet(lParam + 28)
-    __sciObj.length          := NumGet(lParam + 32)
-    __sciObj.linesAdded      := NumGet(lParam + 36)
+    __sciObj.position        := NumGet(lParam + a_Ptrsize * 3)
+    __sciObj.ch              := NumGet(lParam + a_Ptrsize * 4)
+    __sciObj.modifiers       := NumGet(lParam + a_Ptrsize * 5)
+    __sciObj.modType         := NumGet(lParam + a_Ptrsize * 6)
+    __sciObj.text            := NumGet(lParam + a_Ptrsize * 7)
+    __sciObj.length          := NumGet(lParam + a_Ptrsize * 8)
+    __sciObj.linesAdded      := NumGet(lParam + a_Ptrsize * 9)
 
-    __sciObj.macMessage      := NumGet(lParam + 40)
-    __sciObj.macwParam       := NumGet(lParam + 44)
-    __sciObj.maclParam       := NumGet(lParam + 48)
+    __sciObj.macMessage      := NumGet(lParam + a_Ptrsize * 10)
+    __sciObj.macwParam       := NumGet(lParam + a_Ptrsize * 11)
+    __sciObj.maclParam       := NumGet(lParam + a_Ptrsize * 12)
 
-    __sciObj.line            := NumGet(lParam + 52)
-    __sciObj.foldLevelNow    := NumGet(lParam + 56)
-    __sciObj.foldLevelPrev   := NumGet(lParam + 60)
-    __sciObj.margin          := NumGet(lParam + 64)
-    __sciObj.listType        := NumGet(lParam + 68)
-    __sciObj.x               := NumGet(lParam + 72)
-    __sciObj.y               := NumGet(lParam + 76)
+    __sciObj.line            := NumGet(lParam + a_Ptrsize * 13)
+    __sciObj.foldLevelNow    := NumGet(lParam + a_Ptrsize * 14)
+    __sciObj.foldLevelPrev   := NumGet(lParam + a_Ptrsize * 15)
+    __sciObj.margin          := NumGet(lParam + a_Ptrsize * 16)
+    __sciObj.listType        := NumGet(lParam + a_Ptrsize * 17)
+    __sciObj.x               := NumGet(lParam + a_Ptrsize * 18)
+    __sciObj.y               := NumGet(lParam + a_Ptrsize * 19)
 
-    __sciObj.token           := NumGet(lParam + 80)
-    __sciObj.annotLinesAdded := NumGet(lParam + 84)
-    __sciObj.updated         := NumGet(lParam + 88)
+    __sciObj.token           := NumGet(lParam + a_Ptrsize * 20)
+    __sciObj.annotLinesAdded := NumGet(lParam + a_Ptrsize * 21)
+    __sciObj.updated         := NumGet(lParam + a_Ptrsize * 22)
 
     __sciObj.notify(wParam, lParam, msg, hwnd, __sciObj)                ; Call user defined Notify Function and passes object to it as last parameter
     return __sciObj := ""                                               ; free object

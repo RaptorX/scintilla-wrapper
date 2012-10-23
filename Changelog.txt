@@ -13,6 +13,18 @@ Legend:
     $ Disable
 ==================
 
+Scintilla Wrapper v1.4.2.4
+Date: Tue Oct 23 18:10:38 2012 +0200     
+
+    Changes:
+
+    ! Fix Ptr in x64 bit systems
+
+    Todo:
+
+    + Add support for messages that use structures
+    + Add Documentation
+
 Scintilla Wrapper v1.4.2.3
 Date: Tue Oct 23 01:35:23 2012 +0200     
 
@@ -45,18 +57,6 @@ Date: Mon Oct 22 12:50:00 2012 +0200
 
     ! Fix __SCI() check for valid variable name
     ! Fix sciObj.Add to store handle in __SCI() function
-
-    Todo:
-
-    + Add support for messages that use structures
-    + Add Documentation
-
-Scintilla Wrapper v1.0.1
-Date: Sat Oct 20 08:44:45 2012 +0200     
-
-    Changes:
-
-    * Change Examples to be more clear
 
     Todo:
 
