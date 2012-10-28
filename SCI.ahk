@@ -73,11 +73,8 @@ class scintilla {
                                      ,NumPut(&lParam,textRange,8,"UInt")
                                      ,blParam := &lParam, wParam := false,lParam := &textRange, buf:=true) : null
 
-            if (inStr(msg, "StyleSet")) ; only shift bytes if we are setting style colors.
-            {
-                inStr(lParam, "0x") ? (lParam := (lParam & 0xFF) <<16 | (lParam & 0xFF00) | (lParam >>16),lParam := SubStr(lParam, 0x1)) : null
-                inStr(wParam, "0x") ? (wParam := (wParam & 0xFF) <<16 | (wParam & 0xFF00) | (wParam >>16),wParam := SubStr(wParam, 0x1)) : null
-            }
+            __isHexColor(lParam) ? lParam := (lParam & 0xFF) <<16 | (lParam & 0xFF00) | (lParam >>16) : null
+            __isHexColor(wParam) ? wParam := (wParam & 0xFF) <<16 | (wParam & 0xFF00) | (wParam >>16) : null
 
             res := __sendEditor(this.hwnd, msg, wParam, lParam)
 
@@ -153,97 +150,97 @@ class sciRangeToFormat {
 ; | Internal Functions |
 
 /*
-        Function: __Add
-        Creates a Scintilla component and adds it to the Parent GUI.
+    Function: __Add
+    Creates a Scintilla component and adds it to the Parent GUI.
 
-        This function initializes the Scintilla Component.
-        See <http://www.scintilla.org/Steps.html> for more information on how to add the component to a GUI/Control.
+    This function initializes the Scintilla Component.
+    See <http://www.scintilla.org/Steps.html> for more information on how to add the component to a GUI/Control.
 
-        Parameters:
-        __Add(hParent, [x, y, w, h, DllPath, Styles])
+    Parameters:
+    __Add(hParent, [x, y, w, h, DllPath, Styles])
 
-        hParent     -   Hwnd of the parent control who will host the Scintilla Component
-        x           -   x position for the control (default 5)
-        y           -   y position for the control (default 5)
-        w           -   Width of the control (default 590)
-        h           -   Height of the control (default 390)
-        DllPath     -   Path to the SciLexer.dll file, if omitted the function looks for it in *a_scriptdir*.
-        Styles      -   List of window style variable names separated by spaces.
-                        The WS_ prefix for the variables is optional.
-                        Full list of Style names can be found at
-                        <http://msdn.microsoft.com/en-us/library/czada357.aspx>.
+    hParent     -   Hwnd of the parent control who will host the Scintilla Component
+    x           -   x position for the control (default 5)
+    y           -   y position for the control (default 5)
+    w           -   Width of the control (default 590)
+    h           -   Height of the control (default 390)
+    DllPath     -   Path to the SciLexer.dll file, if omitted the function looks for it in *a_scriptdir*.
+    Styles      -   List of window style variable names separated by spaces.
+                    The WS_ prefix for the variables is optional.
+                    Full list of Style names can be found at
+                    <http://msdn.microsoft.com/en-us/library/czada357.aspx>.
 
-        Returns:
-        HWND        -   Component handle.
+    Returns:
+    HWND        -   Component handle.
 
-        Examples:
-        (start code)
-        #include ..\SCI.ahk
-        #singleinstance force
+    Examples:
+    (start code)
+    #include ..\SCI.ahk
+    #singleinstance force
 
-        ;---------------------
-        ; This script adds a component with default values.
-        ; If no path was specified when creating the object it expects scilexer.dll to be on the script's location.
-        ; The default values are calculated to fit optimally on a 600x400 GUI/Control
+    ;---------------------
+    ; This script adds a component with default values.
+    ; If no path was specified when creating the object it expects scilexer.dll to be on the script's location.
+    ; The default values are calculated to fit optimally on a 600x400 GUI/Control
 
-        Gui +LastFound
-        sci := new scintilla(WinExist())
+    Gui +LastFound
+    sci := new scintilla(WinExist())
 
-        Gui, show, w600 h400
-        return
+    Gui, show, w600 h400
+    return
 
-        GuiClose:
-            exitapp
+    GuiClose:
+        exitapp
 
-        ;---------------------
-        #include ..\SCI.ahk
-        #singleinstance force
+    ;---------------------
+    #include ..\SCI.ahk
+    #singleinstance force
 
-        ; Add multiple components.
+    ; Add multiple components.
 
-        Gui +LastFound
-        hwnd:=WinExist()
+    Gui +LastFound
+    hwnd:=WinExist()
 
-        sci1 := new scintilla(hwnd, 0, 0, 590, 190) ; you can put the parameters here
-        sci2 := new scintilla
+    sci1 := new scintilla(hwnd, 0, 0, 590, 190) ; you can put the parameters here
+    sci2 := new scintilla
 
-        sci2.add(hwnd, 0, 200, 590, 190) ; or you can use the add function like this
+    sci2.add(hwnd, 0, 200, 590, 190) ; or you can use the add function like this
 
-        Gui, show, w600 h400
-        return
+    Gui, show, w600 h400
+    return
 
-        GuiClose:
-            exitapp
+    GuiClose:
+        exitapp
 
-        ;---------------------
-        #include ..\SCI.ahk
-        #singleinstance force
+    ;---------------------
+    #include ..\SCI.ahk
+    #singleinstance force
 
-        ; Here we add a component embedded in a tab.
-        ; If the variables "x,w,h" are empty the default values are used.
+    ; Here we add a component embedded in a tab.
+    ; If the variables "x,w,h" are empty the default values are used.
 
-        Gui, add, Tab2, HWNDhwndtab x0 y0 w600 h420 gtabHandler vtabLast,one|two
+    Gui, add, Tab2, HWNDhwndtab x0 y0 w600 h420 gtabHandler vtabLast,one|two
 
-        sci := new scintilla
-        sci.Add(hwndtab, x, 25, w, h, a_scriptdir "\scilexer.dll")
+    sci := new scintilla
+    sci.Add(hwndtab, x, 25, w, h, a_scriptdir "\scilexer.dll")
 
-        Gui, show, w600 h420
-        return
+    Gui, show, w600 h420
+    return
 
-        ; This additional code is for hiding/showing the component depending on which tab is open
-        ; In this example the Tab named "one" is the one that contains the control.
-        ; If you switch the words "show" and "hide" the component will be shown when the tab called "two" is active.
+    ; This additional code is for hiding/showing the component depending on which tab is open
+    ; In this example the Tab named "one" is the one that contains the control.
+    ; If you switch the words "show" and "hide" the component will be shown when the tab called "two" is active.
 
-        tabHandler:                                 ; Tab Handler for the Scintilla Control
-        Gui, submit, Nohide
-        action := tabLast = "one" ? "Show" : "Hide" ; decide which action to take
-        Control,%action%,,, % "ahk_id " sci.hwnd
-        return
+    tabHandler:                                 ; Tab Handler for the Scintilla Control
+    Gui, submit, Nohide
+    action := tabLast = "one" ? "Show" : "Hide" ; decide which action to take
+    Control,%action%,,, % "ahk_id " sci.hwnd
+    return
 
-        GuiClose:
-            exitapp
-        (end)
-    */
+    GuiClose:
+        exitapp
+    (end)
+*/
 __Add(hParent=0, x=5, y=5, w=590, h=390, DllPath="", Styles=""){
     static WS_OVERLAPPED:=0x00000000,WS_POPUP:=0x80000000,WS_CHILD:=0x40000000,WS_MINIMIZE:=0x20000000
     ,WS_VISIBLE:=0x10000000,WS_DISABLED:=0x08000000,WS_CLIPSIBLINGS:=0x04000000,WS_CLIPCHILDREN:=0x02000000
@@ -363,7 +360,7 @@ __sendEditor(hwnd, msg=0, wParam=0, lParam=0){
     Examples:
 */
 __sciNotify(wParam, lParam, msg, hwnd){
-    
+
     ; fix int for x64 bit systems
     __sciObj                 := __SCI(NumGet(lParam + 0))               ; Returns original object
     __sciObj.idFrom          := NumGet(lParam + a_Ptrsize * 1)
@@ -395,6 +392,13 @@ __sciNotify(wParam, lParam, msg, hwnd){
 
     __sciObj.notify(wParam, lParam, msg, hwnd, __sciObj)                ; Call user defined Notify Function and passes object to it as last parameter
     return __sciObj := ""                                               ; free object
+}
+
+__isHexColor(hex){
+    if (RegexMatch(hex, "^0x[0-9a-fA-F]{1,6}$"))
+        return true
+    else
+        return false
 }
 
 __SCI(var, val=""){

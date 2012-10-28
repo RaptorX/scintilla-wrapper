@@ -13,6 +13,20 @@ Legend:
     $ Disable
 ==================
 
+Scintilla Wrapper v1.4.3.5
+Date: Sun Oct 28 14:38:03 2012 +0100     
+
+    Changes:
+
+    + Add internal __isHexColor() function
+
+    ! Fix some color functions still using BGR format
+
+    Todo:
+
+    + Add support for messages that use structures
+    + Add Documentation
+
 Scintilla Wrapper v1.4.2.4
 Date: Tue Oct 23 18:10:38 2012 +0200     
 
@@ -31,32 +45,6 @@ Date: Tue Oct 23 01:35:23 2012 +0200
     Changes:
 
     ! Fix temporal object in __sciNotify() function to avoid conflict
-
-    Todo:
-
-    + Add support for messages that use structures
-    + Add Documentation
-
-Scintilla Wrapper v1.4.2.2
-Date: Mon Oct 22 12:50:00 2012 +0200     
-
-    Changes:
-
-    + Add onMessage notify example
-    + Add classes that emulate scintilla structures
-    + Add notify functionality for use with OnMessage()
-    + Add option to use function by id and not by name
-       e.g. sci.2268(true) or sci.SetWrapMode(true)
-       Both would do the same thing. Shorter code vs Readability, you choose.
-
-    - Remove scintilla variables from __SCI()
-    - Remove __Add() function msgHandler parameter
-
-    * Change move all scintilla variables to super-global namespace
-    ^ Update examples
-
-    ! Fix __SCI() check for valid variable name
-    ! Fix sciObj.Add to store handle in __SCI() function
 
     Todo:
 
