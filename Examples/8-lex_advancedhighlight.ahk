@@ -23,8 +23,8 @@ sci.SetWrapMode(true), sci.SetLexer(SCLEX_CONTAINER), sci.StyleClearAll()
 sci.SetText(unused, text), sci.SetReadOnly(true), sci.GrabFocus()
 
 ; Change a style
-sci.StyleSetBold(1, true)
-sci.StyleSetFore(1, 0xEE0000)
+
+sci.StyleSetFore(SCE_AHKL_USERDEFINED1, 0xEE0000), sci.StyleSetBold(SCE_AHKL_USERDEFINED1, true)
 
 Gui, Add, Edit, x10 y410 w500 -WantReturn vGuiMessage -0x100 gSearch
 Gui, Add, Button, x+10 gSearchAgain, Search Again
@@ -52,7 +52,7 @@ Search:
     
     ; Find and style new match
     sci.StartStyling(pos:=Search(sci, newpos ? newpos : 0, sci.GetLength()+1, GuiMessage), 0x1f) ; 0x1f sets text bits styles, no indicators.
-    sci.SetStyling(strlen(GuiMessage), 1), sci.GoToPos(pos) ; Change color of length of typed text to style #1, move caret to position.
+    sci.SetStyling(strlen(GuiMessage), SCE_AHKL_USERDEFINED1), sci.GoToPos(pos) ; Change color of length of typed text to style #1, move caret to position.
     
     sci.ScrollCaret() ; scroll in to view.
 return

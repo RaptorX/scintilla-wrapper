@@ -1,6 +1,8 @@
 ﻿#include ..\SCI.ahk
 #singleinstance force
 #Commentflag //
+
+// Command list
 Dir=
 (
 #allowsamelinecomments #clipboardtimeout #commentflag #errorstdout #escapechar #hotkeyinterval
@@ -36,6 +38,38 @@ winclose winget wingetactivestats wingetactivetitle wingetclass wingetpos winget
 winhide winkill winmaximize winmenuselectitem winminimize winminimizeall winminimizeallundo winmove
 winrestore winset winsettitle winshow winwait winwaitactive winwaitclose winwaitnotactive
 fileencoding
+)
+
+Param=
+(
+ltrim rtrim join ahk_id ahk_pid ahk_class ahk_group processname minmax controllist statuscd
+filesystem setlabel alwaysontop mainwindow nomainwindow useerrorlevel altsubmit hscroll vscroll
+imagelist wantctrla wantf2 vis visfirst wantreturn backgroundtrans minimizebox maximizebox
+sysmenu toolwindow exstyle check3 checkedgray readonly notab lastfound lastfoundexist alttab
+shiftalttab alttabmenu alttabandmenu alttabmenudismiss controllisthwnd hwnd deref pow bitnot
+bitand bitor bitxor bitshiftleft bitshiftright sendandmouse mousemove mousemoveoff
+hkey_local_machine hkey_users hkey_current_user hkey_classes_root hkey_current_config hklm hku
+hkcu hkcr hkcc reg_sz reg_expand_sz reg_multi_sz reg_dword reg_qword reg_binary reg_link
+reg_resource_list reg_full_resource_descriptor caret reg_resource_requirements_list
+reg_dword_big_endian regex pixel mouse screen relative rgb low belownormal normal abovenormal
+high realtime between contains in is integer float number digit xdigit alpha upper lower alnum
+time date not or and topmost top bottom transparent transcolor redraw region id idlast count
+list capacity eject lock unlock label serial type status seconds minutes hours days read parse
+logoff close error single shutdown menu exit reload tray add rename check uncheck togglecheck
+enable disable toggleenable default nodefault standard nostandard color delete deleteall icon
+noicon tip click show edit progress hotkey text picture pic groupbox button checkbox radio
+dropdownlist ddl combobox statusbar treeview listbox listview datetime monthcal updown slider
+tab tab2 iconsmall tile report sortdesc nosort nosorthdr grid hdr autosize range xm ym ys xs xp
+yp font resize owner submit nohide minimize maximize restore noactivate na cancel destroy
+center margin owndialogs guiescape guiclose guisize guicontextmenu guidropfiles tabstop section
+wrap border top bottom buttons expand first lines number uppercase lowercase limit password
+multi group background bold italic strike underline norm theme caption delimiter flash style
+checked password hidden left right center section move focus hide choose choosestring text pos
+enabled disabled visible notimers interrupt priority waitclose unicode tocodepage fromcodepage
+yes no ok cancel abort retry ignore force on off all send wanttab monitorcount monitorprimary
+monitorname monitorworkarea pid base useunsetlocal useunsetglobal localsameasglobal str astr wstr
+int64 int short char uint64 uint ushort uchar float double int64p intp shortp charp uint64p uintp
+ushortp ucharp floatp doublep ptr
 )
 
 Flow=
@@ -100,72 +134,94 @@ media_play_pause launch_mail launch_media launch_app1 launch_app2 blind click ra
 wheelright
 )
 
-Param=
-(
-ltrim rtrim join ahk_id ahk_pid ahk_class ahk_group processname minmax controllist statuscd
-filesystem setlabel alwaysontop mainwindow nomainwindow useerrorlevel altsubmit hscroll vscroll
-imagelist wantctrla wantf2 vis visfirst wantreturn backgroundtrans minimizebox maximizebox
-sysmenu toolwindow exstyle check3 checkedgray readonly notab lastfound lastfoundexist alttab
-shiftalttab alttabmenu alttabandmenu alttabmenudismiss controllisthwnd hwnd deref pow bitnot
-bitand bitor bitxor bitshiftleft bitshiftright sendandmouse mousemove mousemoveoff
-hkey_local_machine hkey_users hkey_current_user hkey_classes_root hkey_current_config hklm hku
-hkcu hkcr hkcc reg_sz reg_expand_sz reg_multi_sz reg_dword reg_qword reg_binary reg_link
-reg_resource_list reg_full_resource_descriptor caret reg_resource_requirements_list
-reg_dword_big_endian regex pixel mouse screen relative rgb low belownormal normal abovenormal
-high realtime between contains in is integer float number digit xdigit alpha upper lower alnum
-time date not or and topmost top bottom transparent transcolor redraw region id idlast count
-list capacity eject lock unlock label serial type status seconds minutes hours days read parse
-logoff close error single shutdown menu exit reload tray add rename check uncheck togglecheck
-enable disable toggleenable default nodefault standard nostandard color delete deleteall icon
-noicon tip click show edit progress hotkey text picture pic groupbox button checkbox radio
-dropdownlist ddl combobox statusbar treeview listbox listview datetime monthcal updown slider
-tab tab2 iconsmall tile report sortdesc nosort nosorthdr grid hdr autosize range xm ym ys xs xp
-yp font resize owner submit nohide minimize maximize restore noactivate na cancel destroy
-center margin owndialogs guiescape guiclose guisize guicontextmenu guidropfiles tabstop section
-wrap border top bottom buttons expand first lines number uppercase lowercase limit password
-multi group background bold italic strike underline norm theme caption delimiter flash style
-checked password hidden left right center section move focus hide choose choosestring text pos
-enabled disabled visible notimers interrupt priority waitclose unicode tocodepage fromcodepage
-yes no ok cancel abort retry ignore force on off all send wanttab monitorcount monitorprimary
-monitorname monitorworkarea pid base useunsetlocal useunsetglobal localsameasglobal
-)
+UD1 =
+UD2 =
 
 Gui +LastFound
-sci := new scintilla(WinExist(), x,y,860,900, "C:\Users\RaptorX\Documents\C++\LexAHKL\scintilla\bin\LexAHKL.dll")
 
+sci := new scintilla(WinExist(), x,y,950,680,a_iscompiled ? "..\scintilla\bin\LexAHKL.dll"
+							  : null)
+
+sci.Notify := "SCI_NOTIFY"
+
+sci.SetMarginWidthN(0, 40)										// Show line numbers
+sci.SetMarginMaskN(1, SC_MASK_FOLDERS )									// Show folding symbols
+sci.SetMarginSensitiveN(1, true)									// Catch Margin click notifications
+
+// Set up Margin Symbols
+sci.MarkerDefine(SC_MARKNUM_FOLDER, SC_MARK_BOXPLUS)
+sci.MarkerDefine(SC_MARKNUM_FOLDEROPEN, SC_MARK_BOXMINUS)
+sci.MarkerDefine(SC_MARKNUM_FOLDERSUB, SC_MARK_VLINE)
+sci.MarkerDefine(SC_MARKNUM_FOLDERTAIL, SC_MARK_LCORNER)
+sci.MarkerDefine(SC_MARKNUM_FOLDEREND, SC_MARK_BOXPLUSCONNECTED)
+sci.MarkerDefine(SC_MARKNUM_FOLDEROPENMID, SC_MARK_BOXMINUSCONNECTED)
+sci.MarkerDefine(SC_MARKNUM_FOLDERMIDTAIL, SC_MARK_TCORNER)
+
+// Change margin symbols colors
+sci.MarkerSetFore(SC_MARKNUM_FOLDER       , 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDER       , 0x5A5A5A)
+sci.MarkerSetFore(SC_MARKNUM_FOLDEROPEN   , 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDEROPEN   , 0x5A5A5A)
+sci.MarkerSetFore(SC_MARKNUM_FOLDERSUB    , 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDERSUB    , 0x5A5A5A)
+sci.MarkerSetFore(SC_MARKNUM_FOLDERTAIL   , 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDERTAIL   , 0x5A5A5A)
+sci.MarkerSetFore(SC_MARKNUM_FOLDEREND    , 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDEREND    , 0x5A5A5A)
+sci.MarkerSetFore(SC_MARKNUM_FOLDEROPENMID, 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDEROPENMID, 0x5A5A5A)
+sci.MarkerSetFore(SC_MARKNUM_FOLDERMIDTAIL, 0xFFFFFF)
+sci.MarkerSetBack(SC_MARKNUM_FOLDERMIDTAIL, 0x5A5A5A)
+sci.SetFoldFlags(SC_FOLDFLAG_LEVELNUMBERS)
+
+// Set Autohotkey Lexer and default options
 sci.SetWrapMode(true), sci.SetLexer(SCLEX_AHKL)
 sci.StyleSetFont(STYLE_DEFAULT, "Courier New"), sci.StyleSetSize(STYLE_DEFAULT, 10), sci.StyleClearAll()
 
-sci.StyleSetFore(SCE_AHKL_COMMENTDOC, 0x008888)
-sci.StyleSetFore(SCE_AHKL_COMMENTLINE, 0x008800)
-sci.StyleSetFore(SCE_AHKL_COMMENTBLOCK, 0x008800)
-sci.StyleSetFore(SCE_AHKL_COMMENTKEYWORD, 0xAA0000)
-sci.StyleSetFore(SCE_AHKL_STRING, 0xA2A2A2)
-sci.StyleSetFore(SCE_AHKL_STRINGOPTS, 0x00EEEE)
-sci.StyleSetFore(SCE_AHKL_STRINGBLOCK, 0xA2A2A2)
-sci.StyleSetFore(SCE_AHKL_STRINGCOMMENT, 0xFF0000)
-sci.StyleSetFore(SCE_AHKL_LABEL, 0x0000DD)
-sci.StyleSetFore(SCE_AHKL_HOTKEY, 0x00AADD)
-sci.StyleSetFore(SCE_AHKL_HOTSTRING, 0x00BBBB)
-sci.StyleSetFore(SCE_AHKL_HOTSTRINGOPT, 0x990099)
-sci.StyleSetFore(SCE_AHKL_HEXNUMBER, 0x880088)
-sci.StyleSetFore(SCE_AHKL_DECNUMBER, 0xFF9000)
+// Set Style Colors
+sci.StyleSetFore(SCE_AHKL_IDENTIFIER     , 0x000000)
 
-sci.StyleSetFore(SCE_AHKL_DIRECTIVE, 0x0000A5)
-sci.StyleSetFore(SCE_AHKL_COMMAND, 0x0000DD)
-sci.StyleSetFore(SCE_AHKL_CONTROLFLOW, 0x0000DD)
+sci.StyleSetFore(SCE_AHKL_COMMENTDOC     , 0x008888)
+sci.StyleSetFore(SCE_AHKL_COMMENTLINE    , 0x008800)
+sci.StyleSetFore(SCE_AHKL_COMMENTBLOCK   , 0x008800), sci.StyleSetBold(SCE_AHKL_COMMENTBLOCK, true)
+sci.StyleSetFore(SCE_AHKL_COMMENTKEYWORD , 0xA50000), sci.StyleSetBold(SCE_AHKL_COMMENTKEYWORD, true)
+sci.StyleSetFore(SCE_AHKL_STRING         , 0xA2A2A2)
+sci.StyleSetFore(SCE_AHKL_STRINGOPTS     , 0x00EEEE)
+sci.StyleSetFore(SCE_AHKL_STRINGBLOCK    , 0xA2A2A2), sci.StyleSetBold(SCE_AHKL_STRINGBLOCK, true)
+sci.StyleSetFore(SCE_AHKL_STRINGCOMMENT  , 0xFF0000)
+sci.StyleSetFore(SCE_AHKL_LABEL          , 0x0000DD)
+sci.StyleSetFore(SCE_AHKL_HOTKEY         , 0x00AADD)
+sci.StyleSetFore(SCE_AHKL_HOTSTRING      , 0x00BBBB)
+sci.StyleSetFore(SCE_AHKL_HOTSTRINGOPT   , 0x990099)
+sci.StyleSetFore(SCE_AHKL_HEXNUMBER      , 0x880088)
+sci.StyleSetFore(SCE_AHKL_DECNUMBER      , 0xFF9000)
+sci.StyleSetFore(SCE_AHKL_VAR            , 0xFF9000)
+sci.StyleSetFore(SCE_AHKL_VARREF         , 0x990055)
+sci.StyleSetFore(SCE_AHKL_OBJECT         , 0x008888)
+sci.StyleSetFore(SCE_AHKL_USERFUNCTION   , 0x0000DD)
 
-sci.StyleSetFore(SCE_AHKL_IDENTIFIER, 0xAAAA00)
-sci.StyleSetFore(SCE_AHKL_ESCAPESEQ, 0x660000), sci.StyleSetItalic(SCE_AHKL_ESCAPESEQ, true)
-sci.StyleSetFore(SCE_AHKL_ERROR, 0xFF0000)
+sci.StyleSetFore(SCE_AHKL_DIRECTIVE      , 0x4A0000), sci.StyleSetBold(SCE_AHKL_DIRECTIVE, true)
+sci.StyleSetFore(SCE_AHKL_COMMAND        , 0x0000DD), sci.StyleSetBold(SCE_AHKL_COMMAND, true)
+sci.StyleSetFore(SCE_AHKL_PARAM          , 0x0085DD)
+sci.StyleSetFore(SCE_AHKL_CONTROLFLOW    , 0x0000DD)
+sci.StyleSetFore(SCE_AHKL_BUILTINFUNCTION, 0xDD00DD)
+sci.StyleSetFore(SCE_AHKL_BUILTINVAR     , 0xEE3010), sci.StyleSetBold(SCE_AHKL_BUILTINVAR, true)
+sci.StyleSetFore(SCE_AHKL_KEY            , 0xA2A2A2), sci.StyleSetBold(SCE_AHKL_KEY, true), sci.StyleSetItalic(SCE_AHKL_KEY, true)
+sci.StyleSetFore(SCE_AHKL_USERDEFINED1   , 0x000000)
+sci.StyleSetFore(SCE_AHKL_USERDEFINED2   , 0x000000)
 
+sci.StyleSetFore(SCE_AHKL_ESCAPESEQ      , 0x660000), sci.StyleSetItalic(SCE_AHKL_ESCAPESEQ, true)
+sci.StyleSetFore(SCE_AHKL_ERROR          , 0xFF0000)
+
+// Put some text in the control (optional)
 FileRead, text, Highlight Test.txt
+sci.SetText(unused, text), sci.GrabFocus()
 
-sci.SetText(unused, Dir), sci.GrabFocus()
-
-Loop 8
+// Set up keyword lists, the variables are set at the beginning of the code
+Loop 9
 {
 	lstN:=a_index-1
+
 	sci.SetKeywords(lstN, ( lstN = 0 ? Dir
 			      : lstN = 1 ? Com
 			      : lstN = 2 ? Param
@@ -174,13 +230,29 @@ Loop 8
 			      : lstN = 5 ? BIVar
 			      : lstN = 6 ? Keys
 			      : lstN = 7 ? UD1
-			      : lstN = 8 ? UD2))
+			      : lstN = 8 ? UD2
+			      : null))
 }
-Gui, show, center w870 h910 // autosize doesnt recognize the scintilla control, width & height + 10px border
+Gui, +resize +minsize
+Gui, show, center w960 h690  // autosize doesnt recognize the scintilla control, width & height + 10px border
 return
 
-Pause::
+GuiSize:
+WinMove, % "ahk_id " sci.hwnd,, 5, 5, % a_guiwidth - 10, % a_guiheight - 10
+return
+
 GuiClose:
 ExitApp
 
-+Pause::Reload
+Pause::
+Reload
+return
+
+// This function handles the Click notifications and tells Scintilla to Fold/Unfold
+SCI_NOTIFY(wParam, lParam, msg, hwnd, sciObj) {
+
+	line := sciObj.LineFromPosition(sciObj.position)
+
+	if (sciObj.scnCode = SCN_MARGINCLICK)
+		sciObj.ToggleFold(line)
+}
