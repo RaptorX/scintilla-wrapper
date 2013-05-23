@@ -8,7 +8,7 @@
 
 Gui +LastFound
 sci:= new scintilla
-sci.Add(WinExist(), x, y, w, h, DllPath, "WS_BORDER")
+sci.Add(WinExist(), x, y, w, h, DllPath, "WS_BORDER") ; emtpy variables will make the wrapper use the default values
 
 Gui, show, w600 h400
 return

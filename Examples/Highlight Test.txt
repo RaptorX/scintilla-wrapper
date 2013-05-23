@@ -1,6 +1,5 @@
 /**
- * For normal Comment Blocks remove second star here at the top or add more than 2 stars.
- *
+ * For normal Comment Blocks remove second asterisk here at the top or add more than 2 asterisks.
  * =============================================================================================== *
  * @Author           : RaptorX   <graptorx@gmail.com>
  * @Script Name      : Autohotkey Highlight Test
@@ -8,7 +7,7 @@
  * @Homepage         : http://www.autohotkey.com/board/topic/85928-wrapper-scintilla-wrapper-v1424/
  *
  * @Creation Date    : October 29, 2012
- * @Modification Date: April 18, 2013
+ * @Modification Date: April 28, 2013
  *
  * @Description      :
  * -------------------
@@ -16,16 +15,47 @@
  * There are some features added to this lexer which are not part of the autohotkey language but
  * because they are useful and dont interfere with the script I added them.
  *
- * One such examples is the @[keyword]: secuence in which any word preceded by an [At] Symbol
- * and Followed by a [colon] symbol inside a comment block will be highlighted. Useful when adding
- * titles as shown above.
+ * One such examples is the @[keyword]: secuence in which any alphanumeric word preceded by an '@' 
+ * and Followed by a ':' inside a documentation comment block will be highlighted. Useful when 
+ * adding titles as shown above.
  *
+ * As you might have noticed, quoted strings will also be highlighted.
+ * The current quote symbols are: `1` '2' "3".
+ *
+ * If you dont want this kind of highlighting consider using the normal comment blocks by putting
+ * exactly one asterisk at the beginning of the comment block or more than one as shown below.
+ * 
  * =============================================================================================== *
  */
 
-; this is a group of line comments
-; if 3 or more line commnents are together
-; it should be foldable
+; this is a line comment
+
+	; empty spaces dont matter
+
+/**
+ *
+ * This is a Documentation Comment.
+ * They work exactly the same as the normal comment block but you can use @keywords: here.
+ *
+ * To create a Documentation Comment you have to put exactly 2 asterisks at the top.
+ *
+ */
+
+/*
+ *
+ * This is a normal comment block
+ * it works as usual.
+ *
+ * @keywords: wont work here.
+ *
+ * Comment blocks only close when the closing tag is in its own line
+ * so this part */ will continue coloring as comment block
+ *
+ */
+
+/***
+ * This is also a normal comment block because there are more than 2 asterisks at the top
+ */
 
 /**
  * @Decimal Numbers:
@@ -33,12 +63,12 @@
  * but they will be highlighted correctly when typing options.
  *
  */ 0 1 2 3 4 5 6 7 8 9
-    var1 var2 x10 y10
+    0var var1 v4r2 x10 y10
     gui, add, edit, x10 y20 w100 h200
 
 /**
  * @Hex Numbers:
- * If not valid hex the whole string goes back to default.
+ * If the hex number is invalid the string goes back to default and is treated as a variable name.
  * If option is enabled you can have a different color every 4 digits for easy read.
  * The exeption is when having 6 digits. Only one color is used regardless of the above option.
  *
@@ -46,16 +76,69 @@
 
 /**
  * @Labels:
- * It enters Error state after a label cause nothing else is allowed after it except for comments.
+ * It enters Error state after a label because nothing else is allowed after it except for comments.
  * Almost anything is valid as a Label identifier but keep it simple and clear!
  *
+ * @Note:
+ * Due to technical difficulties even though the characters '=', '{', '(', '[' and '.' are
+ * recognized by autohotkey as valid label characters the lexer wont lex them correctly.
+ * Will be fixed in later versions.
+ *
  */ ValidLabel:
-    Valid~!@#$^&*()_+;[]\'./<>?|{}-=":
+    Valid~!@#$^&*)_+;]\'/<>?|}-":
     another_valid_label: there cant be anything else in this line ; exept for comments
-    inva``lid:
+    inva`lid:
     not,valid:
     no space allowed:
 
+/**
+ * @Variables, Strings, Functions and Expressions:
+ *
+ */ literal = this is a literal string
+
+    var = %variable% and literal text
+    var := variable %var_reference% function()
+    var += array["test"] myvar[12] obj.property obj.Method()
+
+    msgbox %myvar%
+    msgbox % "this is a forced expression so: " var " and " %varref% "will work as shown above"
+
+    var1 := {one : "test"}
+    exp2 := "this is an expression" var + var2 + 10 + 5 func(1, 2, "this is text", "and this 2")
+    exp3 .= this is also "an xpression"
+	 . "this as well" var %varref%
+
+    var4 ? true : "false"
+    
+    dynamic_%var%_name := "this is a dynamic variable name " %ref%_name
+
+    Function(byref param1, param2.hwnd, param3.method(), 4, "text 5")
+
+    var[12] := var + 5 func("Test")
+    sci["new"] = test
+    sci.add()
+    sci.status = 1
+
+    if var = text
+
+    if (myvar = "remember that this is an expression here" %varref% 5+5)
+
+    var =
+    (
+
+        this is a string block and because of that ; this is NOT a comment
+	this is a %variable% reference
+	and `t that is the escape secuence for the tab
+
+    ) Nothing else allowed here ; except for comments and paths
+
+    FileAppend,
+    ( % ` Com
+
+        another block of text but 
+	this time with some options
+	
+    ), c:\this is allowed.txt
 
 /**
  * @Hotkeys:
@@ -63,7 +146,7 @@
  */ ^Enter::Send test
     #Backspace::Msgbox True
     !+NumpadEnter::var += var
-    ~$a::Msgbox `% test + 5
+    ~$a::Msgbox % test + 5
 
 /**
  * @Hotstrings:
@@ -75,61 +158,23 @@
 
 /**
  * @Escape Sequences:
- * Only those characters that have a special meaning will be highlighted.
+ * Only characters that have a special meaning will be highlighted as an escape sequence.
  *
- */ ``, ```% ```` ``; ``n ``r ``b ``t ``v ``a ``f ``s ``i ``]
+ */ `, `% `` `; `n `r `b `t `v `a `f `s `i `]
 
-/**
- * @Variables, Strings and Expressions:
- *
- */ literal = this is a literal string
-
-    var = `%variable`% and text
-    var := variable `%var_reference`%
-    msgbox `%myvar`%
-    msgbox `% "this is a forced expression in a command so: " var " and " `%varref`% "work as above"
-
-    var1 := {one : "test"}
-    exp2 := "this is an expression" var + var2 + 10 + 5 func(1, 2, "this is text", "and 5+5 = 10")
-    exp3 .= this is also "an xpression"
-    var4 ? true : "false"
-
-
-    var["test"], var[12]
-    object.property, object.Method()
-
-    if var = text
-
-    if (var = "text")
-
-    var =
-    `(
-
-        this is a string block and because of that ; this is NOT a comment
-	this is a `%variable`% reference
-	and ``t that is the escape secuence for the tab
-
-    `) Nothing else allowed here ; except for comments and paths
-
-    FileAppend,
-    `(`% `` Com
-
-        another block of text but this time with some options
-	in this example ; this IS a comment
-	``t ``n ``t these escape sequences are literal now!
-	and this percent sign `%variable`% is not a variable reference anymore!!
-
-    `), c:\this is allowed.txt
 
 
 /**
+ * =============================================================================================== *
  * @Keywords:
- * This is a comprehensive list of all they keywords handled by the lexer at the moment
- * I recommend setting the commands and the special parameters to the same color to avoid
- * some parameters being highlighted as commands because both use the same keyword.
  *
- * I will fix that at some point. For now just keep them the same color and you will be fine.
+ * This is a comprehensive list of all they keywords handled by the test script at the moment.
+ * The lexer does not contain hard coded keywords. That means that it is up to your program to
+ * pass them to the lexer.
  *
+ * For an example of how to do this see the source code of the script provided in the forum post
+ * found at the top of the text.
+ * =============================================================================================== *
  */
 
 /**
@@ -145,60 +190,231 @@
 
 /**
  * @Commands:
+ * Note that only one Command per line is allowed. Putting more commands would result on
+ * some of them being treated as a Command parameter instead (e.g. mousemove)
  *
  */
 
-autotrim blockinput clipwait control controlclick controlfocus controlget controlgetfocus
-controlgetpos controlgettext controlmove controlsend controlsendraw controlsettext coordmode
-critical detecthiddentext detecthiddenwindows drive driveget drivespacefree edit endrepeat envadd
-envdiv envget envmult envset envsub envupdate fileappend filecopy filecopydir filecreatedir
-filecreateshortcut filedelete filegetattrib filegetshortcut filegetsize filegettime filegetversion
-fileinstall filemove filemovedir fileread filereadline filerecycle filerecycleempty fileremovedir
-fileselectfile fileselectfolder filesetattrib filesettime formattime getkeystate groupactivate
-groupadd groupclose groupdeactivate gui guicontrol guicontrolget hideautoitwin hotkey if ifequal
-ifexist ifgreater ifgreaterorequal ifinstring ifless iflessorequal ifmsgbox ifnotequal ifnotexist
-ifnotinstring ifwinactive ifwinexist ifwinnotactive ifwinnotexist imagesearch inidelete iniread
-iniwrite input inputbox keyhistory keywait listhotkeys listlines listvars menu mouseclick
-mouseclickdrag mousegetpos mousemove msgbox outputdebug pixelgetcolor pixelsearch postmessage
-process progress random regdelete regread regwrite reload run runas runwait send sendevent
-sendinput sendmessage sendmode sendplay sendraw setbatchlines setcapslockstate setcontroldelay
-setdefaultmousespeed setenv setformat setkeydelay setmousedelay setnumlockstate setscrolllockstate
-setstorecapslockmode settitlematchmode setwindelay setworkingdir shutdown sort soundbeep soundget
-soundgetwavevolume soundplay soundset soundsetwavevolume splashimage splashtextoff splashtexton
-splitpath statusbargettext statusbarwait stringcasesense stringgetpos stringleft stringlen
-stringlower stringmid stringreplace stringright stringsplit stringtrimleft stringtrimright
-stringupper sysget thread tooltip transform traytip urldownloadtofile winactivate winactivatebottom
-winclose winget wingetactivestats wingetactivetitle wingetclass wingetpos wingettext wingettitle
-winhide winkill winmaximize winmenuselectitem winminimize winminimizeall winminimizeallundo winmove
-winrestore winset winsettitle winshow winwait winwaitactive winwaitclose winwaitnotactive
+autotrim
+blockinput
+clipwait
+control
+controlclick
+controlfocus
+controlget
+controlgetfocus
+controlgetpos
+controlgettext
+controlmove
+controlsend
+controlsendraw
+controlsettext
+coordmode
+critical
+detecthiddentext
+detecthiddenwindows
+drive
+driveget
+drivespacefree
+edit
+endrepeat
+envadd
+envdiv
+envget
+envmult
+envset
+envsub
+envupdate
+fileappend
+filecopy
+filecopydir
+filecreatedir
+filecreateshortcut
+filedelete
+filegetattrib
+filegetshortcut
+filegetsize
+filegettime
+filegetversion
+fileinstall
+filemove
+filemovedir
+fileread
+filereadline
+filerecycle
+filerecycleempty
+fileremovedir
+fileselectfile
+fileselectfolder
+filesetattrib
+filesettime
+formattime
+getkeystate
+groupactivate
+groupadd
+groupclose
+groupdeactivate
+gui
+guicontrol
+guicontrolget
+hideautoitwin
+hotkey
+if
+ifequal
+ifexist
+ifgreater
+ifgreaterorequal
+ifinstring
+ifless
+iflessorequal
+ifmsgbox
+ifnotequal
+ifnotexist
+ifnotinstring
+ifwinactive
+ifwinexist
+ifwinnotactive
+ifwinnotexist
+imagesearch
+inidelete
+iniread
+iniwrite
+input
+inputbox
+keyhistory
+keywait
+listhotkeys
+listlines
+listvars
+menu
+mouseclick
+mouseclickdrag
+mousegetpos
+mousemove
+msgbox
+outputdebug
+pixelgetcolor
+pixelsearch
+postmessage
+process
+progress
+random
+regdelete
+regread
+regwrite
+reload
+run
+runas
+runwait
+send
+sendevent
+sendinput
+sendmessage
+sendmode
+sendplay
+sendraw
+setbatchlines
+setcapslockstate
+setcontroldelay
+setdefaultmousespeed
+setenv
+setformat
+setkeydelay
+setmousedelay
+setnumlockstate
+setscrolllockstate
+setstorecapslockmode
+settitlematchmode
+setwindelay
+setworkingdir
+shutdown
+sort
+soundbeep
+soundget
+soundgetwavevolume
+soundplay
+soundset
+soundsetwavevolume
+splashimage
+splashtextoff
+splashtexton
+splitpath
+statusbargettext
+statusbarwait
+stringcasesense
+stringgetpos
+stringleft
+stringlen
+stringlower
+stringmid
+stringreplace
+stringright
+stringsplit
+stringtrimleft
+stringtrimright
+stringupper
+sysget
+thread
+tooltip
+transform
+traytip
+urldownloadtofile
+winactivate
+winactivatebottom
+winclose
+winget
+wingetactivestats
+wingetactivetitle
+wingetclass
+wingetpos
+wingettext
+wingettitle
+winhide
+winkill
+winmaximize
+winmenuselectitem
+winminimize
+winminimizeall
+winminimizeallundo
+winmove
+winrestore
+winset
+winsettitle
+winshow
+winwait
+winwaitactive
+winwaitclose
+winwaitnotactive
 fileencoding
 
 /**
  * @Command Parameters:
- * These guys only highlight after a Directive, Command or Function.
- * Later on I will make them be command specific e.g. Msgbox wont highlight "ahk_id" because
+ * These guys only highlight after a Command or Function.
+ * Later on I will make them to be command specific e.g. Msgbox wont highlight "ahk_id" because
  * it doesnt take it, but for now they would highlight after any of the mentioned above.
  *
  * @Note:
- * The "abs(" functions below are just for demostration to force the highlight.
- * They wouldnt otherwise. And as i said any Command, Directive or Function allows this
- * for the moment.
+ * Try removing the Commands/Functions from below, forcing an expression or closing the parenthesis
+ * of a function. The Parameters should not hightlight.
  *
  */
 
-abs(ltrim rtrim join ahk_id ahk_pid ahk_class ahk_group processname minmax controllist statuscd
-abs(filesystem setlabel alwaysontop mainwindow nomainwindow useerrorlevel altsubmit hscroll vscroll
-abs(imagelist wantctrla wantf2 vis visfirst wantreturn backgroundtrans minimizebox maximizebox
-abs(sysmenu toolwindow exstyle check3 checkedgray readonly notab lastfound lastfoundexist alttab
-abs(shiftalttab alttabmenu alttabandmenu alttabmenudismiss controllisthwnd hwnd deref pow bitnot
-abs(bitand bitor bitxor bitshiftleft bitshiftright sendandmouse mousemove mousemoveoff
-abs(hkey_local_machine hkey_users hkey_current_user hkey_classes_root hkey_current_config hklm hku
-abs(hkcu hkcr hkcc reg_sz reg_expand_sz reg_multi_sz reg_dword reg_qword reg_binary reg_link
-abs(reg_resource_list reg_full_resource_descriptor caret reg_resource_requirements_list
-abs(reg_dword_big_endian regex pixel mouse screen relative rgb low belownormal normal abovenormal
-abs(high realtime between contains in is integer float number digit xdigit alpha upper lower alnum
-abs(time date not or and topmost top bottom transparent transcolor redraw region id idlast count
-abs(list capacity eject lock unlock label serial type status seconds minutes hours days read parse
+Run ltrim rtrim join ahk_id ahk_pid ahk_class ahk_group processname minmax controllist statuscd
+Run filesystem setlabel alwaysontop mainwindow nomainwindow useerrorlevel altsubmit hscroll vscroll
+Run imagelist wantctrla wantf2 vis visfirst wantreturn backgroundtrans minimizebox maximizebox
+Run sysmenu toolwindow exstyle check3 checkedgray readonly notab lastfound lastfoundexist alttab
+Run shiftalttab alttabmenu alttabandmenu alttabmenudismiss controllisthwnd hwnd deref pow bitnot
+Run bitand bitor bitxor bitshiftleft bitshiftright sendandmouse mousemove mousemoveoff
+Run hkey_local_machine hkey_users hkey_current_user hkey_classes_root hkey_current_config hklm hku
+Run hkcu hkcr hkcc reg_sz reg_expand_sz reg_multi_sz reg_dword reg_qword reg_binary reg_link
+Run reg_resource_list reg_full_resource_descriptor caret reg_resource_requirements_list
+Run reg_dword_big_endian regex pixel mouse screen relative rgb low belownormal normal abovenormal
+Run high realtime between contains in is integer float number digit xdigit alpha upper lower alnum
+Run time date not or and topmost top bottom transparent transcolor redraw region id idlast count
+
+; if you force an expression the parameters should not highlight
+Run list % capacity eject lock unlock label serial type status seconds minutes hours days read parse
+
 abs(logoff close error single shutdown menu exit reload tray add rename check uncheck togglecheck
 abs(enable disable toggleenable default nodefault standard nostandard color delete deleteall icon
 abs(noicon tip click show edit progress hotkey text picture pic groupbox button checkbox radio
@@ -211,7 +427,9 @@ abs(multi group background bold italic strike underline norm theme caption delim
 abs(checked password hidden left right center section move focus hide choose choosestring text pos
 abs(enabled disabled visible notimers interrupt priority waitclose unicode tocodepage fromcodepage
 abs(yes no ok cancel abort retry ignore force on off all send wanttab monitorcount monitorprimary
-abs(monitorname monitorworkarea pid base useunsetlocal useunsetglobal localsameasglobal
+
+; Parameters ouside functions should not highlight
+abs(monitorname) monitorworkarea pid base useunsetlocal useunsetglobal localsameasglobal
 
 /**
  * @Control Flow:
@@ -287,3 +505,46 @@ true false
 {browser_stop} {browser_search} {browser_favorites} {browser_home} {volume_mute} {volume_down}
 {volume_up} {media_next} {media_prev} {media_stop} {media_play_pause} {launch_mail} {launch_media}
 {launch_app1} {launch_app2} {blind} {click} {raw} {wheelleft} {wheelright}
+
+/**
+ * =============================================================================================== *
+ * @Folding:
+ *
+ * The following part is for testing folding.
+ * =============================================================================================== *
+ */
+
+/*
+comment blocks
+should fold
+*/
+
+/**
+this should
+fold as well
+*/
+
+if (true) {
+
+	; this is true
+	; this should fold
+
+} else if (false) {
+
+	; this is false
+	; this too
+
+} else {
+	
+	; last thing in the list
+
+}
+	
+
+var =
+(
+	continuation sections
+	should be able to fold as well
+)
+
+

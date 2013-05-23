@@ -12,11 +12,11 @@
 Gui +LastFound
 sci := new scintilla(WinExist())
 
-sci.SetWrapMode(true), sci.SetLexer(2), sci.StyleClearAll()
-sci.SetKeywords(0, "msgbox true another testing")
+sci.SetWrapMode(true), sci.SetLexer(SCLEX_AHKL), sci.StyleClearAll()
+sci.SetKeywords(AHKL_LIST_USERDEFINED1, "true msgbox another testing") ; this is the first User Defined list in this lexer, there are two UD lists.
 
-sci.StyleSetBold(11, true)
-sci.StyleSetFore(11, 0x0000FF) ; Style No. 11 Belongs to SCE_AHK_WORD_CF in this particular lexer which is linked to the Keyword list No. 0 above.
+sci.StyleSetBold(SCE_AHKL_USERDEFINED1, true)
+sci.StyleSetFore(SCE_AHKL_USERDEFINED1, 0x0000FF) ; This is the style linked to the list above.
 
 sci.SetText(unused, "Start Typing here and add some of the words from line 16`nFeel free to add more words to the list.")
 Gui, show, w600 h400

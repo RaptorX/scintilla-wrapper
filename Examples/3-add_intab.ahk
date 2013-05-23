@@ -8,7 +8,7 @@
 Gui, add, Tab2, HWNDhwndtab x0 y0 w600 h420 gtabHandler vtabLast,Scintilla|Empty
 
 sci := new scintilla
-sci.Add(hwndtab, x, 25, w, h, a_scriptdir "\scilexer.dll")
+sci.Add(hwndtab, x, 25, w, h, a_scriptdir "\scilexer.dll") ; we set the parent hwnd to be the tab in this case and those the main window
 
 Gui, show, w600 h420
 return
@@ -19,8 +19,7 @@ return
 
 tabHandler:                                 ; Tab Handler for the Scintilla Control
 Gui, submit, Nohide
-action := tabLast = "Scintilla" ? "Show" : "Hide" ; decide which action to take
-Control,%action%,,, % "ahk_id " sci.hwnd
+Control,% tabLast = "Scintilla" ? "Show" : "Hide",,, % "ahk_id " sci.hwnd
 return
 
 GuiClose:

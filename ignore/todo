@@ -1,0 +1,1 @@
+sci.GetText(sci.getLength()+1, myvar) ==> myvar := sci.GetText(sci.getLength()+1)
