@@ -73,6 +73,7 @@ class scintilla {
                                      ,NumPut(wParam.2,textRange,4,"UInt")
                                      ,NumPut(&lParam,textRange,8,"UInt")
                                      ,blParam := &lParam, wParam := false,lParam := &textRange, buf:=true) : null
+           (msg = "GetSeltext" && lParam!=unused) ? (VarSetCapacity(lParamA, this.GetSeltext(unused, unused) * (a_isunicode ? 2 : 1)+8), lParam := &lParamA, buf:=true) : null
 
             __isHexColor(lParam, msg) ? lParam := (lParam & 0xFF) <<16 | (lParam & 0xFF00) | (lParam >>16) : null
             __isHexColor(wParam, msg) ? wParam := (wParam & 0xFF) <<16 | (wParam & 0xFF00) | (wParam >>16) : null
