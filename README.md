@@ -1,3 +1,6 @@
+Fix bug of "Error lParam &lParam"
+---
+
 Convert `lParam` or/and `wParam` - when it is an input string - from type *string* to *pointer* which point to the string.
 
 **New way** : `Param && (_MsgWithInputStringParam[msg] & 0x1) && !isObject(Param)`.
