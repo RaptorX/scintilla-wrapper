@@ -9,3 +9,7 @@ Convert `lParam` or/and `wParam` - when it is an input string - from type *strin
 　The set of key-value pairs in `_MsgWithInputStringParam` is filtered from `const char *` in **Scintilla Documentation** (1 May 2014 NH) with *SciLexer.dll* (3.4.3.0). And, convert from `SCI_ADDTEXT` to `addtext`.
 
 Replace/Remove the **old way** - `Param && !(Param+0) && !isObject(Param)` - which get error when Param is a string of numerical value.
+
+---
+
+See [Fix bug of "Error lParam &lParam"](https://github.com/RaptorX/scintilla-wrapper/pull/3)
