@@ -49,14 +49,16 @@ class scintilla {
             __SCI(this.hwnd := __Add(wParam, lParam, params*), this)
         else
         {
-            (wParam && !(wParam+0) && !isObject(wParam)) ? (VarSetCapacity(wParamA, StrPut(wParam, "CP0"))
-                                                           ,StrPut(wParam, &wParamA, "CP0")
-                                                           ,wParam:=&wParamA) : null
-
-            (lParam && !(lParam+0) && !isObject(lParam)) ? (VarSetCapacity(lParamA, StrPut(lParam, "CP0"))
-                                                           ,StrPut(lParam, &lParamA, "CP0")
-                                                           ,lParam:=&lParamA) : null
-
+            static _MsgWithInputStringParam:={addtext:2,appendtext:2,changeinsertion:2,clearrepresentation:1,describeproperty:1,encodedfromutf8:1,getproperty:1,getpropertyexpanded:1,getpropertyint:1,getrepresentation:1,inserttext:2,propertytype:1,registerimage:2,registerrgbaimage:2,setidentifiers:2,setproperty:3,setpunctuationchars:2,setrepresentation:3,settext:2,setwhitespacechars:2,setwordchars:2,textwidth:2}
+            
+            (wParam && (_MsgWithInputStringParam[msg] & 0x1) && !isObject(wParam)) ? ( VarSetCapacity(wParamA, StrPut(wParam, scintilla.encoding))
+                                                       ,StrPut(wParam, &wParamA, scintilla.encoding)
+                                                       ,wParam:=&wParamA) : null,
+            
+            (lParam && (_MsgWithInputStringParam[msg] & 0x2) && !isObject(lParam)) ? ( VarSetCapacity(lParamA, StrPut(lParam, scintilla.encoding))
+                                                       ,StrPut(lParam, &lParamA, scintilla.encoding)
+                                                       ,lParam:=&lParamA) : null
+                                                       
             /*
               Special Operations
               Due to the fact that some functions require the user to manually prepare bufferst to store text
