@@ -62,7 +62,7 @@ class scintilla {
               Due to the fact that some functions require the user to manually prepare bufferst to store text
               I decided to make most of those operations internally to have cleaner code later on.
             */
-
+            (msg = "StyleGetFont") ? (VarSetCapacity(lParam, wParam * (a_isunicode ? 2 : 1)+8), lParam := &lParam, buf:=true) : null
             (msg = "GetText") ? (VarSetCapacity(lParam, wParam * (a_isunicode ? 2 : 1)+8), lParam := &lParam, buf:=true) : null
             (msg = "GetLine") ? (VarSetCapacity(lParam, this.linelength(wParam)+1 * (a_isunicode ? 2 : 1)),lParam := &lParam, buf:=true) : null
 	    (msg = "GetCurLine") ? (VarSetCapacity(lParam, this.linelength(wParam)+1 * (a_isunicode ? 2 : 1)), lParam := &lParam, buf:=true) : null
@@ -416,7 +416,7 @@ __SCI(var, val:=""){
 {
 global INVALID_POSITION:=-1, unused := 0 ; Some messages dont use one of their parameters. You can use this variable for them.
 
-; Main Scintilla Functions
+; Main Scintilla Functions (Find the latest from the source code: \scintilla\include\ScintillaMessages.H)
 {
 global SCI_ADDTEXT:=2001,SCI_ADDSTYLEDTEXT:=2002,SCI_INSERTTEXT:=2003,SCI_CLEARALL:=2004,SCI_CLEARDOCUMENTSTYLE:=2005,SCI_GETLENGTH:=2006
 ,SCI_GETCHARAT:=2007,SCI_GETCURRENTPOS:=2008,SCI_GETANCHOR:=2009,SCI_GETSTYLEAT:=2010,SCI_REDO:=2011,SCI_SETUNDOCOLLECTION:=2012
@@ -489,7 +489,10 @@ global SCI_ADDTEXT:=2001,SCI_ADDSTYLEDTEXT:=2002,SCI_INSERTTEXT:=2003,SCI_CLEARA
 ,SCI_SETCARETSTICKY:=2458,SCI_TOGGLECARETSTICKY:=2459,SCI_SETPASTECONVERTENDINGS:=2467,SCI_GETPASTECONVERTENDINGS:=2468
 ,SCI_SETCARETLINEBACKALPHA:=2470,SCI_GETCARETLINEBACKALPHA:=2471,SCI_STARTRECORD:=3001,SCI_STOPRECORD:=3002,SCI_SETLEXER:=4001
 ,SCI_GETLEXER:=4002,SCI_COLORISE:=4003,SCI_SETPROPERTY:=4004,SCI_SETKEYWORDS:=4005,SCI_SETLEXERLANGUAGE:=4006,SCI_LOADLEXERLIBRARY:=4007
-,SCI_GETPROPERTY:=4008,SCI_GETPROPERTYEXPANDED:=4009,SCI_GETPROPERTYINT:=4010,SCI_GETSTYLEBITSNEEDED:=4011
+,SCI_GETPROPERTY:=4008,SCI_GETPROPERTYEXPANDED:=4009,SCI_GETPROPERTYINT:=4010,SCI_GETSTYLEBITSNEEDED:=4011,SCI_AnnotationSetText:=2540
+,SCI_AnnotationGetText:=2541,SCI_AnnotationSetStyle:=2542,SCI_AnnotationGetStyle:=2543,SCI_AnnotationSetStyles:=2544
+,SCI_AnnotationGetStyles:=2545,SCI_AnnotationGetLines:=2546,SCI_AnnotationClearAll:=2547,SCI_AnnotationSetVisible:=2548
+,SCI_AnnotationGetVisible:=2549,SCI_AnnotationSetStyleOffset:=2550,SCI_AnnotationGetStyleOffset:=2551
 }
 
 ; Styles, Markers and Indicators
